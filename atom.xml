@@ -4,7 +4,7 @@
   <title><![CDATA[我的博客]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-07-03T11:13:04+08:00</updated>
+  <updated>2012-07-03T11:15:49+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -38,6 +38,9 @@
 </code></pre>
 
 <p>3.更改tftp配置文件 <code>/etc/xinetd.d/tftp</code></p>
+
+<!-- more -->
+
 
 <p><code>vi /etc/xinetd.d/tftp</code>,打开tftp文件，设置tftp的跟目录，开启服务。（没有安装tftp-server之前，不存在tftp文件）</p>
 
