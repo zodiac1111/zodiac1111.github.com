@@ -4,7 +4,7 @@
   <title><![CDATA[我的博客]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-07-03T18:06:38+08:00</updated>
+  <updated>2012-07-03T18:18:44+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -122,7 +122,7 @@ chmod 777 tftpboot/
     <link href="http://zodiac1111.github.com/blog/2012/07/03/hello-world/"/>
     <updated>2012-07-03T09:01:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/07/03/hello-world</id>
-    <content type="html"><![CDATA[
+    <content type="html"><![CDATA[<p>测试程序:</p>
 ]]></content>
   </entry>
   
