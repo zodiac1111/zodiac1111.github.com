@@ -4,7 +4,7 @@
   <title><![CDATA[我的博客]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-07-06T18:58:53+08:00</updated>
+  <updated>2012-07-10T13:30:40+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -125,6 +125,24 @@
     <updated>2012-07-03T09:01:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/07/03/hello-world</id>
     <content type="html"><![CDATA[<p>测试程序:测试2</p>
+
+<h1>代码测试</h1>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
+</span><span class='line'>{
+</span><span class='line'>  int i;
+</span><span class='line'>  return 0;
+</span><span class='line'>}
+</span><span class='line'>$ sudo make me a sandwich</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>图片测试</h1>
 
 <p><img src="http://placekitten.com/890/280">
 Bacon ipsum dolor sit amet exercitation ball tip consectetur tempor. Biltong exercitation aliqua, ribeye consequat veniam consectetur.
