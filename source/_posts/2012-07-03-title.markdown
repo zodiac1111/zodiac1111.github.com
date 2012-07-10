@@ -43,10 +43,10 @@ f17下有些东西有所改变,网上一些教程略显陈旧.
 并且注释掉disable选项或者改成no使能tftp服务。
 
 4.在`/home/gerry`下创建tftpboot目录，并且修改权限
-
+``` 
 	mkdir tftpboot
 	chmod 777 tftpboot/
-
+```
 5.启动tftp服务器
 
 	service xinetd restart
