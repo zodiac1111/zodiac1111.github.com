@@ -9,8 +9,8 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="http://www.oklinux.cn/html/network/ser/20090729/72351.html f17下有些东西有所改变,网上一些教程略显陈旧. 安装环境：Fedora 1.安装xinetd
-这是一个守护程序(?) yum install xinetd 2.安装tftp &hellip;">
+  <meta name="description" content="#vim查找替换
+参考资料:http://www.chinavim.org/vivim-%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%A4%A7%E5%85%A8.html 可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符 :替换当前行第一个 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +65,116 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/21/vim-search-replace/">Vim查找替换</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-21T17:15:00+08:00" pubdate data-updated="true">Aug 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>#vim查找替换</code>
+参考资料:http://www.chinavim.org/vivim-%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%A4%A7%E5%85%A8.html</p>
+
+<p> 可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符</p>
+
+<p> :替换当前行第一个 vivian/ 为 sky/</p>
+
+<p> <code>:n,$s/vivian/sky/</code> 替换第 n 行开始到最后一行中每一行的<strong>第一个</strong> vivian 为 sky</p>
+
+<p> <code>:n,$s/vivian/sky/g</code> 替换第 n 行开始到最后一行中每一行<strong>所有</strong> vivian 为 sky
+<code>
+:[地址/范围]s/&lt;搜索字&gt;/&lt;替换字&gt;[/g]
+</code></p>
+
+<ol>
+<li>地址/范围有:
+<code>
+无 :当前行
+1,10 : 1~10行
+1,$  1~最后一行/文件结束 ps : 1,$ 等价于 %
+.,.+10 从当前行(".") 到偏置10行(".+10") "+"表示向下偏移 "-"表示向上偏移
+</code></li>
+<li>s=sed 风格的搜索</li>
+<li>/ 分割符</li>
+<li>g  表示继续匹配(没有 表示匹配一次)</li>
+</ol>
+
+
+<p>(n 为数字，若 n 为 .&lt;句号>，表示从当前行开始到最后一行)</p>
+
+<h2>删除</h2>
+
+<p>删除括号内的东西 不包含括号 di) =delet in )<br/>
+光标在一个word内部删除这个整个单词 diw  del in word<br/>
+删除并进入insert模式方便修改 ciw change in word</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/21/set/">Set</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-21T17:15:00+08:00" pubdate data-updated="true">Aug 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>查看和设定vi的选项</h1>
+
+<p>:set
+:set all
+查看设定选项</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -131,6 +241,66 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2012/07/03/Fedora-17-x86_64-tftp/">Fedora 17 x86_64安装配置TFTP服务器</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-03T10:58:00+08:00" pubdate data-updated="true">Jul 3<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>http://www.oklinux.cn/html/network/ser/20090729/72351.html</p></blockquote>
+
+<hr />
+
+<p>f17下有些东西有所改变,网上一些教程略显陈旧.</p>
+
+<h3>安装环境：Fedora</h3>
+
+<p>1.安装xinetd<br/>
+这是一个守护程序(?)</p>
+
+<pre><code>yum install xinetd
+</code></pre>
+
+<p>2.安装tftp server(ftp服务器)</p>
+
+<pre><code>yum install tftp tftp-server
+</code></pre>
+
+<p>3.更改tftp配置文件 <code>/etc/xinetd.d/tftp</code></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/07/03/Fedora-17-x86_64-tftp/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2012/07/03/hello-world/">Hello World</a></h1>
     
     
@@ -180,7 +350,19 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/08/21/vim-search-replace/">vim查找替换</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/21/set/">set</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/07/03/title/">Fedora 17 x86_64安装配置TFTP服务器</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/03/Fedora-17-x86_64-tftp/">Fedora 17 x86_64安装配置TFTP服务器</a>
       </li>
     
       <li class="post">
