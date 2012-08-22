@@ -100,6 +100,15 @@
 2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html
 下面是一个例子</p>
 
+<p>RFC文档为RFC3550（RFC1889为其过期版本）
+base+0(暂略)此处省略0x33字节
+UDP数据区(base+0x33):
+RTP header:(头数据)位于udp包的base+0x33地址(内容)
+80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序</p>
+
+<!-- more -->
+
+
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -121,77 +130,7 @@
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RFC文档为RFC3550（RFC1889为其过期版本）
-</span><span class='line'>base+0(暂略)此处省略0x33字节
-</span><span class='line'>UDP数据区(base+0x33):
-</span><span class='line'>RTP header:(头数据)位于udp包的base+0x33地址(内容)
-</span><span class='line'>80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序
-</span><span class='line'>详解(地址都+0x33)
+</pre></td><td class='code'><pre><code class=''><span class='line'>详解(地址都+0x33)
 </span><span class='line'>地址    值 意义(不明...
 </span><span class='line'>0Byte     80  [1 Byte] 
 </span><span class='line'>  `10b        2bit 版本号:RFC1889 Version 2[过期版本!我去~]
@@ -211,69 +150,109 @@
 </span><span class='line'>9 77      Synchronization Source identifier: 
 </span><span class='line'>10    83      0x6c7783bf (1819771839)
 </span><span class='line'>11    bf      ^^
-</span><span class='line'>12~?? ??  [&gt;=0 Byte]可选的数据
-</span><span class='line'>时间戳 差值=3750 = 900000(视频)/24(帧间隔)
-</span><span class='line'>一帧最大MUT? 1500Byte =14(EthernetII)+20(ip头) +8UDP+12(RTP头)+1442(RTP数据体)??
-</span><span class='line'>参见RFC 3984 p.13:NAL Unit Octet Usage 1字节
-</span><span class='line'>例如:01011100 =0x5a 
-</span><span class='line'>0禁止位-不禁止
-</span><span class='line'>10优先级:2 Coded slice data partition A    00最低 11最高
-</span><span class='line'>         Type   Packet    Single NAL    Non-Interleaved    Interleaved
-</span><span class='line'>                               Unit Mode           Mode             Mode  
-</span><span class='line'>11100  28     FU-A          no              yes              yes
-</span><span class='line'>FU-a格式:
-</span><span class='line'>       0                   1                   2                   3
-</span><span class='line'>       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>      | FU indicator  |   FU header   |                               |
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
-</span><span class='line'>      |                                                               |
-</span><span class='line'>      |                         FU payload                            |
-</span><span class='line'>      |                                                               |
-</span><span class='line'>      |                               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>      |                               :...OPTIONAL RTP padding        |
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>
-</span><span class='line'>      Figure 14.  RTP payload format for FU-A
-</span><span class='line'>FU indicator : 1Byte
-</span><span class='line'>      +---------------+
-</span><span class='line'>      |0|1|2|3|4|5|6|7|
-</span><span class='line'>      +-+-+-+-+-+-+-+-+
-</span><span class='line'>      |F|NRI|  Type   |
-</span><span class='line'>      +---------------+
-</span><span class='line'>FU则与RTP定义头一样
-</span><span class='line'>FU header :1Byte
-</span><span class='line'>      +---------------+
-</span><span class='line'>      |0|1|2|3|4|5|6|7|
-</span><span class='line'>      +-+-+-+-+-+-+-+-+
-</span><span class='line'>      |S|E|R|  Type   |
-</span><span class='line'>      +---------------+
-</span><span class='line'>S=start E=end  of a fragmented NAL unit 
-</span><span class='line'>   R: 1 bit
-</span><span class='line'>      The Reserved bit MUST be equal to 0 and MUST be ignored by the
-</span><span class='line'>      receiver.
-</span><span class='line'>81=1`0`0`0-0001
-</span><span class='line'>这是一个帧的开始的NALU 单元
-</span><span class='line'>
-</span><span class='line'>Type: 5 bits
-</span><span class='line'>   NAL单元荷载类型定义见下表
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>表1.  单元类型以及荷载结构总结
-</span><span class='line'>      Type   Packet      Type name                       
-</span><span class='line'>      ---------------------------------------------------------
-</span><span class='line'>      0      undefined                                    -
-</span><span class='line'>      1-23   NAL unit    Single NAL unit packet per H.264  
-</span><span class='line'>      24     STAP-A     Single-time aggregation packet    
-</span><span class='line'>      25     STAP-B     Single-time aggregation packet    
-</span><span class='line'>      26     MTAP16    Multi-time aggregation packet     
-</span><span class='line'>      27     MTAP24    Multi-time aggregation packet     
-</span><span class='line'>      28     FU-A      Fragmentation unit                
-</span><span class='line'>      29     FU-B      Fragmentation unit                 
-</span><span class='line'>      30-31  undefined    
-</span><span class='line'>0-0001 即单个
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>12~?? ??  [&gt;=0 Byte]可选的数据</span></code></pre></td></tr></table></div></figure>
 
+
+<p>时间戳 差值=3750 = 900000(视频)/24(帧间隔)
+一帧最大MUT? 1500Byte =14(EthernetII)+20(ip头) +8UDP+12(RTP头)+1442(RTP数据体)??
+参见RFC 3984 p.13:NAL Unit Octet Usage 1字节
+例如:01011100 =0x5a
+0禁止位-不禁止
+10优先级:2   Coded slice data partition A    00最低 11最高</p>
+
+<pre><code>     Type   Packet    Single NAL    Non-Interleaved    Interleaved
+                           Unit Mode           Mode             Mode  
+</code></pre>
+
+<p>11100  28     FU-A          no              yes              yes
+FU-a格式:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   0                   1                   2                   3
+</span><span class='line'>   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>  | FU indicator  |   FU header   |                               |
+</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
+</span><span class='line'>  |                                                               |
+</span><span class='line'>  |                         FU payload                            |
+</span><span class='line'>  |                                                               |
+</span><span class='line'>  |                               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>  |                               :...OPTIONAL RTP padding        |
+</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>
+</span><span class='line'>  Figure 14.  RTP payload format for FU-A</span></code></pre></td></tr></table></div></figure>
+
+
+<p>FU indicator : 1Byte</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  +---------------+
+</span><span class='line'>  |0|1|2|3|4|5|6|7|
+</span><span class='line'>  +-+-+-+-+-+-+-+-+
+</span><span class='line'>  |F|NRI|  Type   |
+</span><span class='line'>  +---------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>FU则与RTP定义头一样
+FU header :1Byte</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  +---------------+
+</span><span class='line'>  |0|1|2|3|4|5|6|7|
+</span><span class='line'>  +-+-+-+-+-+-+-+-+
+</span><span class='line'>  |S|E|R|  Type   |
+</span><span class='line'>  +---------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>S=start E=end  of a fragmented NAL unit
+   R: 1 bit</p>
+
+<pre><code>  The Reserved bit MUST be equal to 0 and MUST be ignored by the
+  receiver.
+</code></pre>
+
+<p>81=1<code>0</code>0`0-0001
+这是一个帧的开始的NALU 单元</p>
+
+<p>Type: 5 bits
+   NAL单元荷载类型定义见下表</p>
+
+<p>表1.  单元类型以及荷载结构总结</p>
+
+<pre><code>  Type   Packet      Type name                       
+  ---------------------------------------------------------
+  0      undefined                                    -
+  1-23   NAL unit    Single NAL unit packet per H.264  
+  24     STAP-A     Single-time aggregation packet    
+  25     STAP-B     Single-time aggregation packet    
+  26     MTAP16    Multi-time aggregation packet     
+  27     MTAP24    Multi-time aggregation packet     
+  28     FU-A      Fragmentation unit                
+  29     FU-B      Fragmentation unit                 
+  30-31  undefined    
+</code></pre>
+
+<p>0-0001 即单个</p>
 </div>
 
 

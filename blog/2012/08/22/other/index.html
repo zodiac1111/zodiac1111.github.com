@@ -98,15 +98,20 @@
 
 <h1>在执行 Valgrind 期间连接 gdb</h1>
 
-<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html
-algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
+<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html</p></blockquote>
+
+<p>algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
 valgrind &#8211;tool=memcheck &#8211;leak-check=full  &#8211;db-attach=yes ./test
-ps:&#8211;db-command=<command> 选项可以指定调试器</p></blockquote>
+ps:&#8211;db-command=<command> 选项可以指定调试器</p>
+
+<!-- more -->
+
 
 <h1>加快编译</h1>
 
-<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html
-对于任何比较复杂的软件，编译源代码都会占用不少时间。在加快编译过程方面，最好的工具之一是 ccache（见 参考资料 中的链接）。ccache 是一种编译器缓存，这意味着如果在编译期间文件没有修改过，就从工具的缓存获取它。如果用户只修改了一个头文件并调用 make clean; make，ccache 会显著加快编译。因为 ccache 不仅仅使用时间戳决定文件是否需要重新编译，可以更好地节省宝贵的编译时间。下面是使用 ccache 的一个示例：</p></blockquote>
+<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html</p></blockquote>
+
+<p>对于任何比较复杂的软件，编译源代码都会占用不少时间。在加快编译过程方面，最好的工具之一是 ccache（见 参考资料 中的链接）。ccache 是一种编译器缓存，这意味着如果在编译期间文件没有修改过，就从工具的缓存获取它。如果用户只修改了一个头文件并调用 make clean; make，ccache 会显著加快编译。因为 ccache 不仅仅使用时间戳决定文件是否需要重新编译，可以更好地节省宝贵的编译时间。下面是使用 ccache 的一个示例：</p>
 
 <h1>尾递归</h1>
 
@@ -156,8 +161,9 @@ ldd 查看库版本,然后检查是否存在该库</p></blockquote>
 
 <p>TODO: Linux下各种时间的同异</p>
 
-<blockquote><p>http://www.linuxdiyf.com/bbs/thread-204628-1-1.html
-重新安装了系统，Fedora15.
+<blockquote><p>http://www.linuxdiyf.com/bbs/thread-204628-1-1.html</p></blockquote>
+
+<p>重新安装了系统，Fedora15.
 在我安装好系统后，系统的时间是错误的，而且无法修改，每次启动Fedora后都会把主板上BIOS时间修改了，我开机的时候修改BIOS的时间再进系统，问题依然存在。经过我的查阅资料，问题解决了。
 首先我查阅 《鸟哥的Linux私房菜》知道有一个文件<code>/etc/sysconfig/clock</code>可以设置时间。
 打开文件一看，原来仅仅是设置时区的。
@@ -170,7 +176,7 @@ ldd 查看库版本,然后检查是否存在该库</p></blockquote>
 <h1>contents elsewhere.</h1>
 
 <p>ZONE=&#8221;Asia/Chongqing&#8221;
-`</p></blockquote>
+`</p>
 
 <p>从上面的说明可以看到，有一个 /etc/localtime，我用vi打开这个文件，发现是乱码。我猜测可那就是这些乱码的原因了。
 于是我把 /etc/localtime重命名，然后使用命令touch /etc/localtime重新建立了一个localtime空白文件。
@@ -197,8 +203,9 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 
 <h1>中文编码转换 iconv utf8 &lt;=> big/gb2312</h1>
 
-<blockquote><p>鸟哥的私房书
-`
+<blockquote><p>鸟哥的私房书</p></blockquote>
+
+<p>`
 [root@www ~]# iconv &#8211;list
 [root@www ~]# iconv -f 原本编码 -t 新编码 filename [-o newfile]
 选项不参数:
@@ -243,7 +250,7 @@ vi.utf8: UTF-8 Unicode text, with CRLF line terminators</p>
 所下达的指令内容啊!这很伤脑筋吧!
 那怂么办啊?很简单啊,将格式转换成为 Linux 即可啊!『废话』,这当然大家都知道,但是, 要以
 vi 进入该档案,然后一个一个删除每一行的 CR 吗?当然没有这么没人性啦! 我们可以透过简单的指
-令来进行格式的转换啊!</p></blockquote>
+令来进行格式的转换啊!</p>
 
 <p>root@www ~]# dos2unix [-kn] file [newfile]
 [root@www ~]# unix2dos [-kn] file [newfile]

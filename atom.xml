@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-08-22T22:02:31+08:00</updated>
+  <updated>2012-08-22T22:15:54+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -33,6 +33,9 @@ m3=m1+m2;//两个对象相加
 m3.display();
 m3++;//单目运算.
 </code></pre>
+
+<!-- more -->
+
 
 <hr />
 
@@ -124,6 +127,15 @@ return *this;
 2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html
 下面是一个例子</p>
 
+<p>RFC文档为RFC3550（RFC1889为其过期版本）
+base+0(暂略)此处省略0x33字节
+UDP数据区(base+0x33):
+RTP header:(头数据)位于udp包的base+0x33地址(内容)
+80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序</p>
+
+<!-- more -->
+
+
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
@@ -145,77 +157,7 @@ return *this;
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
 <span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RFC文档为RFC3550（RFC1889为其过期版本）
-</span><span class='line'>base+0(暂略)此处省略0x33字节
-</span><span class='line'>UDP数据区(base+0x33):
-</span><span class='line'>RTP header:(头数据)位于udp包的base+0x33地址(内容)
-</span><span class='line'>80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序
-</span><span class='line'>详解(地址都+0x33)
+</pre></td><td class='code'><pre><code class=''><span class='line'>详解(地址都+0x33)
 </span><span class='line'>地址    值 意义(不明...
 </span><span class='line'>0Byte     80  [1 Byte] 
 </span><span class='line'>  `10b        2bit 版本号:RFC1889 Version 2[过期版本!我去~]
@@ -235,69 +177,109 @@ return *this;
 </span><span class='line'>9 77      Synchronization Source identifier: 
 </span><span class='line'>10    83      0x6c7783bf (1819771839)
 </span><span class='line'>11    bf      ^^
-</span><span class='line'>12~?? ??  [&gt;=0 Byte]可选的数据
-</span><span class='line'>时间戳 差值=3750 = 900000(视频)/24(帧间隔)
-</span><span class='line'>一帧最大MUT? 1500Byte =14(EthernetII)+20(ip头) +8UDP+12(RTP头)+1442(RTP数据体)??
-</span><span class='line'>参见RFC 3984 p.13:NAL Unit Octet Usage 1字节
-</span><span class='line'>例如:01011100 =0x5a 
-</span><span class='line'>0禁止位-不禁止
-</span><span class='line'>10优先级:2 Coded slice data partition A    00最低 11最高
-</span><span class='line'>         Type   Packet    Single NAL    Non-Interleaved    Interleaved
-</span><span class='line'>                               Unit Mode           Mode             Mode  
-</span><span class='line'>11100  28     FU-A          no              yes              yes
-</span><span class='line'>FU-a格式:
-</span><span class='line'>       0                   1                   2                   3
-</span><span class='line'>       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>      | FU indicator  |   FU header   |                               |
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
-</span><span class='line'>      |                                                               |
-</span><span class='line'>      |                         FU payload                            |
-</span><span class='line'>      |                                                               |
-</span><span class='line'>      |                               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>      |                               :...OPTIONAL RTP padding        |
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>
-</span><span class='line'>      Figure 14.  RTP payload format for FU-A
-</span><span class='line'>FU indicator : 1Byte
-</span><span class='line'>      +---------------+
-</span><span class='line'>      |0|1|2|3|4|5|6|7|
-</span><span class='line'>      +-+-+-+-+-+-+-+-+
-</span><span class='line'>      |F|NRI|  Type   |
-</span><span class='line'>      +---------------+
-</span><span class='line'>FU则与RTP定义头一样
-</span><span class='line'>FU header :1Byte
-</span><span class='line'>      +---------------+
-</span><span class='line'>      |0|1|2|3|4|5|6|7|
-</span><span class='line'>      +-+-+-+-+-+-+-+-+
-</span><span class='line'>      |S|E|R|  Type   |
-</span><span class='line'>      +---------------+
-</span><span class='line'>S=start E=end  of a fragmented NAL unit 
-</span><span class='line'>   R: 1 bit
-</span><span class='line'>      The Reserved bit MUST be equal to 0 and MUST be ignored by the
-</span><span class='line'>      receiver.
-</span><span class='line'>81=1`0`0`0-0001
-</span><span class='line'>这是一个帧的开始的NALU 单元
-</span><span class='line'>
-</span><span class='line'>Type: 5 bits
-</span><span class='line'>   NAL单元荷载类型定义见下表
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>表1.  单元类型以及荷载结构总结
-</span><span class='line'>      Type   Packet      Type name                       
-</span><span class='line'>      ---------------------------------------------------------
-</span><span class='line'>      0      undefined                                    -
-</span><span class='line'>      1-23   NAL unit    Single NAL unit packet per H.264  
-</span><span class='line'>      24     STAP-A     Single-time aggregation packet    
-</span><span class='line'>      25     STAP-B     Single-time aggregation packet    
-</span><span class='line'>      26     MTAP16    Multi-time aggregation packet     
-</span><span class='line'>      27     MTAP24    Multi-time aggregation packet     
-</span><span class='line'>      28     FU-A      Fragmentation unit                
-</span><span class='line'>      29     FU-B      Fragmentation unit                 
-</span><span class='line'>      30-31  undefined    
-</span><span class='line'>0-0001 即单个
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>12~?? ??  [&gt;=0 Byte]可选的数据</span></code></pre></td></tr></table></div></figure>
 
+
+<p>时间戳 差值=3750 = 900000(视频)/24(帧间隔)
+一帧最大MUT? 1500Byte =14(EthernetII)+20(ip头) +8UDP+12(RTP头)+1442(RTP数据体)??
+参见RFC 3984 p.13:NAL Unit Octet Usage 1字节
+例如:01011100 =0x5a
+0禁止位-不禁止
+10优先级:2   Coded slice data partition A    00最低 11最高</p>
+
+<pre><code>     Type   Packet    Single NAL    Non-Interleaved    Interleaved
+                           Unit Mode           Mode             Mode  
+</code></pre>
+
+<p>11100  28     FU-A          no              yes              yes
+FU-a格式:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>   0                   1                   2                   3
+</span><span class='line'>   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>  | FU indicator  |   FU header   |                               |
+</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
+</span><span class='line'>  |                                                               |
+</span><span class='line'>  |                         FU payload                            |
+</span><span class='line'>  |                                                               |
+</span><span class='line'>  |                               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>  |                               :...OPTIONAL RTP padding        |
+</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>
+</span><span class='line'>  Figure 14.  RTP payload format for FU-A</span></code></pre></td></tr></table></div></figure>
+
+
+<p>FU indicator : 1Byte</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  +---------------+
+</span><span class='line'>  |0|1|2|3|4|5|6|7|
+</span><span class='line'>  +-+-+-+-+-+-+-+-+
+</span><span class='line'>  |F|NRI|  Type   |
+</span><span class='line'>  +---------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>FU则与RTP定义头一样
+FU header :1Byte</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  +---------------+
+</span><span class='line'>  |0|1|2|3|4|5|6|7|
+</span><span class='line'>  +-+-+-+-+-+-+-+-+
+</span><span class='line'>  |S|E|R|  Type   |
+</span><span class='line'>  +---------------+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>S=start E=end  of a fragmented NAL unit
+   R: 1 bit</p>
+
+<pre><code>  The Reserved bit MUST be equal to 0 and MUST be ignored by the
+  receiver.
+</code></pre>
+
+<p>81=1<code>0</code>0`0-0001
+这是一个帧的开始的NALU 单元</p>
+
+<p>Type: 5 bits
+   NAL单元荷载类型定义见下表</p>
+
+<p>表1.  单元类型以及荷载结构总结</p>
+
+<pre><code>  Type   Packet      Type name                       
+  ---------------------------------------------------------
+  0      undefined                                    -
+  1-23   NAL unit    Single NAL unit packet per H.264  
+  24     STAP-A     Single-time aggregation packet    
+  25     STAP-B     Single-time aggregation packet    
+  26     MTAP16    Multi-time aggregation packet     
+  27     MTAP24    Multi-time aggregation packet     
+  28     FU-A      Fragmentation unit                
+  29     FU-B      Fragmentation unit                 
+  30-31  undefined    
+</code></pre>
+
+<p>0-0001 即单个</p>
 ]]></content>
   </entry>
   
@@ -313,6 +295,9 @@ return *this;
 <p>chromium    web浏览器
 elinks  A text-mode Web browser
 w3m  A pager with Web browsing abilities</p>
+
+<!-- more -->
+
 
 <h2>开发</h2>
 
@@ -356,15 +341,20 @@ xchat   irc客户端</p>
 
 <h1>在执行 Valgrind 期间连接 gdb</h1>
 
-<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html
-algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
+<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html</p></blockquote>
+
+<p>algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
 valgrind &#8211;tool=memcheck &#8211;leak-check=full  &#8211;db-attach=yes ./test
-ps:&#8211;db-command=<command> 选项可以指定调试器</p></blockquote>
+ps:&#8211;db-command=<command> 选项可以指定调试器</p>
+
+<!-- more -->
+
 
 <h1>加快编译</h1>
 
-<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html
-对于任何比较复杂的软件，编译源代码都会占用不少时间。在加快编译过程方面，最好的工具之一是 ccache（见 参考资料 中的链接）。ccache 是一种编译器缓存，这意味着如果在编译期间文件没有修改过，就从工具的缓存获取它。如果用户只修改了一个头文件并调用 make clean; make，ccache 会显著加快编译。因为 ccache 不仅仅使用时间戳决定文件是否需要重新编译，可以更好地节省宝贵的编译时间。下面是使用 ccache 的一个示例：</p></blockquote>
+<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html</p></blockquote>
+
+<p>对于任何比较复杂的软件，编译源代码都会占用不少时间。在加快编译过程方面，最好的工具之一是 ccache（见 参考资料 中的链接）。ccache 是一种编译器缓存，这意味着如果在编译期间文件没有修改过，就从工具的缓存获取它。如果用户只修改了一个头文件并调用 make clean; make，ccache 会显著加快编译。因为 ccache 不仅仅使用时间戳决定文件是否需要重新编译，可以更好地节省宝贵的编译时间。下面是使用 ccache 的一个示例：</p>
 
 <h1>尾递归</h1>
 
@@ -414,8 +404,9 @@ ldd 查看库版本,然后检查是否存在该库</p></blockquote>
 
 <p>TODO: Linux下各种时间的同异</p>
 
-<blockquote><p>http://www.linuxdiyf.com/bbs/thread-204628-1-1.html
-重新安装了系统，Fedora15.
+<blockquote><p>http://www.linuxdiyf.com/bbs/thread-204628-1-1.html</p></blockquote>
+
+<p>重新安装了系统，Fedora15.
 在我安装好系统后，系统的时间是错误的，而且无法修改，每次启动Fedora后都会把主板上BIOS时间修改了，我开机的时候修改BIOS的时间再进系统，问题依然存在。经过我的查阅资料，问题解决了。
 首先我查阅 《鸟哥的Linux私房菜》知道有一个文件<code>/etc/sysconfig/clock</code>可以设置时间。
 打开文件一看，原来仅仅是设置时区的。
@@ -428,7 +419,7 @@ ldd 查看库版本,然后检查是否存在该库</p></blockquote>
 <h1>contents elsewhere.</h1>
 
 <p>ZONE=&#8221;Asia/Chongqing&#8221;
-`</p></blockquote>
+`</p>
 
 <p>从上面的说明可以看到，有一个 /etc/localtime，我用vi打开这个文件，发现是乱码。我猜测可那就是这些乱码的原因了。
 于是我把 /etc/localtime重命名，然后使用命令touch /etc/localtime重新建立了一个localtime空白文件。
@@ -455,8 +446,9 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 
 <h1>中文编码转换 iconv utf8 &lt;=> big/gb2312</h1>
 
-<blockquote><p>鸟哥的私房书
-`
+<blockquote><p>鸟哥的私房书</p></blockquote>
+
+<p>`
 [root@www ~]# iconv &#8211;list
 [root@www ~]# iconv -f 原本编码 -t 新编码 filename [-o newfile]
 选项不参数:
@@ -501,7 +493,7 @@ vi.utf8: UTF-8 Unicode text, with CRLF line terminators</p>
 所下达的指令内容啊!这很伤脑筋吧!
 那怂么办啊?很简单啊,将格式转换成为 Linux 即可啊!『废话』,这当然大家都知道,但是, 要以
 vi 进入该档案,然后一个一个删除每一行的 CR 吗?当然没有这么没人性啦! 我们可以透过简单的指
-令来进行格式的转换啊!</p></blockquote>
+令来进行格式的转换啊!</p>
 
 <p>root@www ~]# dos2unix [-kn] file [newfile]
 [root@www ~]# unix2dos [-kn] file [newfile]
@@ -542,13 +534,16 @@ format &#8230;
     <link href="http://zodiac1111.github.com/blog/2012/08/22/aircrack-ng/"/>
     <updated>2012-08-22T20:30:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/08/22/aircrack-ng</id>
-    <content type="html"><![CDATA[<blockquote><blockquote><p>http://netsecurity.51cto.com/art/201105/264844_3.htm</p></blockquote></blockquote>
+    <content type="html"><![CDATA[<blockquote><p>http://netsecurity.51cto.com/art/201105/264844_3.htm</p></blockquote>
 
 <p>当然，通过输入iwconfig查看也是可以滴。这个命令专用于查看无线网卡，不像ifconfig那样查看所有适配器。</p>
 
 <p>iwconfig</p>
 
 <p>在Linux下，我们使用Aircrack-ng套装里的airmon-ng工具来实现，具体命令如下：</p>
+
+<!-- more -->
+
 
 <h1>airmon-ng start wlan0</h1>
 
@@ -607,6 +602,9 @@ airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
 <code>
 :[地址/范围]s/&lt;搜索字&gt;/&lt;替换字&gt;[/g]
 </code></p>
+
+<!-- more -->
+
 
 <ol>
 <li>地址/范围有:

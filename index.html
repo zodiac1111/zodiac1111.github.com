@@ -116,83 +116,12 @@ m3.display();
 m3++;//单目运算.
 </code></pre>
 
-<hr />
-
-<p>站在编译器角度,把&#8217;+&#8217;视为一个特殊的函数.类似lisp中(+ 1 2).即运算符是一类特殊的函数,所以可以<strong>函数的重载</strong><br>
-声明中:</p>
-
-<pre><code>RMB operator +(RMB&amp; ,RMB&amp; ); //双目运算基本返回给别的值,对象调用拷贝构造函数
-RMB&amp; operator ++(RMB&amp; ) //单目运算结果返回本身
-</code></pre>
-
-<p>RMB:返回值<br>
-operator + :特殊的函数名 <br>
-(RMB&amp; ,RMB&amp;) :参数列表<br></p>
-
-<p>一般定义为类的成员函数,即例如加法一定是<strong>当前对象</strong>本身 加上另外一个对象.</p>
-
-<pre><code>RMB RMB::operator + (RMB&amp; s) //双目加法 一个参数是对象本身.
-RMB RMB::operator ++() //自加 
-</code></pre>
-
-<p>注意:运算符结合性.</p>
-
-<p>单目运算结合性? ++() ++(int)?</p>
-
-<p>赋值 =重载:</p>
-
-<pre><code>//代码
-name &amp; operator = (name &amp;s)
-{
-    //在返回前做自己需要的操作,即重载=.
-    delname();
-    copyname();
-    //返回
-return *this;
-}
-</code></pre>
-
-<hr />
-
-<p><strong>重载操作符必须具有一个类类型操作数</strong>
-除了函数调用操作符之外，重载操作符的形参数目（包括成员函数的隐式 this 指针）与操作符的操作数数目相同。函数调用操作符可以接受任意数目的操作数。
-1.  可重载的操作符(42个)</p>
-
-<pre><code>+ - * / % ^ &amp; | ~ ! , = &lt; &gt; &lt;= &gt;= ++ --
-&lt;&lt; &gt;&gt; == != &amp;&amp; || += -= /= %= ^= &amp;= |= 
-*= &lt;&lt;= &gt;&gt;= [] () -&gt; -&gt;* new new [] delete delete [] 
-</code></pre>
-
-<ol>
-<li><p>不能重载(4个)</p>
-
-<p> ::    .*   .    ?:
-通过连接其他合法符号可以创建新的操作符。例如，定义一个 operator** 以提供求幂运算是合法的。</p></li>
-</ol>
-
-
-<h3>优先级和结合性是固定的</h3>
-
-<h3>不再具备短路求值特性</h3>
-
-<h3>不要重载具有内置含义的操作符</h3>
-
-<p> 重载逗号、取地址、逻辑与、逻辑或等等操作符通常不是好做法。这些操作符具有有用的内置含义，如果我们定义了自己的版本，就不能再使用这些内置含义。</p>
-
-<h4>选择成员或非成员实现</h4>
-
-<p>为类设计重载操作符的时候，必须选择是将操作符设置为类成员还是普通非成员函数。在某些情况下，程序员没有选择，操作符必须是成员；在另一些情况下，有些经验原则可指导我们做出决定。下面是一些指导原则，有助于决定将操作符设置为类成员还是普通非成员函数：</p>
-
-<ul>
-<li>赋值（=）、下标（[]）、调用（()）和成员访问箭头（->）等操作符必须定义为成员，将这些操作符定义为非成员函数将在编译时标记为错误。</li>
-<li>像赋值一样，复合赋值操作符通常应定义为类的成员，与赋值不同的是，不一定非得这样做，如果定义非成员复合赋值操作符，不会出现编译错误。</li>
-<li>改变对象状态或与给定类型紧密联系的其他一些操作符，如自增、自减和解引用，通常就定义为类成员。</li>
-<li>对称的操作符，如算术操作符、相等操作符、关系操作符和位操作符，最好定义为普通非成员函数。</li>
-<li>作为类成员的重载函数，其形参看起来比操作数数目少 1。作为成员函数的操作符有一个隐含的 this 形参，限定为第一个操作数。</li>
-</ul>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/22/cpp-class-overload/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -235,182 +164,18 @@ return *this;
 2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html
 下面是一个例子</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-<span class='line-number'>57</span>
-<span class='line-number'>58</span>
-<span class='line-number'>59</span>
-<span class='line-number'>60</span>
-<span class='line-number'>61</span>
-<span class='line-number'>62</span>
-<span class='line-number'>63</span>
-<span class='line-number'>64</span>
-<span class='line-number'>65</span>
-<span class='line-number'>66</span>
-<span class='line-number'>67</span>
-<span class='line-number'>68</span>
-<span class='line-number'>69</span>
-<span class='line-number'>70</span>
-<span class='line-number'>71</span>
-<span class='line-number'>72</span>
-<span class='line-number'>73</span>
-<span class='line-number'>74</span>
-<span class='line-number'>75</span>
-<span class='line-number'>76</span>
-<span class='line-number'>77</span>
-<span class='line-number'>78</span>
-<span class='line-number'>79</span>
-<span class='line-number'>80</span>
-<span class='line-number'>81</span>
-<span class='line-number'>82</span>
-<span class='line-number'>83</span>
-<span class='line-number'>84</span>
-<span class='line-number'>85</span>
-<span class='line-number'>86</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>RFC文档为RFC3550（RFC1889为其过期版本）
-</span><span class='line'>base+0(暂略)此处省略0x33字节
-</span><span class='line'>UDP数据区(base+0x33):
-</span><span class='line'>RTP header:(头数据)位于udp包的base+0x33地址(内容)
-</span><span class='line'>80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序
-</span><span class='line'>详解(地址都+0x33)
-</span><span class='line'>地址    值 意义(不明...
-</span><span class='line'>0Byte     80  [1 Byte] 
-</span><span class='line'>  `10b        2bit 版本号:RFC1889 Version 2[过期版本!我去~]
-</span><span class='line'>  `0b     1bit 填充(Padding)? 否
-</span><span class='line'>  `0b     1bit 扩展? 否
-</span><span class='line'>  `0000b      4bit 特约来源识别码数：0
-</span><span class='line'>1 e0  [1 Byte]
-</span><span class='line'>  `1b     1bit 1重要事件,通常表示一帧结束.MARK
-</span><span class='line'>  `110-0000b  7bit 负载类型(Payload type):DynamicRTP-Type-96 (96)
-</span><span class='line'>2 69  [2 Byte]序列号(Sequence):
-</span><span class='line'>3 37      0x6937=26935(十进制) 
-</span><span class='line'>4 3c  [4 Byte]时间戳
-</span><span class='line'>5 2e      0x3c2e6b4e=1009675086
-</span><span class='line'>6 6b      ^^
-</span><span class='line'>7 4e      ^^
-</span><span class='line'>8 6c  [4 Byte]同步源标识符(SSRC)
-</span><span class='line'>9 77      Synchronization Source identifier: 
-</span><span class='line'>10    83      0x6c7783bf (1819771839)
-</span><span class='line'>11    bf      ^^
-</span><span class='line'>12~?? ??  [&gt;=0 Byte]可选的数据
-</span><span class='line'>时间戳 差值=3750 = 900000(视频)/24(帧间隔)
-</span><span class='line'>一帧最大MUT? 1500Byte =14(EthernetII)+20(ip头) +8UDP+12(RTP头)+1442(RTP数据体)??
-</span><span class='line'>参见RFC 3984 p.13:NAL Unit Octet Usage 1字节
-</span><span class='line'>例如:01011100 =0x5a 
-</span><span class='line'>0禁止位-不禁止
-</span><span class='line'>10优先级:2 Coded slice data partition A    00最低 11最高
-</span><span class='line'>         Type   Packet    Single NAL    Non-Interleaved    Interleaved
-</span><span class='line'>                               Unit Mode           Mode             Mode  
-</span><span class='line'>11100  28     FU-A          no              yes              yes
-</span><span class='line'>FU-a格式:
-</span><span class='line'>       0                   1                   2                   3
-</span><span class='line'>       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>      | FU indicator  |   FU header   |                               |
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
-</span><span class='line'>      |                                                               |
-</span><span class='line'>      |                         FU payload                            |
-</span><span class='line'>      |                                                               |
-</span><span class='line'>      |                               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>      |                               :...OPTIONAL RTP padding        |
-</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>
-</span><span class='line'>      Figure 14.  RTP payload format for FU-A
-</span><span class='line'>FU indicator : 1Byte
-</span><span class='line'>      +---------------+
-</span><span class='line'>      |0|1|2|3|4|5|6|7|
-</span><span class='line'>      +-+-+-+-+-+-+-+-+
-</span><span class='line'>      |F|NRI|  Type   |
-</span><span class='line'>      +---------------+
-</span><span class='line'>FU则与RTP定义头一样
-</span><span class='line'>FU header :1Byte
-</span><span class='line'>      +---------------+
-</span><span class='line'>      |0|1|2|3|4|5|6|7|
-</span><span class='line'>      +-+-+-+-+-+-+-+-+
-</span><span class='line'>      |S|E|R|  Type   |
-</span><span class='line'>      +---------------+
-</span><span class='line'>S=start E=end  of a fragmented NAL unit 
-</span><span class='line'>   R: 1 bit
-</span><span class='line'>      The Reserved bit MUST be equal to 0 and MUST be ignored by the
-</span><span class='line'>      receiver.
-</span><span class='line'>81=1`0`0`0-0001
-</span><span class='line'>这是一个帧的开始的NALU 单元
-</span><span class='line'>
-</span><span class='line'>Type: 5 bits
-</span><span class='line'>   NAL单元荷载类型定义见下表
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>表1.  单元类型以及荷载结构总结
-</span><span class='line'>      Type   Packet      Type name                       
-</span><span class='line'>      ---------------------------------------------------------
-</span><span class='line'>      0      undefined                                    -
-</span><span class='line'>      1-23   NAL unit    Single NAL unit packet per H.264  
-</span><span class='line'>      24     STAP-A     Single-time aggregation packet    
-</span><span class='line'>      25     STAP-B     Single-time aggregation packet    
-</span><span class='line'>      26     MTAP16    Multi-time aggregation packet     
-</span><span class='line'>      27     MTAP24    Multi-time aggregation packet     
-</span><span class='line'>      28     FU-A      Fragmentation unit                
-</span><span class='line'>      29     FU-B      Fragmentation unit                 
-</span><span class='line'>      30-31  undefined    
-</span><span class='line'>0-0001 即单个
-</span></code></pre></td></tr></table></div></figure>
+<p>RFC文档为RFC3550（RFC1889为其过期版本）
+base+0(暂略)此处省略0x33字节
+UDP数据区(base+0x33):
+RTP header:(头数据)位于udp包的base+0x33地址(内容)
+80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序</p>
 
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/22/rtpheader/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -454,36 +219,12 @@ return *this;
 elinks  A text-mode Web browser
 w3m  A pager with Web browsing abilities</p>
 
-<h2>开发</h2>
-
-<p>indent  代码格式化
-git 版本控制
-valgrind    代码动态分析工具;c语言内存泄露/数组越界检测
-splint  代码静态分析工具;检查源代码潜在错误.</p>
-
-<h2>系统工具</h2>
-
-<p>system-config-services  图形化服务管理程序
-system-config-firewall  图形化防火墙规则管理
-system-config-nfs   nfs服务器配置
-miredo-client   ipv6代理客户端 Teredo IPv6 tunneling client</p>
-
-<h2>未定义分类</h2>
-
-<p>octave  类似matlab GNU
-scilab  类似matlab
-vlc 视频播放器,流媒体服务器/客户端
-mplayer 视频播放器
-guake   gnome终端(不支持文件夹拖拽复制
-sun-pinyin  输入法
-gimp    图形处理/查看
-goldendict  字典/词典/翻译
-retext  markdown语法所见即所得编辑器
-octopress   轻量级静态blog
-gbrainy 逻辑/心算/速记 游戏
-xchat   irc客户端</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/22/softwave/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -525,186 +266,18 @@ xchat   irc客户端</p>
 
 <h1>在执行 Valgrind 期间连接 gdb</h1>
 
-<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html
-algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
+<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html</p></blockquote>
+
+<p>algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
 valgrind &#8211;tool=memcheck &#8211;leak-check=full  &#8211;db-attach=yes ./test
-ps:&#8211;db-command=<command> 选项可以指定调试器</p></blockquote>
+ps:&#8211;db-command=<command> 选项可以指定调试器</p>
 
-<h1>加快编译</h1>
-
-<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html
-对于任何比较复杂的软件，编译源代码都会占用不少时间。在加快编译过程方面，最好的工具之一是 ccache（见 参考资料 中的链接）。ccache 是一种编译器缓存，这意味着如果在编译期间文件没有修改过，就从工具的缓存获取它。如果用户只修改了一个头文件并调用 make clean; make，ccache 会显著加快编译。因为 ccache 不仅仅使用时间戳决定文件是否需要重新编译，可以更好地节省宝贵的编译时间。下面是使用 ccache 的一个示例：</p></blockquote>
-
-<h1>尾递归</h1>
-
-<p>`
-// 尾递归求阶乘
-unsigned int RefactorialTail(unsigned int i,const unsigned int status)
-{</p>
-
-<pre><code>if(i == 0)
-    return status;
-return RefactorialTail(i-1, status*i);
-</code></pre>
-
-<p>}</p>
-
-<p>call :RefactorialTail(xs,1);</p>
-
-<p><code>
-</code>
-// 尾递归求菲波纳锲数列
-unsigned int FeboTail(unsigned int i,  //输入</p>
-
-<pre><code>                  const unsigned int s1,     //上上次结果
-                  const unsigned int s2)    //上次结果
-</code></pre>
-
-<p>{</p>
-
-<pre><code>if(i == 0)
-    return s1;
-return FeboTail(i-1, s2, s1+s2);
-</code></pre>
-
-<p>}
-call: FeboTail(x,1,1) //数组第0项开始
-call: FeboTail(x,1,1) //数组第1项开始
-`</p>
-
-<h1>*sh: ./hello3: No such file or directory</h1>
-
-<blockquote><p>http://www.newsmth.net/nForum/#!article/Embedded/104992
-ldd 查看库版本,然后检查是否存在该库</p></blockquote>
-
-<h1>echo -e &#8220;1\n2&#8221;</h1>
-
-<h1>Fedora 时间</h1>
-
-<p>TODO: Linux下各种时间的同异</p>
-
-<blockquote><p>http://www.linuxdiyf.com/bbs/thread-204628-1-1.html
-重新安装了系统，Fedora15.
-在我安装好系统后，系统的时间是错误的，而且无法修改，每次启动Fedora后都会把主板上BIOS时间修改了，我开机的时候修改BIOS的时间再进系统，问题依然存在。经过我的查阅资料，问题解决了。
-首先我查阅 《鸟哥的Linux私房菜》知道有一个文件<code>/etc/sysconfig/clock</code>可以设置时间。
-打开文件一看，原来仅仅是设置时区的。
-`</p>
-
-<h1>The time zone of the system is defined by the contents of /etc/localtime.</h1>
-
-<h1>This file is only for evaluation by system-config-date, do not rely on its</h1>
-
-<h1>contents elsewhere.</h1>
-
-<p>ZONE=&#8221;Asia/Chongqing&#8221;
-`</p></blockquote>
-
-<p>从上面的说明可以看到，有一个 /etc/localtime，我用vi打开这个文件，发现是乱码。我猜测可那就是这些乱码的原因了。
-于是我把 /etc/localtime重命名，然后使用命令touch /etc/localtime重新建立了一个localtime空白文件。
-mv /etc/localtime /etc/localtime-bak
-touch /etc/localtime
-复制代码
-当我把空白文件建立好后，时间立即正确了。</p>
-
-<p>正常情况下 /etc/localtime 也是二进制的（文本编辑器打开看是乱码~~）
-更改后和标准时间相差8个小时。。。
-应该是UTC那个勾，不要点上就好。不严格的说，UTC用的是格林威治时间，跟这边当然会差8小时了。</p>
-
-<h1>关于fedora 17启动时显示cannot open font file true的解决办法</h1>
-
-<p>打开/etc/default/grub 文件
-将GRUB_CMDLINE_LINUX=行中的SYSFONT=True 改为SYSFONT=latarcyrheb-sun16 ；
-保存退出；
-运行命令：
-grub2-mkconfig -o /boot/grub2/grub.cfg
-然后reboot；
-问题即可解决。</p>
-
-<p>本办法是搜索来的，原文http://forums.fedoraforum.org/showthread.php?t=277213，感谢原作者！</p>
-
-<h1>中文编码转换 iconv utf8 &lt;=> big/gb2312</h1>
-
-<blockquote><p>鸟哥的私房书
-`
-[root@www ~]# iconv &#8211;list
-[root@www ~]# iconv -f 原本编码 -t 新编码 filename [-o newfile]
-选项不参数:
-&#8211;list :列出 iconv 支持持的语系数据
--f :from ,亦即来源之意,后接原本的编码格式;
--t :to ,亦即后来的新编码要是什么格式;
--o file:如果要保留原本的档案,那么使用 -o 新档名,可以建立新编码档案。
-范例一:将 /tmp/vitest/vi.big5 转成 utf8 编码吧!
-[root@www ~]# cd /tmp/vitest
-[root@www vitest]# iconv -f big5 -t utf8 vi.big5 -o vi.utf8
-[root@www vitest]# file vi*
-vi.big5: ISO-8859 text, with CRLF line terminators
-vi.utf8: UTF-8 Unicode text, with CRLF line terminators</p>
-
-<h1>是吧!有明显不同吧! ^_^</h1>
-
-<p>这指令支持的语系非常之多,除了正体中文的 big5, utf8 编码之外,也支持简体中文的 gb2312 , 所
-以对岸的朊友可以简单的将鸟站的网页数据下载后,利用这个指令来转成简体,就能够轻松的读取文件
-数据啰! 不过,不要将转成简体的档案又上传成为您自己的网页啊!这明明是鸟哥写的不是吗? ^_^
-不过如果是要将正体中文的 utf8 转成简体中文的 utf8 编码时,那就得费些功夫了! 丼例来说,如果
-要将刚刚那个 vi.utf8 转成简体的 utf8 时,可以这样做:
-[root@www vitest]# iconv -f utf8 -t big5 vi.utf8 |\</p>
-
-<pre><code>    iconv -f big5 -t gb2312 | \
-    iconv -f gb2312 -t utf8 -o vi.gb.utf8
-</code></pre>
-
-<p>1 繁(UTF8)->繁(big5)
-2 繁(big5)->简(gb2312)
-3 简(gb2312)->简(UTF8)
-`</p>
-
-<h1>dos2unix unix2dos window/Unix-like文本文件回车换行转换</h1>
-
-<p>我们在第七章里面谈到 cat 这个指令时,曾经提到过 DOS 不 Linux 断行字符的不同。 而我们也可以利
-用 cat -A 来观察以 DOS (Windows 系统) 建立的档案的特殊格式, 也可以取现在 DOS 使用的断行字
-符为 ^M$ ,我们称为 CR 不 LF 两个符号。 而在 Linux 底下,则是仅有 LF ($) 这个断行符号。这个断
-行符号对于 Linux 的影响很大喔! 为什么呢?
-我们说过,在 Linux 底下的指令在开始执行时,他的判断依据是 『Enter』,而 Linux 的 Enter 为 LF
-符号, 不过,由于 DOS 的断行符号是 CRLF ,也就是多了一个 ^M 的符号出来, 在这样的情况下,
-如果是一个 shell script 的程序档案,呵呵~将可能造成『程序无法执行』的状态~ 因为他会误判程序
-所下达的指令内容啊!这很伤脑筋吧!
-那怂么办啊?很简单啊,将格式转换成为 Linux 即可啊!『废话』,这当然大家都知道,但是, 要以
-vi 进入该档案,然后一个一个删除每一行的 CR 吗?当然没有这么没人性啦! 我们可以透过简单的指
-令来进行格式的转换啊!</p></blockquote>
-
-<p>root@www ~]# dos2unix [-kn] file [newfile]
-[root@www ~]# unix2dos [-kn] file [newfile]
-选项不参数:
--k :保留该档案原本的 mtime 时间格式 (不更新档案上次内容经过修订的时间)
--n :保留原本的旧档,将转换后的内容输出到新档案,如: dos2unix -n old
-new
-范例一:将刚刚上述练习的 /tmp/vitest/man.config 修改成为 dos 断行
-[root@www ~]# cd /tmp/vitest
-[root@www vitest]# cp -a /etc/man.config .
-[root@www vitest]# ll man.config
--rw-r&#8211;r&#8211; 1 root root 4617 Jan 6 2007 man.config
-[root@www vitest]# unix2dos -k man.config
-unix2dos: converting file man.config to DOS format &#8230;</p>
-
-<h1>屏幕会显示上述的讯息,说明断行转为 DOS 格式了!</h1>
-
-<p>[root@www vitest]# ll man.config
--rw-r&#8211;r&#8211; 1 root root 4758 Jan 6 2007 man.config</p>
-
-<h1>断行字符多了 ^M ,所以容量增加了!</h1>
-
-<p>范例二:将上述的 man.config 转成 man.config.linux 的 Linux 断行字符
-[root@www vitest]# dos2unix -k -n man.config man.config.linux
-dos2unix: converting file man.config to file man.config.linux in UNIX
-format &#8230;
-[root@www vitest]# ll man.config*
--rw-r&#8211;r&#8211; 1 root root 4758 Jan 6 2007 man.config
--rw&#8212;&#8212;- 1 root root 4617 Jan 6 2007 man.config.linux
-因为断行字符以及 DOS 不 Linux 操作系统底下一些字符的定义不同,因此, 不建议你在 Windows 系
-统当中将档案编辑好之后,才上传到 Linux 系统,会容易取生错误问题。 而且,如果你在不同的系统
-之间复制一些纯文本档案时,千万记得要使用 unix2dos 戒 dos2unix 来转换一下断行格式啊!</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/22/other/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -740,7 +313,7 @@ format &#8230;
   </header>
 
 
-  <div class="entry-content"><blockquote><blockquote><p>http://netsecurity.51cto.com/art/201105/264844_3.htm</p></blockquote></blockquote>
+  <div class="entry-content"><blockquote><p>http://netsecurity.51cto.com/art/201105/264844_3.htm</p></blockquote>
 
 <p>当然，通过输入iwconfig查看也是可以滴。这个命令专用于查看无线网卡，不像ifconfig那样查看所有适配器。</p>
 
@@ -748,44 +321,12 @@ format &#8230;
 
 <p>在Linux下，我们使用Aircrack-ng套装里的airmon-ng工具来实现，具体命令如下：</p>
 
-<h1>airmon-ng start wlan0</h1>
-
-<p>步骤3：探测无线网络，抓取无线数据包。</p>
-
-<p>在激活无线网卡后，我们就可以开启无线数据包抓包工具了，这里我们使用Aircrack-ng套装里的airmon-ng工具来实现，具体命令如下：</p>
-
-<p>不过在正式抓包之前，一般都是先进行预来探测，来获取当前无线网络概况，包括AP的SSID、MAC地址、工作频道、无线客户端MAC及数量等。只需打开一个Shell，输入具体命令如下：</p>
-
-<h1>airodump-ng mon0</h1>
-
-<p>参数解释：</p>
-
-<p>mon0为之前已经载入并激活监听模式的无线网卡。如下图8所示。</p>
-
-<p>既然我们看到了本次测试要攻击的目标，就是那个SSID名为TP-LINK的无线路由器，接下来输入命令如下：</p>
-
-<h1>airodump-ng &#8211;ivs –w longas -c 6 wlan0</h1>
-
-<p>参数解释：</p>
-
-<p>&#8211;ivs 这里的设置是通过设置过滤，不再将所有无线数据保存，而只是保存可用于破解的IVS数据报文，这样可以有效地缩减保存的数据包大小；</p>
-
-<p>-c 这里我们设置目标AP的工作频道，通过刚才的观察，我们要进行攻击测试的无线路由器工作频道为6；</p>
-
-<p>-w 后跟要保存的文件名，这里w就是“write写”的意思，所以输入自己希望保持的文件名，如下图10所示我这里就写为longas。那么，小黑们一定要注意的是：这里我们虽然设置保存的文件名是longas，但是生成的文件却不是longase.ivs，而是longas-01.ivs。</p>
-
-<p>图10</p>
-
-<p>注意：这是因为airodump-ng这款工具为了方便后面破解时候的调用，所以对保存文件按顺序编了号，于是就多了-01这样的序号，以此类推，在进行第二次攻击时，若使用同样文件名longas保存的话，就会生成名为longas-02.ivs的文件，一定要注意哦，别到时候找不到又要怪我没写清楚：）</p>
-
-<p>啊，估计有的朋友们看到这里，又会问在破解的时候可不可以将这些捕获的数据包一起使用呢，当然可以，届时只要在载入文件时使用longas*.cap即可，这里的星号指代所有前缀一致的文件。</p>
-
-<p>在回车后，就可以看到如下图11所示的界面，这表示着无线数据包抓取的开始。</p>
-
-<p>图11
-airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/22/aircrack-ng/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -835,29 +376,12 @@ airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
 :[地址/范围]s/&lt;搜索字&gt;/&lt;替换字&gt;[/g]
 </code></p>
 
-<ol>
-<li>地址/范围有:
-<code>
-无 :当前行
-1,10 : 1~10行
-1,$  1~最后一行/文件结束 ps : 1,$ 等价于 %
-.,.+10 从当前行(".") 到偏置10行(".+10") "+"表示向下偏移 "-"表示向上偏移
-</code></li>
-<li>s=sed 风格的搜索</li>
-<li>/ 分割符</li>
-<li>g  表示继续匹配(没有 表示匹配一次)</li>
-</ol>
-
-
-<p>(n 为数字，若 n 为 .&lt;句号>，表示从当前行开始到最后一行)</p>
-
-<h2>删除</h2>
-
-<p>删除括号内的东西 不包含括号 di) =delet in )<br/>
-光标在一个word内部删除这个整个单词 diw  del in word<br/>
-删除并进入insert模式方便修改 ciw change in word</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/21/vim-search-replace/">Read on &rarr;</a>
+    </footer>
   
 
 
