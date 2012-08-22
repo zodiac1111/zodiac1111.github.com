@@ -3,7 +3,7 @@ layout: post
 title: "cpp_class_overload"
 date: 2012-08-22 20:37
 comments: true
-categories: 
+categories: [c++]
 ---
 # 运算符重载
 函数重载 参数列表必须不同<br>

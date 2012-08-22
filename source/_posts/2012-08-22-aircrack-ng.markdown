@@ -3,7 +3,7 @@ layout: post
 title: "aircrack-ng"
 date: 2012-08-22 20:30
 comments: true
-categories: 
+categories: [web]
 ---
 >http://netsecurity.51cto.com/art/201105/264844_3.htm
 
