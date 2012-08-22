@@ -1,0 +1,11 @@
+---
+layout: post
+title: "set"
+date: 2012-08-21 17:15
+comments: true
+categories: 
+---
+#查看和设定vi的选项
+:set 
+:set all 
+查看设定选项
