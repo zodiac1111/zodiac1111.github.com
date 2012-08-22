@@ -10,12 +10,14 @@ categories:
 1. http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32  
 2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html
 下面是一个例子
-```
+
 RFC文档为RFC3550（RFC1889为其过期版本）
 base+0(暂略)此处省略0x33字节
 UDP数据区(base+0x33):
 RTP header:(头数据)位于udp包的base+0x33地址(内容)
 80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序
+<!-- more -->
+```
 详解(地址都+0x33)
 地址	值	意义(不明...
 0Byte 	80	[1 Byte] 
@@ -37,6 +39,7 @@ RTP header:(头数据)位于udp包的base+0x33地址(内容)
 10	83		0x6c7783bf (1819771839)
 11	bf		^^
 12~??	??	[>=0 Byte]可选的数据
+```
 时间戳 差值=3750 = 900000(视频)/24(帧间隔)
 一帧最大MUT? 1500Byte =14(EthernetII)+20(ip头) +8UDP+12(RTP头)+1442(RTP数据体)??
 参见RFC 3984 p.13:NAL Unit Octet Usage 1字节
@@ -47,6 +50,7 @@ RTP header:(头数据)位于udp包的base+0x33地址(内容)
                                Unit Mode           Mode             Mode  
 11100  28     FU-A          no              yes              yes
 FU-a格式:
+```
        0                   1                   2                   3
        0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -60,19 +64,24 @@ FU-a格式:
       +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
       Figure 14.  RTP payload format for FU-A
+```
 FU indicator : 1Byte
+```
       +---------------+
       |0|1|2|3|4|5|6|7|
       +-+-+-+-+-+-+-+-+
       |F|NRI|  Type   |
       +---------------+
+```
 FU则与RTP定义头一样
 FU header :1Byte
+```
       +---------------+
       |0|1|2|3|4|5|6|7|
       +-+-+-+-+-+-+-+-+
       |S|E|R|  Type   |
       +---------------+
+```
 S=start E=end  of a fragmented NAL unit 
    R: 1 bit
       The Reserved bit MUST be equal to 0 and MUST be ignored by the
@@ -98,4 +107,4 @@ Type: 5 bits
       30-31  undefined    
 0-0001 即单个
 
-```
+

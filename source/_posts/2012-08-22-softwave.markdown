@@ -11,7 +11,7 @@ chromium	web浏览器
 elinks	A text-mode Web browser
 w3m	 A pager with Web browsing abilities
 
-
+<!-- more -->
 ##开发
 indent	代码格式化
 git	版本控制

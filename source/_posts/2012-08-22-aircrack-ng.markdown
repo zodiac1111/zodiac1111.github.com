@@ -5,13 +5,16 @@ date: 2012-08-22 20:30
 comments: true
 categories: 
 ---
->>http://netsecurity.51cto.com/art/201105/264844_3.htm
+>http://netsecurity.51cto.com/art/201105/264844_3.htm
 
 当然，通过输入iwconfig查看也是可以滴。这个命令专用于查看无线网卡，不像ifconfig那样查看所有适配器。
 
 iwconfig 
 	
 在Linux下，我们使用Aircrack-ng套装里的airmon-ng工具来实现，具体命令如下：
+
+<!-- more -->
+
 #airmon-ng start wlan0 
 步骤3：探测无线网络，抓取无线数据包。
 
