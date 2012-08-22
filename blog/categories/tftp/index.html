@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>aircrack-ng - 喜乐</title>
+  <title>Category: tftp - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="http://netsecurity.51cto.com/art/201105/264844_3.htm 当然，通过输入iwconfig查看也是可以滴。这个命令专用于查看无线网卡，不像ifconfig那样查看所有适配器。 iwconfig 在Linux下，我们使用Aircrack- &hellip;">
+  <meta name="description" content="Category: tftp">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/08/22/aircrack-ng/">
+  <link rel="canonical" href="http://zodiac1111.github.comblog/categories/tftp/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -64,141 +64,36 @@
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">Aircrack-ng</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-22T20:30:00+08:00" pubdate data-updated="true">2012-08-22 20:30</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
+    <h1 class="entry-title">Category: Tftp</h1>
     
   </header>
-
-
-<div class="entry-content"><blockquote><p>http://netsecurity.51cto.com/art/201105/264844_3.htm</p></blockquote>
-
-<p>当然，通过输入iwconfig查看也是可以滴。这个命令专用于查看无线网卡，不像ifconfig那样查看所有适配器。</p>
-
-<p>iwconfig</p>
-
-<p>在Linux下，我们使用Aircrack-ng套装里的airmon-ng工具来实现，具体命令如下：</p>
-
-<!-- more -->
-
-
-<h1>airmon-ng start wlan0</h1>
-
-<p>步骤3：探测无线网络，抓取无线数据包。</p>
-
-<p>在激活无线网卡后，我们就可以开启无线数据包抓包工具了，这里我们使用Aircrack-ng套装里的airmon-ng工具来实现，具体命令如下：</p>
-
-<p>不过在正式抓包之前，一般都是先进行预来探测，来获取当前无线网络概况，包括AP的SSID、MAC地址、工作频道、无线客户端MAC及数量等。只需打开一个Shell，输入具体命令如下：</p>
-
-<h1>airodump-ng mon0</h1>
-
-<p>参数解释：</p>
-
-<p>mon0为之前已经载入并激活监听模式的无线网卡。如下图8所示。</p>
-
-<p>既然我们看到了本次测试要攻击的目标，就是那个SSID名为TP-LINK的无线路由器，接下来输入命令如下：</p>
-
-<h1>airodump-ng &#8211;ivs –w longas -c 6 wlan0</h1>
-
-<p>参数解释：</p>
-
-<p>&#8211;ivs 这里的设置是通过设置过滤，不再将所有无线数据保存，而只是保存可用于破解的IVS数据报文，这样可以有效地缩减保存的数据包大小；</p>
-
-<p>-c 这里我们设置目标AP的工作频道，通过刚才的观察，我们要进行攻击测试的无线路由器工作频道为6；</p>
-
-<p>-w 后跟要保存的文件名，这里w就是“write写”的意思，所以输入自己希望保持的文件名，如下图10所示我这里就写为longas。那么，小黑们一定要注意的是：这里我们虽然设置保存的文件名是longas，但是生成的文件却不是longase.ivs，而是longas-01.ivs。</p>
-
-<p>图10</p>
-
-<p>注意：这是因为airodump-ng这款工具为了方便后面破解时候的调用，所以对保存文件按顺序编了号，于是就多了-01这样的序号，以此类推，在进行第二次攻击时，若使用同样文件名longas保存的话，就会生成名为longas-02.ivs的文件，一定要注意哦，别到时候找不到又要怪我没写清楚：）</p>
-
-<p>啊，估计有的朋友们看到这里，又会问在破解的时候可不可以将这些捕获的数据包一起使用呢，当然可以，届时只要在载入文件时使用longas*.cap即可，这里的星号指代所有前缀一致的文件。</p>
-
-<p>在回车后，就可以看到如下图11所示的界面，这表示着无线数据包抓取的开始。</p>
-
-<p>图11
-airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
-
-      
-
-
-
-
-
+  <div id="blog-archives" class="category">
 
 
 
   
+  <h2>2012</h2>
+
+<article>
+  
+<h1><a href="/blog/2012/07/03/Fedora-17-x86_64-tftp/">Fedora 17 x86_64安装配置TFTP服务器</a></h1>
+<time datetime="2012-07-03T10:58:00+08:00" pubdate><span class='month'>07</span>-<span class='day'>03</span> <span class='year'>2012</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/categories/fedora/'>Fedora</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/tftp/'>tftp</a></span>
+</footer>
 
 
-<time datetime="2012-08-22T20:30:00+08:00" pubdate data-updated="true">2012-08-22 20:30</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/web/'>web</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://zodiac1111.github.com/blog/2012/08/22/aircrack-ng/" data-via="" data-counturl="http://zodiac1111.github.com/blog/2012/08/22/aircrack-ng/" >Tweet</a>
-  
-  
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/08/21/vim-search-replace/" title="Previous Post: vim查找替换">&laquo; vim查找替换</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/08/22/other/" title="Next Post: other">other &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
+
+  
+</article>
 
 </div>
 
@@ -299,10 +194,7 @@ airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
       var disqus_shortname = 'zodiac1111blog';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/08/22/aircrack-ng/';
-        var disqus_url = 'http://zodiac1111.github.com/blog/2012/08/22/aircrack-ng/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
