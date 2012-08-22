@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-08-22T21:41:25+08:00</updated>
+  <updated>2012-08-22T22:02:31+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -753,9 +753,9 @@ airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
   
   <entry>
     <title type="html"><![CDATA[hello world]]></title>
-    <link href="http://zodiac1111.github.com/blog/2012/07/03/hello-world/"/>
-    <updated>2012-07-03T09:01:00+08:00</updated>
-    <id>http://zodiac1111.github.com/blog/2012/07/03/hello-world</id>
+    <link href="http://zodiac1111.github.com/blog/2012/06/03/hello-world/"/>
+    <updated>2012-06-03T09:01:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/06/03/hello-world</id>
     <content type="html"><![CDATA[<p>这是一个沙盒,测试各种不成熟的东西.</p>
 
 <!-- more -->
