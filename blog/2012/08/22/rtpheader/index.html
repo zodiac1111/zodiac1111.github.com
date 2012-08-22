@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>rtpheader - 我的博客</title>
+  <meta name="author" content="zodiac1111">
+
+  
+  <meta name="description" content="rtp头浅析 参考: 1. http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32
+2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/08/22/rtpheader/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="我的博客" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">我的博客</a></h1>
+  
+    <h2>轻型博客框架</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zodiac1111.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rtpheader</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-22T20:35:00+08:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>rtp头浅析</h1>
+
+<p>参考:   <br/>
+1. http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32<br/>
+2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html
+下面是一个例子</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RFC文档为RFC3550（RFC1889为其过期版本）
+</span><span class='line'>base+0(暂略)此处省略0x33字节
+</span><span class='line'>UDP数据区(base+0x33):
+</span><span class='line'>RTP header:(头数据)位于udp包的base+0x33地址(内容)
+</span><span class='line'>80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序
+</span><span class='line'>详解(地址都+0x33)
+</span><span class='line'>地址    值 意义(不明...
+</span><span class='line'>0Byte     80  [1 Byte] 
+</span><span class='line'>  `10b        2bit 版本号:RFC1889 Version 2[过期版本!我去~]
+</span><span class='line'>  `0b     1bit 填充(Padding)? 否
+</span><span class='line'>  `0b     1bit 扩展? 否
+</span><span class='line'>  `0000b      4bit 特约来源识别码数：0
+</span><span class='line'>1 e0  [1 Byte]
+</span><span class='line'>  `1b     1bit 1重要事件,通常表示一帧结束.MARK
+</span><span class='line'>  `110-0000b  7bit 负载类型(Payload type):DynamicRTP-Type-96 (96)
+</span><span class='line'>2 69  [2 Byte]序列号(Sequence):
+</span><span class='line'>3 37      0x6937=26935(十进制) 
+</span><span class='line'>4 3c  [4 Byte]时间戳
+</span><span class='line'>5 2e      0x3c2e6b4e=1009675086
+</span><span class='line'>6 6b      ^^
+</span><span class='line'>7 4e      ^^
+</span><span class='line'>8 6c  [4 Byte]同步源标识符(SSRC)
+</span><span class='line'>9 77      Synchronization Source identifier: 
+</span><span class='line'>10    83      0x6c7783bf (1819771839)
+</span><span class='line'>11    bf      ^^
+</span><span class='line'>12~?? ??  [&gt;=0 Byte]可选的数据
+</span><span class='line'>时间戳 差值=3750 = 900000(视频)/24(帧间隔)
+</span><span class='line'>一帧最大MUT? 1500Byte =14(EthernetII)+20(ip头) +8UDP+12(RTP头)+1442(RTP数据体)??
+</span><span class='line'>参见RFC 3984 p.13:NAL Unit Octet Usage 1字节
+</span><span class='line'>例如:01011100 =0x5a 
+</span><span class='line'>0禁止位-不禁止
+</span><span class='line'>10优先级:2 Coded slice data partition A    00最低 11最高
+</span><span class='line'>         Type   Packet    Single NAL    Non-Interleaved    Interleaved
+</span><span class='line'>                               Unit Mode           Mode             Mode  
+</span><span class='line'>11100  28     FU-A          no              yes              yes
+</span><span class='line'>FU-a格式:
+</span><span class='line'>       0                   1                   2                   3
+</span><span class='line'>       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>      | FU indicator  |   FU header   |                               |
+</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
+</span><span class='line'>      |                                                               |
+</span><span class='line'>      |                         FU payload                            |
+</span><span class='line'>      |                                                               |
+</span><span class='line'>      |                               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>      |                               :...OPTIONAL RTP padding        |
+</span><span class='line'>      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+</span><span class='line'>
+</span><span class='line'>      Figure 14.  RTP payload format for FU-A
+</span><span class='line'>FU indicator : 1Byte
+</span><span class='line'>      +---------------+
+</span><span class='line'>      |0|1|2|3|4|5|6|7|
+</span><span class='line'>      +-+-+-+-+-+-+-+-+
+</span><span class='line'>      |F|NRI|  Type   |
+</span><span class='line'>      +---------------+
+</span><span class='line'>FU则与RTP定义头一样
+</span><span class='line'>FU header :1Byte
+</span><span class='line'>      +---------------+
+</span><span class='line'>      |0|1|2|3|4|5|6|7|
+</span><span class='line'>      +-+-+-+-+-+-+-+-+
+</span><span class='line'>      |S|E|R|  Type   |
+</span><span class='line'>      +---------------+
+</span><span class='line'>S=start E=end  of a fragmented NAL unit 
+</span><span class='line'>   R: 1 bit
+</span><span class='line'>      The Reserved bit MUST be equal to 0 and MUST be ignored by the
+</span><span class='line'>      receiver.
+</span><span class='line'>81=1`0`0`0-0001
+</span><span class='line'>这是一个帧的开始的NALU 单元
+</span><span class='line'>
+</span><span class='line'>Type: 5 bits
+</span><span class='line'>   NAL单元荷载类型定义见下表
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>表1.  单元类型以及荷载结构总结
+</span><span class='line'>      Type   Packet      Type name                       
+</span><span class='line'>      ---------------------------------------------------------
+</span><span class='line'>      0      undefined                                    -
+</span><span class='line'>      1-23   NAL unit    Single NAL unit packet per H.264  
+</span><span class='line'>      24     STAP-A     Single-time aggregation packet    
+</span><span class='line'>      25     STAP-B     Single-time aggregation packet    
+</span><span class='line'>      26     MTAP16    Multi-time aggregation packet     
+</span><span class='line'>      27     MTAP24    Multi-time aggregation packet     
+</span><span class='line'>      28     FU-A      Fragmentation unit                
+</span><span class='line'>      29     FU-B      Fragmentation unit                 
+</span><span class='line'>      30-31  undefined    
+</span><span class='line'>0-0001 即单个
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-22T20:35:00+08:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/08/22/softwave/" title="Previous Post: softwave">&laquo; softwave</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/08/22/cpp-class-overload/" title="Next Post: cpp_class_overload">cpp_class_overload &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/22/cpp-class-overload/">cpp_class_overload</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/22/rtpheader/">rtpheader</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/22/softwave/">softwave</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/22/other/">other</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/08/22/aircrack-ng/">aircrack-ng</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - zodiac1111 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
