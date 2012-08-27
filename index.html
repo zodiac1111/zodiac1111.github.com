@@ -9,12 +9,8 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="运算符重载 函数重载 参数列表必须不同
-运算符重载,所有运算符都能.
-C++一种面向对象的语言/面向应用.(放大软件的规模) 问题由来:例如两个类的相加,怎么实现? 例:人民币类 元/角 RMB m1,m2,m3;
-m3=m1+m2;//两个对象相加
-m3.display();
-m3++;// &hellip;">
+  <meta name="description" content="crosstool在fedora 17下的编译一到的问题/解决 参考 http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268
+问题: 解决gcc: error trying to exec ‘cc1obj &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -70,6 +66,81 @@ m3++;// &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/08/27/fedora-17-corsstool/">Fedora-17-corsstool</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-27T11:15:00+08:00" pubdate data-updated="true">2012-08-27 11:15</time>
+        
+         | <a href="/blog/2012/08/27/fedora-17-corsstool/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>crosstool在fedora 17下的编译一到的问题/解决</h2>
+
+<blockquote><p>参考 http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268
+问题:</p>
+
+<h3>解决gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory问题</h3>
+
+<p>obj-c的库问题,参看 >http://lok.me/a/1182.html 解决
+主要<code>yum install gcc-objc gcc-objc++ libobjc</code></p></blockquote>
+
+<h3>flat_bl.m:2:2: 错误：expected identifier or ‘(’ before ‘%’ token</h3>
+
+<blockquote><p>http://forums.fedoraforum.org/archive/index.php/t-267449.html
+Makefile 依赖*.m文件错误,删除.m文件,更改Makefile依赖关系</p></blockquote>
+
+<h3>These critical programs are missing or too old: gcc</h3>
+
+<p>/ Check the INSTALL file for required versions.</p>
+
+<blockquote><p>http://lidu678.blog.163.com/blog/static/898060062010498571444/
+修改<code>crosstool-0.43/patches/glibc-2.3.2/glibc-2.3.3-allow-gcc-4.0-configure.patch</code>
+检查版本时gcc 4.7.0 过高, 在该文件中可以看出<code>4.[01]*</code>改为<code>|4.[017]*</code>使其通过检查</p></blockquote>
+
+<h3>make[2]: 进入目录“/home/zodiac1111/test/crosstool-0.43/build/arm-9tdmi-linux-gnu/gcc-4.1.0-glibc-2.3.2/glibc-2.3.2/manual”</h3>
+
+<p>Makefile:250: *** 混和的隐含和普通规则。 停止。
+fedora make程序特有有的对混和目标的规则,如
+目标1&lt;空格>目标2:
+(tab)命令
+分解成为:
+目标1:
+(tab)命令
+目标2:
+(tab)命令
+即可.
+参考 &#8220;fedora make 混和的隐含和普通规则&#8221;</p>
+
+<blockquote><p>http://blog.csdn.net/melong100/article/details/6238273</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -231,59 +302,6 @@ w3m  A pager with Web browsing abilities</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/22/other/">Other</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-22T20:33:00+08:00" pubdate data-updated="true">2012-08-22 20:33</time>
-        
-         | <a href="/blog/2012/08/22/other/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>使用valgrind测试程序的内存泄露/多线程竞争/等等</h1>
-
-<p>http://www.ibm.com/developerworks/cn/linux/l-cn-valgrind/</p>
-
-<h1>在执行 Valgrind 期间连接 gdb</h1>
-
-<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html</p></blockquote>
-
-<p>algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
-valgrind &#8211;tool=memcheck &#8211;leak-check=full  &#8211;db-attach=yes ./test
-ps:&#8211;db-command=<command> 选项可以指定调试器</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/22/other/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -297,6 +315,10 @@ ps:&#8211;db-command=<command> 选项可以指定调试器</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/08/27/fedora-17-corsstool/">fedora-17-corsstool</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/08/22/cpp-class-overload/">cpp_class_overload</a>
