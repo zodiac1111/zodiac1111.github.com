@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-08-27T12:49:37+08:00</updated>
+  <updated>2012-08-27T13:08:48+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -20,26 +20,33 @@
     <id>http://zodiac1111.github.com/blog/2012/08/27/fedora-17-corsstool</id>
     <content type="html"><![CDATA[<h2>crosstool在fedora 17下的编译一到的问题/解决</h2>
 
-<blockquote><p>参考 http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268
-问题:</p>
+<blockquote><p>参考 http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268</p></blockquote>
+
+<p>问题:</p>
 
 <h3>解决gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory问题</h3>
 
-<p>obj-c的库问题,参看 >http://lok.me/a/1182.html 解决
-主要<code>yum install gcc-objc gcc-objc++ libobjc</code></p></blockquote>
+<p>obj-c的库问题,参看</p>
+
+<blockquote><p>http://lok.me/a/1182.html</p></blockquote>
+
+<p>解决
+主要<code>yum install gcc-objc gcc-objc++ libobjc</code></p>
 
 <h3>flat_bl.m:2:2: 错误：expected identifier or ‘(’ before ‘%’ token</h3>
 
-<blockquote><p>http://forums.fedoraforum.org/archive/index.php/t-267449.html
-Makefile 依赖*.m文件错误,删除.m文件,更改Makefile依赖关系</p></blockquote>
+<blockquote><p>http://forums.fedoraforum.org/archive/index.php/t-267449.html</p></blockquote>
+
+<p>Makefile 依赖*.m文件错误,删除.m文件,更改Makefile依赖关系</p>
 
 <h3>These critical programs are missing or too old: gcc</h3>
 
 <p>/ Check the INSTALL file for required versions.</p>
 
-<blockquote><p>http://lidu678.blog.163.com/blog/static/898060062010498571444/
-修改<code>crosstool-0.43/patches/glibc-2.3.2/glibc-2.3.3-allow-gcc-4.0-configure.patch</code>
-检查版本时gcc 4.7.0 过高, 在该文件中可以看出<code>4.[01]*</code>改为<code>|4.[017]*</code>使其通过检查</p></blockquote>
+<blockquote><p>http://lidu678.blog.163.com/blog/static/898060062010498571444/</p></blockquote>
+
+<p>修改<code>crosstool-0.43/patches/glibc-2.3.2/glibc-2.3.3-allow-gcc-4.0-configure.patch</code>
+检查版本时gcc 4.7.0 过高, 在该文件中可以看出<code>4.[01]*</code>改为<code>|4.[017]*</code>使其通过检查</p>
 
 <h3>make[2]: 进入目录“/home/zodiac1111/test/crosstool-0.43/build/arm-9tdmi-linux-gnu/gcc-4.1.0-glibc-2.3.2/glibc-2.3.2/manual”</h3>
 
