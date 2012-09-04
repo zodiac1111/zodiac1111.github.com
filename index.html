@@ -116,7 +116,9 @@ gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory obj-c�
 
 <h3>问题2:</h3>
 
-<p><code>flat_bl.m:2:2: 错误：expected identifier or ‘(’ before ‘%’ token</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>flat_bl.m:2:2: 错误：expected identifier or ‘(’ before ‘%’ token</span></code></pre></td></tr></table></div></figure>
+
 
 <p>解决来源:<a href="http://forums.fedoraforum.org/archive/index.php/t-267449.html">http://forums.fedoraforum.org/archive/index.php/t-267449.html</a></p>
 
@@ -124,8 +126,11 @@ gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory obj-c�
 
 <h3>问题3:</h3>
 
-<p><code>These critical programs are missing or too old: gcc
- Check the INSTALL file for required versions.</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>These critical programs are missing or too old: gcc
+</span><span class='line'> Check the INSTALL file for required versions.</span></code></pre></td></tr></table></div></figure>
+
 
 <p>解决方法:<a href="http://lidu678.blog.163.com/blog/static/898060062010498571444/">http://lidu678.blog.163.com/blog/static/898060062010498571444/</a></p>
 
@@ -134,8 +139,11 @@ gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory obj-c�
 
 <h3>问题4:</h3>
 
-<p><code>make[2]: 进入目录“/home/your name/test/crosstool-0.43/build/arm-9tdmi-linux-gnu/gcc-4.1.0-glibc-2.3.2/glibc-2.3.2/manual”
-Makefile:250: *** 混和的隐含和普通规则。 停止。</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make[2]: 进入目录“/home/your name/test/crosstool-0.43/build/arm-9tdmi-linux-gnu/gcc-4.1.0-glibc-2.3.2/glibc-2.3.2/manual”
+</span><span class='line'>Makefile:250: *** 混和的隐含和普通规则。 停止。</span></code></pre></td></tr></table></div></figure>
+
 
 <p>原因:
 fedora make程序特有有的对混和目标的规则(对老版本makefile文件的兼容性不好),如</p>
