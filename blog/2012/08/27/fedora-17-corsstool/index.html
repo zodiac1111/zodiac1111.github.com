@@ -137,23 +137,17 @@ Makefile:250: *** 混和的隐含和普通规则。 停止。</code></p>
 <p>原因:
 fedora make程序特有有的对混和目标的规则(对老版本makefile文件的兼容性不好),如</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>目标1 目标2:
-</span><span class='line'>(tab)命令</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>目标1 目标2:
+(tab)命令
+</code></pre>
 
 <p>分解成为:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>目标1:
-</span><span class='line'>(tab)命令
-</span><span class='line'>目标2:
-</span><span class='line'>(tab)命令</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>目标1:
+(tab)命令
+目标2:
+(tab)命令
+</code></pre>
 
 <p>即可.
 参考 &#8220;fedora make 混和的隐含和普通规则&#8221;
