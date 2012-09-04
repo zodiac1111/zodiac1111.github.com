@@ -9,7 +9,8 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="crosstool在fedora 17下的编译一到的问题/解决 构建过程参考来源,在这个过程中出现的问题,笔记如下: 问题1: gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory obj-c的库问题,参看 &hellip;">
+  <meta name="description" content="crosstool在fedora 17下的编译一到的问题/解决 构建过程参考来源,在这个过程中出现的问题,笔记如下: 问题1: 1
+gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory obj-c的库问题,参看 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -102,8 +103,9 @@
 
 <h3>问题1:</h3>
 
-<p><code>gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory
-</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory</span></code></pre></td></tr></table></div></figure>
+
 
 <p>obj-c的库问题,参看
 <a href="http://lok.me/a/1182.html">http://lok.me/a/1182.html</a></p>
@@ -138,20 +140,25 @@ Makefile:250: *** 混和的隐含和普通规则。 停止。</code></p>
 <p>原因:
 fedora make程序特有有的对混和目标的规则(对老版本makefile文件的兼容性不好),如</p>
 
-<p><code>
-目标1 目标2:
-(tab)命令
-</code></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>目标1 目标2:
+</span><span class='line'>(tab)命令</span></code></pre></td></tr></table></div></figure>
+
 
 <p>分解成为:</p>
 
-<p><code>
-目标1:
-(tab)命令
-目标2:
-(tab)命令
-</code>
-即可.
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>目标1:
+</span><span class='line'>(tab)命令
+</span><span class='line'>目标2:
+</span><span class='line'>(tab)命令</span></code></pre></td></tr></table></div></figure>
+
+
+<p>即可.
 参考 &#8220;fedora make 混和的隐含和普通规则&#8221;
 <a href="http://blog.csdn.net/melong100/article/details/6238273">http://blog.csdn.net/melong100/article/details/6238273</a></p>
 </div>
