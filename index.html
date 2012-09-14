@@ -126,57 +126,12 @@ gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory obj-c�
 
 <p><code>yum install gcc-objc gcc-objc++ libobjc</code></p>
 
-<h3>问题2:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>flat_bl.m:2:2: 错误：expected identifier or ‘(’ before ‘%’ token</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解决来源:<a href="http://forums.fedoraforum.org/archive/index.php/t-267449.html">http://forums.fedoraforum.org/archive/index.php/t-267449.html</a></p>
-
-<p>Makefile 依赖*.m文件错误,删除.m文件,更改Makefile依赖关系</p>
-
-<h3>问题3:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>These critical programs are missing or too old: gcc
-</span><span class='line'> Check the INSTALL file for required versions.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>解决方法:<a href="http://lidu678.blog.163.com/blog/static/898060062010498571444/">http://lidu678.blog.163.com/blog/static/898060062010498571444/</a></p>
-
-<p>概括:<code>crosstool-0.43/patches/glibc-2.3.2/glibc-2.3.3-allow-gcc-4.0-configure.patch</code>
-检查版本时gcc 4.7.0 过高, 在该文件中可以看出<code>4.[01]*</code>改为<code>|4.[017]*</code>使其通过检查</p>
-
-<h3>问题4:</h3>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>make[2]: 进入目录“/home/your name/test/crosstool-0.43/build/arm-9tdmi-linux-gnu/gcc-4.1.0-glibc-2.3.2/glibc-2.3.2/manual”
-</span><span class='line'>Makefile:250: *** 混和的隐含和普通规则。 停止。</span></code></pre></td></tr></table></div></figure>
-
-
-<p>原因:
-fedora make程序特有有的对混和目标的规则(对老版本makefile文件的兼容性不好),如</p>
-
-<pre><code>目标1 目标2:
-(tab)命令
-</code></pre>
-
-<p>分解成为:</p>
-
-<pre><code>目标1:
-(tab)命令
-目标2:
-(tab)命令
-</code></pre>
-
-<p>即可.
-参考 &#8220;fedora make 混和的隐含和普通规则&#8221;
-<a href="http://blog.csdn.net/melong100/article/details/6238273">http://blog.csdn.net/melong100/article/details/6238273</a></p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/27/fedora-17-corsstool/">Read more &rarr;</a>
+    </footer>
   
 
 
