@@ -9,8 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="crosstool在fedora 17下的编译一到的问题/解决 构建过程参考来源,在这个过程中出现的问题,笔记如下: 问题1: 1
-gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory obj-c的库问题,参看 &hellip;">
+  <meta name="description" content="crosstool在fedora 17下的编译一到的问题/解决 构建过程[blog.chinaunix.net]( http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268),在这个过程中出现的问题,笔记如下 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,13 +110,13 @@ gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory obj-c�
 
   <div class="entry-content"><h2>crosstool在fedora 17下的编译一到的问题/解决</h2>
 
-<p>构建过程<a href="http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268">参考来源</a>,在这个过程中出现的问题,笔记如下:</p>
+<pre><code>构建过程[blog.chinaunix.net]( http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268),在这个过程中出现的问题,笔记如下:
+</code></pre>
 
 <h3>问题1:</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory</span></code></pre></td></tr></table></div></figure>
-
+<pre><code>gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory
+</code></pre>
 
 <p>obj-c的库问题,参看
 <a href="http://lok.me/a/1182.html">http://lok.me/a/1182.html</a></p>
