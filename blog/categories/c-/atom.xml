@@ -4,7 +4,7 @@
   <title><![CDATA[Category: c++ | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/c-/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-14T23:58:06+08:00</updated>
+  <updated>2012-09-15T00:07:17+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -14,13 +14,12 @@
 
   
   <entry>
-    <title type="html"><![CDATA[cpp_class_overload]]></title>
+    <title type="html"><![CDATA[cpp运算符重载笔记]]></title>
     <link href="http://zodiac1111.github.com/blog/2012/08/22/cpp-class-overload/"/>
     <updated>2012-08-22T20:37:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/08/22/cpp-class-overload</id>
-    <content type="html"><![CDATA[<h1>运算符重载</h1>
-
-<p>函数重载 参数列表必须不同<br>
+    <content type="html"><![CDATA[<p>//# 运算符重载
+函数重载 参数列表必须不同<br>
 运算符重载,所有运算符都能.<br>
 C++一种面向对象的语言/面向应用.(放大软件的规模)</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: corsstool | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/corsstool/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-14T23:58:06+08:00</updated>
+  <updated>2012-09-15T00:07:17+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -14,14 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[fedora-17-corsstool]]></title>
+    <title type="html"><![CDATA[crosstool在fedora17下的编译遇到的问题和解决方法]]></title>
     <link href="http://zodiac1111.github.com/blog/2012/08/27/fedora-17-corsstool/"/>
     <updated>2012-08-27T11:15:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/08/27/fedora-17-corsstool</id>
-    <content type="html"><![CDATA[<h2>crosstool在fedora 17下的编译一到的问题/解决</h2>
+    <content type="html"><![CDATA[<p>/<em>##crosstool在fedora 17下的编译一到的问题/解决</em>/</p>
 
-<pre><code>构建过程[blog.chinaunix.net]( http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268),在这个过程中出现的问题,笔记如下:
-</code></pre>
+<p>构建过程<a href="http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268">blog.chinaunix.net</a>,在这个过程中出现的问题,笔记如下:</p>
 
 <h3>问题1:</h3>
 

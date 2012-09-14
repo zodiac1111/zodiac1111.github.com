@@ -5,12 +5,17 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>rtpheader - 喜乐</title>
+  <title>rtp传输协议头浅析 - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="rtp头浅析 参考: 1. http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32
-2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1 &hellip;">
+  <meta name="description" content="//#rtp头浅析
+参考: 1. hi.baidu.com
+2. topic.csdn.net
+下面是一个例子 RFC文档为RFC3550（RFC1889为其过期版本）
+base+0(暂略)此处省略0x33字节
+UDP数据区(base+0x33):
+RTP header:(头数据) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,7 +86,7 @@
   
   <header>
     
-      <h1 class="entry-title">Rtpheader</h1>
+      <h1 class="entry-title">Rtp传输协议头浅析</h1>
     
     
       <p class="meta">
@@ -106,11 +111,10 @@
   </header>
 
 
-<div class="entry-content"><h1>rtp头浅析</h1>
-
-<p>参考:   <br/>
-1. http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32<br/>
-2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html
+<div class="entry-content"><p>//#rtp头浅析
+参考:   <br/>
+1. <a href="http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32">hi.baidu.com</a>
+2. <a href="http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html">topic.csdn.net</a>
 下面是一个例子</p>
 
 <p>RFC文档为RFC3550（RFC1889为其过期版本）
@@ -308,7 +312,7 @@ FU header :1Byte</p>
         <a class="basic-alignment left" href="/blog/2012/08/22/softwave/" title="Previous Post: softwave">&laquo; softwave</a>
       
       
-        <a class="basic-alignment right" href="/blog/2012/08/22/cpp-class-overload/" title="Next Post: cpp_class_overload">cpp_class_overload &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2012/08/22/cpp-class-overload/" title="Next Post: cpp运算符重载笔记">cpp运算符重载笔记 &raquo;</a>
       
     </p>
   </footer>
@@ -329,15 +333,15 @@ FU header :1Byte</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/08/27/fedora-17-corsstool/">fedora-17-corsstool</a>
+        <a href="/blog/2012/08/27/fedora-17-corsstool/">crosstool在fedora17下的编译遇到的问题和解决方法</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/08/22/cpp-class-overload/">cpp_class_overload</a>
+        <a href="/blog/2012/08/22/cpp-class-overload/">cpp运算符重载笔记</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/08/22/rtpheader/">rtpheader</a>
+        <a href="/blog/2012/08/22/rtpheader/">rtp传输协议头浅析</a>
       </li>
     
       <li class="post">
@@ -349,7 +353,7 @@ FU header :1Byte</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2012/08/22/aircrack-ng/">aircrack-ng</a>
+        <a href="/blog/2012/08/22/aircrack-ng/">使用aircrack-ng进行无线网络嗅探和破解</a>
       </li>
     
       <li class="post">
