@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-15T00:07:17+08:00</updated>
+  <updated>2012-09-15T00:10:52+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -614,7 +614,8 @@ format &#8230;
 <!-- more -->
 
 
-<h1>airmon-ng start wlan0</h1>
+<pre><code>#airmon-ng start wlan0 
+</code></pre>
 
 <p>步骤3：探测无线网络，抓取无线数据包。</p>
 
@@ -622,7 +623,8 @@ format &#8230;
 
 <p>不过在正式抓包之前，一般都是先进行预来探测，来获取当前无线网络概况，包括AP的SSID、MAC地址、工作频道、无线客户端MAC及数量等。只需打开一个Shell，输入具体命令如下：</p>
 
-<h1>airodump-ng mon0</h1>
+<pre><code>#airodump-ng mon0 
+</code></pre>
 
 <p>参数解释：</p>
 
@@ -630,7 +632,8 @@ format &#8230;
 
 <p>既然我们看到了本次测试要攻击的目标，就是那个SSID名为TP-LINK的无线路由器，接下来输入命令如下：</p>
 
-<h1>airodump-ng &#8211;ivs –w longas -c 6 wlan0</h1>
+<pre><code>#airodump-ng --ivs –w longas -c 6 wlan0 
+</code></pre>
 
 <p>参数解释：</p>
 
