@@ -9,7 +9,9 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="/##crosstool在fedora 17下的编译一到的问题/解决/ 构建过程blog.chinaunix.net,在这个过程中出现的问题,笔记如下: 问题1: gcc: error trying to exec ‘cc1obj’: execvp: No such file or &hellip;">
+  <meta name="description" content="参考资料: http://www.simplymodbus.ca/TCP.htm
+http://www.electroind.com/pdf/Modbus_messaging_on_TCPIP_implementation_guide_V11.pdf
+http://www.modbus.org/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -77,6 +79,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">一个简单的modbus/tcp实现</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T00:15:00+08:00" pubdate data-updated="true">2012-09-15 00:15</time>
+        
+         | <a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>参考资料:</p>
+
+<ol>
+<li>http://www.simplymodbus.ca/TCP.htm</li>
+<li>http://www.electroind.com/pdf/Modbus_messaging_on_TCPIP_implementation_guide_V11.pdf</li>
+<li>http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf (官网,mbap)</li>
+<li>http://www.modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf (官网,实现指导)</li>
+<li>http://www.modbus.org/specs.php (说明书)</li>
+<li>从Modbus到透明就绪 华镕 编著 第8章 (中文)</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -244,55 +294,6 @@ RTP header:(头数据)位于udp包的base+0x33地址(内容)
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/08/22/softwave/">Softwave</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-22T20:34:00+08:00" pubdate data-updated="true">2012-08-22 20:34</time>
-        
-         | <a href="/blog/2012/08/22/softwave/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>好用的软件</h1>
-
-<h2>互联网</h2>
-
-<p>chromium    web浏览器
-elinks  A text-mode Web browser
-w3m  A pager with Web browsing abilities</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/22/softwave/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -306,6 +307,10 @@ w3m  A pager with Web browsing abilities</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">一个简单的modbus/tcp实现</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/08/27/fedora-17-corsstool/">crosstool在fedora17下的编译遇到的问题和解决方法</a>
