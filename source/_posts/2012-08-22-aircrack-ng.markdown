@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "aircrack-ng"
+title: "使用aircrack-ng进行无线网络嗅探和破解"
 date: 2012-08-22 20:30
 comments: true
 categories: [web]
 ---
->http://netsecurity.51cto.com/art/201105/264844_3.htm
+[来源](http://netsecurity.51cto.com/art/201105/264844_3.htm)
 
 当然，通过输入iwconfig查看也是可以滴。这个命令专用于查看无线网卡，不像ifconfig那样查看所有适配器。
 

@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "rtpheader"
+title: "rtp传输协议头浅析"
 date: 2012-08-22 20:35
 comments: true
 categories: 
 ---
-#rtp头浅析
+//#rtp头浅析
 参考: 	
-1. http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32  
-2. http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html
+1. [hi.baidu.com](http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32)
+2. [topic.csdn.net](http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html)
 下面是一个例子
 
 RFC文档为RFC3550（RFC1889为其过期版本）

@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "fedora-17-corsstool"
+title: "crosstool在fedora17下的编译遇到的问题和解决方法"
 date: 2012-08-27 11:15
 comments: true
 categories: corsstool
 ---
-##crosstool在fedora 17下的编译一到的问题/解决
+/*##crosstool在fedora 17下的编译一到的问题/解决*/
 
-    构建过程[blog.chinaunix.net]( http://blog.chinaunix.net/space.php?uid=20543672&do=blog&id=94268),在这个过程中出现的问题,笔记如下:
+构建过程[blog.chinaunix.net]( http://blog.chinaunix.net/space.php?uid=20543672&do=blog&id=94268),在这个过程中出现的问题,笔记如下:
 
 ###问题1:
 

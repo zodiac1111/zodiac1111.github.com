@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "cpp_class_overload"
+title: "cpp运算符重载笔记"
 date: 2012-08-22 20:37
 comments: true
 categories: [c++]
 ---
-# 运算符重载
+//# 运算符重载
 函数重载 参数列表必须不同<br>
 运算符重载,所有运算符都能.<br>
 C++一种面向对象的语言/面向应用.(放大软件的规模)
