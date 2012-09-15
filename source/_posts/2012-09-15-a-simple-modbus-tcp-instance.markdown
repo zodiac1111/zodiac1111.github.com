@@ -3,7 +3,7 @@ layout: post
 title: "简单的modbus/tcp实现"
 date: 2012-09-15 00:15
 comments: true
-categories: modbus cpp
+categories: [modbus,c++]
 ---
 参考资料:
 

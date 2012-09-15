@@ -39,7 +39,7 @@ pygments: false # default python pygments have been replaced by pygments.rb
 
 paginate: 5         # Posts per page on the blog index
 pagination_dir: blog  # Directory base for pagination URLs eg. /blog/page/2/
-recent_posts: 16       # Posts in the sidebar Recent Posts section
+recent_posts: 7      # Posts in the sidebar Recent Posts section
 excerpt_link: "Read more &rarr;"  # "Continue reading" link text at the bottom of excerpted articles
 
 titlecase: true       # Converts page and post titles to titlecase
@@ -65,7 +65,7 @@ github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user: 
+twitter_user: zodiac_2012
 twitter_tweet_count: 0
 twitter_show_replies: false
 twitter_follow_button: false
@@ -82,11 +82,11 @@ googleplus_user:
 googleplus_hidden: false
 
 # Pinboard
-pinboard_user:
+pinboard_user: 
 pinboard_count: 3
 
 # Delicious
-delicious_user:
+delicious_user: 
 delicious_count: 3
 
 # Disqus Comments

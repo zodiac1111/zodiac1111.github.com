@@ -1,9 +1,11 @@
 ---
 layout: page
 title: "about"
-date: 2012-08-22 21:11
-comments: true
-sharing: true
-footer: true
+date: 2012-07-24 03:16
+comments: false
+sharing: false
+footer: false
 ---
-更多笔记 查看note项目
+轻量级博客框架.
+
+这里是我的分享.

@@ -3,7 +3,7 @@ layout: post
 title: "vim查找替换"
 date: 2012-08-21 17:15
 comments: true
-categories: vim
+categories: [vim]
 ---
 `#vim查找替换`
 参考资料:http://www.chinavim.org/vivim-%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%A4%A7%E5%85%A8.html
