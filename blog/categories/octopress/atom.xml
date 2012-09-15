@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: octopress | 喜乐]]></title>
+  <link href="http://zodiac1111.github.com/blog/categories/octopress/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.com/"/>
+  <updated>2012-09-15T21:15:10+08:00</updated>
+  <id>http://zodiac1111.github.com/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用octopress一些错误和解决方式]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/09/15/some-octopress-oops/"/>
+    <updated>2012-09-15T19:21:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/09/15/some-octopress-oops</id>
+    <content type="html"><![CDATA[<h1>生成错误</h1>
+
+<p>错误现象类似这样:
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/home/use1/.gem/ruby/1.9.1/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in &lt;code>&lt;top (required)&gt;': iconv will be deprecated in the future, use String#encode instead.
+</span><span class='line'>Configuration from /home/use1/blog/octopress/_config.yml
+</span><span class='line'>Building site: source -&gt; public
+</span><span class='line'>/usr/share/ruby/psych.rb:203:in&lt;/code>parse': (&lt;unknown>): found unexpected end of stream while scanning a quoted scalar at line 3 column 8 (Psych::SyntaxError)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>from /usr/share/ruby/psych.rb:203:in `parse_stream'
+</span><span class='line'>from /usr/share/ruby/psych.rb:151:in `parse'
+</span><span class='line'>from /usr/share/ruby/psych.rb:127:in `load'
+</span><span class='line'>from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/convertible.rb:33:in `read_yaml'
+</span><span class='line'>from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/post.rb:39:in `initialize'
+</span><span class='line'>from /home/use1/blog/octopress/plugins/preview_unpublished.rb:23:in `new'
+</span><span class='line'>from /home/use1/blog/octopress/plugins/preview_unpublished.rb:23:in `block in read_posts'
+</span><span class='line'>from /home/use1/blog/octopress/plugins/preview_unpublished.rb:21:in `each'
+</span><span class='line'>from /home/use1/blog/octopress/plugins/preview_unpublished.rb:21:in `read_posts'
+</span><span class='line'>from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:128:in `read_directories'
+</span><span class='line'>from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:98:in `read'
+</span><span class='line'>from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:38:in `process'
+</span><span class='line'>from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/bin/jekyll:250:in `&lt;top (required)&gt;'
+</span><span class='line'>from /home/use1/bin/jekyll:23:in `load'
+</span><span class='line'>from /home/use1/bin/jekyll:23:in `&lt;main&gt;'
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<!-- more -->
+
+
+<p>造成以上错误的原因很多,多数是修改博客文章属性(如果不是修改博客框架代码的话)失误造成的,下面就是的错误的范例:</p>
+
+<h2><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/h2>
+</span><span class='line'>
+</span><span class='line'>&lt;p>layout: post
+</span><span class='line'>title: "my title
+</span><span class='line'>date: 2012-09-15 19:21
+</span><span class='line'>comments: true&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h2>categories:[tag1],[tag2]&lt;/h2>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div>
+1. title 一栏的值应为 <code>"my title"</code> ,少了个引号
+2. categories 一栏的写法应该为 <code>[tag1,tag2]</code> .
+3. categories一栏的冒号后面应该空一格,像这样: <code>categories: [tag1,tag2]</code></p>
+
+<p>是需要眼睛足够"雪亮"啊.</p>
+
+<h3>参考</h3>
+
+<ol>
+<li><a href="http://blog.micronarrativ.org/blog/2012/09/07/wordpress-til-octopress">blog.micronarrativ.org</a></li>
+<li><a href="http://www.cnblogs.com/heart-runner/archive/2012/02/14/2351136.html">cnblogs.com</a></li>
+</ol>
+
+
+<h1>关于Codeblock代码高亮</h1>
+
+<p>现象:
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/home/use1/.gem/ruby/1.9.1/gems/ffi-1.0.11/lib/ffi/library.rb:121:in &lt;code>block in ffi_lib': Could not open library 'lib.so': lib.so: cannot open shared object file: No such file or directory (LoadError)
+</span><span class='line'>........</span></code></pre></td></tr></table></div></figure></notextile></div>
+看说明貌似是某个库没有.因为这种代码高亮是在本地将语法通过一些程序直接生成再上传到网上的,而高亮程序需要这个库.在fedora上直接</code>yum install python-devel`安装这个软件包即可解决.</p>
+
+<h3>参考:</h3>
+
+<ol>
+<li><a href="https://github.com/tmm1/pygments.rb/issues/10">github.com/tmm1/pygments.rb/issues</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>
