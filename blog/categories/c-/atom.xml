@@ -4,7 +4,7 @@
   <title><![CDATA[Category: c++ | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/c-/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-15T18:53:30+08:00</updated>
+  <updated>2012-09-15T20:18:21+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[简单的modbus/tcp实现]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/09/15/a-simple-modbus-tcp-instance/"/>
+    <updated>2012-09-15T00:15:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/09/15/a-simple-modbus-tcp-instance</id>
+    <content type="html"><![CDATA[<p>参考资料:</p>
+
+<ol>
+<li><a href="http://www.simplymodbus.ca/TCP.htm">www.simplymodbus.ca</a></li>
+<li><a href="http://www.electroind.com/pdf/Modbus_messaging_on_TCPIP_implementation_guide_V11.pdf">Modbus_messaging_on_TCPIP_implementation_guide</a></li>
+<li><a href="http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf">Modbus_Application_Protocol_V1_1b.pdf</a>(官网,mbap)</li>
+<li><a href="http://www.modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf">Modbus_Messaging_Implementation_Guide_V1_0b.pdf</a>(官网,实现指导)</li>
+<li><a href="http://www.modbus.org/specs.php">www.modbus.org/specs.php</a>(说明书)</li>
+<li>从Modbus到透明就绪 华镕 编著 第8章 (中文)</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[cpp运算符重载笔记]]></title>

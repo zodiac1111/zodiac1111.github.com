@@ -3,7 +3,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>喜乐</title>
+	<title>使用octopress一些错误和解决方式 - 喜乐</title>
 	<meta name="author" content="zodiac1111">
 
 	
@@ -26,7 +26,7 @@
 17
 18
 19
-/home/use1/.gem/ruby/1.9.1/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in `&lt &hellip;">
+/home/use1/.gem/ruby/1.9.1/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in `&lt; &hellip;">
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -92,13 +92,9 @@
 	
 		
 	
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h1 class="title"><a href="/blog/2012/09/15/some-octopress-oops/">使用octopress一些错误和解决方式</a></h1>
-	<div class="entry-content">
-		<h1>生成错误</h1>
+	<div id="content" class="inner"><article class="post">
+	<h1 class="title">使用octopress一些错误和解决方式</h1>
+	<div class="entry-content"><h1>生成错误</h1>
 
 <p>错误现象类似这样:</p>
 
@@ -144,10 +140,63 @@
 
 
 
+<!-- more -->
 
-		
-		<a href="/blog/2012/09/15/some-octopress-oops/" class="more-link">Read more &rarr;</a>
-	</div>
+
+<p>造成以上错误的原因很多,多数是修改博客文章属性(如果不是修改博客框架代码的话)失误造成的,下面就是的错误的范例:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>---
+</span><span class='line'>layout: post
+</span><span class='line'>title: "my title
+</span><span class='line'>date: 2012-09-15 19:21
+</span><span class='line'>comments: true
+</span><span class='line'>categories:[tag1],[tag2]
+</span><span class='line'>---</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>title 一栏的值应为 <code>"my title"</code> ,少了个引号</li>
+<li>categories 一栏的写法应该为 <code>[tag1,tag2]</code> .</li>
+<li>categories一栏的冒号后面应该空一格,像这样: <code>categories: [tag1,tag2]</code></li>
+</ol>
+
+
+<p>是需要眼睛足够&#8221;雪亮&#8221;啊.</p>
+
+<h3>参考</h3>
+
+<ol>
+<li><a href="http://blog.micronarrativ.org/blog/2012/09/07/wordpress-til-octopress">blog.micronarrativ.org</a></li>
+<li><a href="http://www.cnblogs.com/heart-runner/archive/2012/02/14/2351136.html">cnblogs.com</a></li>
+</ol>
+
+
+<h1>关于Codeblock代码高亮</h1>
+
+<p>现象:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/home/use1/.gem/ruby/1.9.1/gems/ffi-1.0.11/lib/ffi/library.rb:121:in `block in ffi_lib': Could not open library 'lib.so': lib.so: cannot open shared object file: No such file or directory (LoadError)
+</span><span class='line'>........</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看说明貌似是某个库没有.因为这种代码高亮是在本地将语法通过一些程序直接生成再上传到网上的,而高亮程序需要这个库.在fedora上直接<code>yum install python-devel</code>安装这个软件包即可解决.</p>
+
+<h3>参考:</h3>
+
+<ol>
+<li><a href="https://github.com/tmm1/pygments.rb/issues/10">github.com/tmm1/pygments.rb/issues</a></li>
+</ol>
+
+</div>
 
 
 <div class="meta">
@@ -168,211 +217,30 @@
 
 </div>
 	
-		<span class="comments"><a href="/blog/2012/09/15/some-octopress-oops//index.html#disqus_thread">Comments</a></span>
+		<span class="comments"><a href="/blog/2012/09/15/some-octopress-oops/#disqus_thread">Comments</a></span>
 	
 </div></article>
 
-
-    <article class="post">
-	<h1 class="title"><a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">简单的modbus/tcp实现</a></h1>
-	<div class="entry-content">
-		<p>参考资料:</p>
-
-<ol>
-<li><a href="http://www.simplymodbus.ca/TCP.htm">www.simplymodbus.ca</a></li>
-<li><a href="http://www.electroind.com/pdf/Modbus_messaging_on_TCPIP_implementation_guide_V11.pdf">Modbus_messaging_on_TCPIP_implementation_guide</a></li>
-<li><a href="http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf">Modbus_Application_Protocol_V1_1b.pdf</a>(官网,mbap)</li>
-<li><a href="http://www.modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf">Modbus_Messaging_Implementation_Guide_V1_0b.pdf</a>(官网,实现指导)</li>
-<li><a href="http://www.modbus.org/specs.php">www.modbus.org/specs.php</a>(说明书)</li>
-<li>从Modbus到透明就绪 华镕 编著 第8章 (中文)</li>
-</ol>
-
-
-		
-		
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	
+	<a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+	
+	<a class="addthis_counter addthis_pill_style"></a>
 	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-15T00:15:00+08:00" pubdate data-updated="true">2012-09-15 00:15</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/c-/'>c++</a>, <a class='category' href='/blog/categories/modbus/'>modbus</a>
-
-
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
-	
-		<span class="comments"><a href="/blog/2012/09/15/a-simple-modbus-tcp-instance//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h1 class="title"><a href="/blog/2012/08/27/fedora-17-corsstool/">Crosstool在fedora17下的编译遇到的问题和解决方法</a></h1>
-	<div class="entry-content">
-		<p>/<em>##crosstool在fedora 17下的编译一到的问题/解决</em>/</p>
-
-<p>构建过程<a href="http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268">blog.chinaunix.net</a>,在这个过程中出现的问题,笔记如下:</p>
-
-<h3>问题1:</h3>
-
-<pre><code>gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory
-</code></pre>
-
-<p>obj-c的库问题,参看
-<a href="http://lok.me/a/1182.html">http://lok.me/a/1182.html</a></p>
-
-<p>一句话解决方式</p>
-
-<p><code>yum install gcc-objc gcc-objc++ libobjc</code></p>
-
-
-		
-		<a href="/blog/2012/08/27/fedora-17-corsstool/" class="more-link">Read more &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
 
 
 
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-27T11:15:00+08:00" pubdate data-updated="true">2012-08-27 11:15</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/corsstool/'>corsstool</a>
-
-
+<section id="comment">
+    <h1 class="title">Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-	
-		<span class="comments"><a href="/blog/2012/08/27/fedora-17-corsstool//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h1 class="title"><a href="/blog/2012/08/22/cpp-class-overload/">Cpp运算符重载笔记</a></h1>
-	<div class="entry-content">
-		<p>//# 运算符重载
-函数重载 参数列表必须不同<br>
-运算符重载,所有运算符都能.<br>
-C++一种面向对象的语言/面向应用.(放大软件的规模)</p>
-
-<p><strong>问题由来:例如两个类的相加,怎么实现?</strong></p>
-
-<p>例:人民币类 元/角</p>
-
-<pre><code>RMB m1,m2,m3;
-m3=m1+m2;//两个对象相加
-m3.display();
-m3++;//单目运算.
-</code></pre>
-
-
-		
-		<a href="/blog/2012/08/22/cpp-class-overload/" class="more-link">Read more &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-22T20:37:00+08:00" pubdate data-updated="true">2012-08-22 20:37</time></div>
-	<div class="tags">
-
-
-	<a class='category' href='/blog/categories/c-/'>c++</a>
-
-
+</section>
 </div>
-	
-		<span class="comments"><a href="/blog/2012/08/22/cpp-class-overload//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-
-    <article class="post">
-	<h1 class="title"><a href="/blog/2012/08/22/rtpheader/">Rtp传输协议头浅析</a></h1>
-	<div class="entry-content">
-		<p>//#rtp头浅析
-参考:   <br/>
-1. <a href="http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32">hi.baidu.com</a>
-2. <a href="http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html">topic.csdn.net</a>
-下面是一个例子</p>
-
-<p>RFC文档为RFC3550（RFC1889为其过期版本）
-base+0(暂略)此处省略0x33字节
-UDP数据区(base+0x33):
-RTP header:(头数据)位于udp包的base+0x33地址(内容)
-80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序</p>
-
-
-		
-		<a href="/blog/2012/08/22/rtpheader/" class="more-link">Read more &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-22T20:35:00+08:00" pubdate data-updated="true">2012-08-22 20:35</time></div>
-	<div class="tags">
-
-</div>
-	
-		<span class="comments"><a href="/blog/2012/08/22/rtpheader//index.html#disqus_thread">Comments</a></span>
-	
-</div></article>
-
-<nav id="pagenavi">
-    
-    
-        <a href="/blog/page/2/" class="next">Next</a>
-    
-    <div class="center"><a href="/blog/archives">Blog Archives</a></div>
-</nav></div>
 	<footer id="footer" class="inner">Copyright &copy; 2012
 
     zodiac1111
@@ -391,7 +259,10 @@ RTP header:(头数据)位于udp包的base+0x33地址(内容)
       var disqus_shortname = 'zodiac1111blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/09/15/some-octopress-oops/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2012/09/15/some-octopress-oops/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
