@@ -20,7 +20,11 @@ int main()
 $ sudo make me a sandwich
 ```
 
+#影片测试
 
+<div class="video-container">
+	<embed src="http://player.youku.com/player.php/sid/XNDQ4ODQxNTI0/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+</div>
 
 #图片测试
 {% img http://placekitten.com/890/280 %}

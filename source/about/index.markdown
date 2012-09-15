@@ -1,9 +1,9 @@
 ---
 layout: page
 title: "about"
-date: 2012-08-22 21:02
+date: 2012-08-22 21:11
 comments: true
 sharing: true
 footer: true
 ---
-for more infomation ref the 'note'repo
+更多笔记 查看note项目
