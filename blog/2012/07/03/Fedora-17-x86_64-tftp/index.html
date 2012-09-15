@@ -1,112 +1,80 @@
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!DOCTYPE HTML>
+<html>
 <head>
-  <meta charset="utf-8">
-  <title>Fedora 17 x86_64安装配置TFTP服务器 - 喜乐</title>
-  <meta name="author" content="zodiac1111">
+	<meta charset="utf-8">
+	<title>Fedora 17 x86_64安装配置TFTP服务器 - 喜乐</title>
+	<meta name="author" content="zodiac1111">
 
-  
-  <meta name="description" content="http://www.oklinux.cn/html/network/ser/20090729/72351.html f17下有些东西有所改变,网上一些教程略显陈旧. 安装环境：Fedora 1.安装xinetd
+	
+	<meta name="description" content="http://www.oklinux.cn/html/network/ser/20090729/72351.html f17下有些东西有所改变,网上一些教程略显陈旧. 安装环境：Fedora 1.安装xinetd
 这是一个守护程序(?) yum install xinetd 2.安装tftp &hellip;">
-  
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/07/03/Fedora-17-x86_64-tftp/">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="/javascripts/ender.js"></script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="/atom.xml" rel="alternate" title="喜乐" type="application/atom+xml">
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-34836207-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
+	<link href="/atom.xml" rel="alternate" title="喜乐" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">喜乐</a></h1>
-  
-    <h2>我的网络记事簿</h2>
-  
-</hgroup>
+<body>
+	<header id="header" class="inner"><h1><a href="/">喜乐</a></h1>
+<nav id="main-nav"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul class="main">
+	<li><a href="/">Blog</a></li>
+	<li><a href="/blog/archives">Archives</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="http://google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:zodiac1111.github.com">
+			</form>
+		</div>
+	</div>
+</nav>
+<nav id="sub-nav" class="alignright">
+	<div class="social">
+		
+		
+		
+		
+		<a class="github" href="https://github.com/zodiac1111" title="GitHub">GitHub</a>
+		
+		
+		
+		
+		
+		<a class="rss" href="/atom.xml" title="RSS">RSS</a>
+		
+	</div>
+	<form class="search" action="http://google.com/search" method="get">
+		<input class="alignright" type="text" name="q" results="0">
+		<input type="hidden" name="q" value="site:zodiac1111.github.com">
+	</form>
+</nav>
 
 </header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:zodiac1111.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">首页</a></li>
-  <li><a href="/blog/archives">归档</a></li>
-  <li><a href="/blog/about">关于</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
-    
-      <h1 class="entry-title">Fedora 17 x86_64安装配置TFTP服务器</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-07-03T10:58:00+08:00" pubdate data-updated="true">2012-07-03 10:58</time>
-        
-         | <a href="#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><blockquote><p>http://www.oklinux.cn/html/network/ser/20090729/72351.html</p></blockquote>
+	
+		
+	
+	<div id="content" class="inner"><article class="post">
+	<h1 class="title">Fedora 17 x86_64安装配置TFTP服务器</h1>
+	<div class="entry-content"><blockquote><p>http://www.oklinux.cn/html/network/ser/20090729/72351.html</p></blockquote>
 
 <hr />
 
@@ -207,14 +175,8 @@
 </div>
 
 
-  <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
-
-      
+<div class="meta">
+	<div class="date">
 
 
 
@@ -226,146 +188,52 @@
   
 
 
-<time datetime="2012-07-03T10:58:00+08:00" pubdate data-updated="true">2012-07-03 10:58</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/fedora/'>Fedora</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/tftp/'>tftp</a>
-  
-</span>
+<time datetime="2012-07-03T10:58:00+08:00" pubdate data-updated="true">2012-07-03 10:58</time></div>
+	<div class="tags">
 
 
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://zodiac1111.github.com/blog/2012/07/03/Fedora-17-x86_64-tftp/" data-via="" data-counturl="http://zodiac1111.github.com/blog/2012/07/03/Fedora-17-x86_64-tftp/" >Tweet</a>
-  
-  
-  
+	<a class='category' href='/blog/categories/fedora/'>Fedora</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/tftp/'>tftp</a>
+
+
+</div>
+	
+		<span class="comments"><a href="/blog/2012/07/03/Fedora-17-x86_64-tftp/#disqus_thread">Comments</a></span>
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+	<a class="addthis_counter addthis_pill_style"></a>
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2012/06/03/hello-world/" title="Previous Post: hello world">&laquo; hello world</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2012/08/21/set/" title="Next Post: set">set &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
 
-  <section>
-    <h1>Comments</h1>
+
+<section id="comment">
+    <h1 class="title">Comments</h1>
     <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
-
+</section>
 </div>
+	<footer id="footer" class="inner">Copyright &copy; 2012
 
-<aside class="sidebar">
-  
-    <section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">简单的modbus/tcp实现</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/27/fedora-17-corsstool/">crosstool在fedora17下的编译遇到的问题和解决方法</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/22/cpp-class-overload/">cpp运算符重载笔记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/22/rtpheader/">rtp传输协议头浅析</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/22/softwave/">softwave</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/22/other/">other</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/22/aircrack-ng/">使用aircrack-ng进行无线网络嗅探和破解</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/21/vim-search-replace/">vim查找替换</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/21/set/">set</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/07/03/Fedora-17-x86_64-tftp/">Fedora 17 x86_64安装配置TFTP服务器</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/06/03/hello-world/">hello world</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'zodiac1111',
-            count: 5,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-
-
-
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - zodiac1111 -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
+    zodiac1111
 
 </footer>
-  
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
 
 <script type="text/javascript">
       var disqus_shortname = 'zodiac1111blog';
@@ -385,21 +253,17 @@
 
 
 
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-34836207-1']);
+		_gaq.push(['_trackPageview']);
 
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
 
 
 
