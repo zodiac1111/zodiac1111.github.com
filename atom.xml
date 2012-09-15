@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-15T11:30:10+08:00</updated>
+  <updated>2012-09-15T11:34:10+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -866,6 +866,13 @@ airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
 </span><span class='line'>  return 0;
 </span><span class='line'>}
 </span><span class='line'>$ sudo make me a sandwich</span></code></pre></td></tr></table></div></figure>
+
+
+<h1>影片测试</h1>
+
+<div class="video-container">
+    <embed src="http://player.youku.com/player.php/sid/XNDQ4ODQxNTI0/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+</div>
 
 
 <h1>图片测试</h1>
