@@ -271,85 +271,8 @@
 
 <ol>
 <li>-m tcp :tcp模式</li>
-<li>-p 10001 : 监听端口
-
-<h2>例子</h2>
-
-<p>打开连个终端分别运行:</p>
-
-<p>  #从站
-  ./diagslave -m tcp -p 10001</p></li>
+<li>-p 10001 : 监听端口</li>
 </ol>
-
-
-<p>和</p>
-
-<pre><code>#主站
-./modpoll -m tcp -a 2 -t4:hex -r 10 -c 3  127.0.0.1 -1 -p 10001
-</code></pre>
-
-<p>则,在从站可以看到如下显示:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>diagslave 2.12 - FieldTalk(tm) Modbus(R) Diagnostic Slave Simulator
-</span><span class='line'>Copyright (c) 2002-2012 proconX Pty Ltd
-</span><span class='line'>Visit http://www.modbusdriver.com for Modbus libraries and tools.
-</span><span class='line'>
-</span><span class='line'>Protocol configuration: MODBUS/TCP
-</span><span class='line'>Slave configuration: address = -1, master activity t/o = 3.00
-</span><span class='line'>TCP configuration: port = 10001, connection t/o = 60.00
-</span><span class='line'>
-</span><span class='line'>Server started up successfully.
-</span><span class='line'>Listening to network (Ctrl-C to stop)
-</span><span class='line'>
-</span><span class='line'>validateMasterIpAddr: accepting connection from 127.0.0.1 ->显示从127.0.0.1链接到从站
-</span><span class='line'>Slave   2: readHoldingRegisters from 10, 3 references  ->显示读取功能 和 从10读取3个寄存器
-</span><span class='line'>...................</span></code></pre></td></tr></table></div></figure>
-
-
-<p>同时主站如下显示:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>modpoll 3.1 - FieldTalk(tm) Modbus(R) Master Simulator
-</span><span class='line'>Copyright (c) 2002-2011 proconX Pty Ltd
-</span><span class='line'>Visit http://www.modbusdriver.com for Modbus libraries and tools.
-</span><span class='line'>
-</span><span class='line'>Protocol configuration: MODBUS/TCP ->模式
-</span><span class='line'>Slave configuration...: address = 2, start reference = 10, count = 3 ->从站地址,起始寄存器,寄存器数量
-</span><span class='line'>Communication.........: 127.0.0.1, port 10001, t/o 1.00 s, poll rate 1000 ms ->ip 端口
-</span><span class='line'>Data type.............: 16-bit register (hex), output (holding) register table ->数据类型
-</span><span class='line'>
-</span><span class='line'>-- Polling slave... 
-</span><span class='line'>[10]: 0x0000 ->数据 (仅仅能用用来测试通路,没有实际意义)
-</span><span class='line'>[11]: 0x0000
-</span><span class='line'>[12]: 0x0000</span></code></pre></td></tr></table></div></figure>
-
-
 
 
 </div>

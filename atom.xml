@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-17T21:08:35+08:00</updated>
+  <updated>2012-09-17T21:10:47+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -172,16 +172,20 @@
 
 <ol>
 <li>-m tcp :tcp模式</li>
-<li>-p 10001 : 监听端口
+<li>-p 10001 : 监听端口</li>
+</ol>
+
+
+<!-- more -->
+
 
 <h2>例子</h2>
 
 <p>打开连个终端分别运行:</p>
 
-<p>  #从站
-  ./diagslave -m tcp -p 10001</p></li>
-</ol>
-
+<pre><code>#从站
+./diagslave -m tcp -p 10001
+</code></pre>
 
 <p>和</p>
 
@@ -249,11 +253,6 @@
 </span><span class='line'>[10]: 0x0000 ->数据 (仅仅能用用来测试通路,没有实际意义)
 </span><span class='line'>[11]: 0x0000
 </span><span class='line'>[12]: 0x0000</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
 
 
 <h2>参考:</h2>
