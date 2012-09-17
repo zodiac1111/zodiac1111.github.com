@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-17T21:29:05+08:00</updated>
+  <updated>2012-09-17T21:30:24+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -113,7 +113,7 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Linux/Fedora 17 安装 man 手册]]></title>
+    <title type="html"><![CDATA[Linux/Fedora 17 安装man手册]]></title>
     <link href="http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-man/"/>
     <updated>2012-09-17T21:18:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-man</id>
@@ -123,7 +123,7 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[使用octopress一些错误和解决方式]]></title>
+    <title type="html"><![CDATA[使用 octopress 一些错误和解决方式]]></title>
     <link href="http://zodiac1111.github.com/blog/2012/09/15/some-octopress-oops/"/>
     <updated>2012-09-15T19:21:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/09/15/some-octopress-oops</id>
