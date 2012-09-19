@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-19T21:28:10+08:00</updated>
+  <updated>2012-09-19T21:28:58+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -79,10 +79,10 @@
 
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpc.nfsd [数量]        #设置最大线程</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpc.nfsd [数量]        #设置最大线程
+</span><span class='line'>man 8 rpc.nfsd        #查看 帮助</span></code></pre></td></tr></table></div></figure>
 
-
-<p>  man 8 rpc.nfsd      #查看 帮助</p>
 
 <!-- more -->
 
@@ -112,9 +112,9 @@
 <h2>启用新的配置</h2>
 
 <p><code>exportfs</code> 指令主要的三个作用：<br/>
-<code>exportfs -rv</code>   重新读取共享配置文件，马上生效 <br/>
-<code>exportfs -auv</code>  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享<br/>
-<code>exportfs -av</code>   显示所有当前机器上的NFS共享目录信息</p>
+1. <code>exportfs -rv</code>   重新读取共享配置文件，马上生效 <br/>
+2. <code>exportfs -auv</code>  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享<br/>
+3. <code>exportfs -av</code>   显示所有当前机器上的NFS共享目录信息</p>
 
 <h2>测试</h2>
 
