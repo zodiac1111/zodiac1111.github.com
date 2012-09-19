@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-19T20:31:30+08:00</updated>
+  <updated>2012-09-19T20:43:06+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -376,9 +376,13 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
 
 <h2>简介</h2>
 
-<p>使用c语言编写的modbus库
-1. 官网:<a href="http://libmodbus.org/">http://libmodbus.org/</a>(墙?)
-2. 代码托管:git <a href="https://github.com/stephane/libmodbus">https://github.com/stephane/libmodbus</a></p>
+<p>使用c语言编写的modbus库</p>
+
+<ol>
+<li>官网:<a href="http://libmodbus.org/">http://libmodbus.org/</a>(墙?)</li>
+<li>代码托管:git <a href="https://github.com/stephane/libmodbus">https://github.com/stephane/libmodbus</a></li>
+</ol>
+
 
 <h1>参考资料:</h1>
 
