@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-19T21:27:02+08:00</updated>
+  <updated>2012-09-19T21:28:10+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -73,8 +73,13 @@
 
 <h3>启用挂载</h3>
 
-<p>启动服务:<code>systemctl restart nfs-server.service</code><br/>
-In older versions of Fedora (for instance Fedora 14),<code>su -c 'service nfs restart'</code></p>
+<p>启动服务:</p>
+
+<p><code>systemctl restart nfs-server.service</code></p>
+
+<p>In older versions of Fedora (for instance Fedora 14),</p>
+
+<p><code>su -c 'service nfs restart'</code></p>
 
 <p>或?且</p>
 
