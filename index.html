@@ -9,7 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="需求 在使用octopress写文章时有些命令记不太全,如 new_post["title"],rake generate,rake preview,rake deploy,rake gen_deploy.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧. &hellip;">
+  <meta name="description" content="在使用octopress写文章时有些命令记不太全,如 new_post["title"],rake generate,rake preview,rake deploy,rake gen_deploy.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -119,19 +119,18 @@
   </header>
 
 
-  <div class="entry-content"><h1>需求</h1>
-
-<p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.于是在git找到了下面这个项目:</p>
+  <div class="entry-content"><p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.于是在git找到了下面这个项目:</p>
 
 <p>rake-completion 网址:<a href="https://github.com/ai/rake-completion">https://github.com/ai/rake-completion</a></p>
 
+<h2>安装</h2>
+
 <p>安装也能简单,如README所示:</p>
 
-<h2>other unix-like</h2>
+<blockquote><p>other unix-like:</p></blockquote>
 
-<p> 我的是fedora,复制<code>rake</code>文件到<code>/etc/bash_completion.d/</code>目录下:</p>
-
-<pre><code>su -c 'cp ./rake /etc/bash_completion.d/'
+<pre><code>#复制`rake`文件到`/etc/bash_completion.d/`目录下:
+su -c 'cp ./rake /etc/bash_completion.d/'
 </code></pre>
 
 <h2>使用</h2>

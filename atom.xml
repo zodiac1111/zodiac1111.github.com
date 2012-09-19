@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-19T21:30:04+08:00</updated>
+  <updated>2012-09-19T21:35:59+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -18,19 +18,18 @@
     <link href="http://zodiac1111.github.com/blog/2012/09/19/rake-completion-in-bash/"/>
     <updated>2012-09-19T21:07:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/09/19/rake-completion-in-bash</id>
-    <content type="html"><![CDATA[<h1>需求</h1>
-
-<p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.于是在git找到了下面这个项目:</p>
+    <content type="html"><![CDATA[<p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.于是在git找到了下面这个项目:</p>
 
 <p>rake-completion 网址:<a href="https://github.com/ai/rake-completion">https://github.com/ai/rake-completion</a></p>
 
+<h2>安装</h2>
+
 <p>安装也能简单,如README所示:</p>
 
-<h2>other unix-like</h2>
+<blockquote><p>other unix-like:</p></blockquote>
 
-<p> 我的是fedora,复制<code>rake</code>文件到<code>/etc/bash_completion.d/</code>目录下:</p>
-
-<pre><code>su -c 'cp ./rake /etc/bash_completion.d/'
+<pre><code>#复制`rake`文件到`/etc/bash_completion.d/`目录下:
+su -c 'cp ./rake /etc/bash_completion.d/'
 </code></pre>
 
 <h2>使用</h2>
