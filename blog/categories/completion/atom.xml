@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: completion | 喜乐]]></title>
+  <link href="http://zodiac1111.github.com/blog/categories/completion/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.com/"/>
+  <updated>2012-09-19T21:21:53+08:00</updated>
+  <id>http://zodiac1111.github.com/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使rake自动补全task]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/09/19/rake-completion-in-bash/"/>
+    <updated>2012-09-19T21:07:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/09/19/rake-completion-in-bash</id>
+    <content type="html"><![CDATA[<h1>需求</h1>
+
+<p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.于是在git找到了下面这个项目:</p>
+
+<p>rake-completion 网址:<a href="https://github.com/ai/rake-completion">https://github.com/ai/rake-completion</a></p>
+
+<p>安装也能简单,如README所示:</p>
+
+<h2>other unix-like</h2>
+
+<p> 我的是fedora,复制<code>rake</code>文件到<code>/etc/bash_completion.d/</code>目录下:</p>
+
+<pre><code>su -c 'cp ./rake /etc/bash_completion.d/'
+</code></pre>
+
+<h2>使用</h2>
+
+<p> 需要补全的时候按<code>Tab</code>键就好啦~</p>
+
+<p><code>
+[user1@localhost octopress]$ rake &lt;Tab&gt;
+clean                     isolate[filename]         set_root_dir[dir]
+copydot[source,dest]      list                      setup_github_pages[repo]
+deploy                    new_page[filename]        update_source[theme]
+gen_deploy                new_post[title]           update_style[theme]
+generate                  preview                   watch
+install[theme]            push
+integrate                 rsync
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>
