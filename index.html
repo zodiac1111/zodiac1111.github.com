@@ -9,9 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="NFS服务器安装和配置 OS:fedora17.i686 &amp; fedora17.x86_64 &amp; f17beta.i686 &amp; f17beta.x86-64 现在已经改成不用 imapXXXX的了
-改成 守护进程rpc.nfsd
-安装守护进程程序: 搜索:yum &hellip;">
+  <meta name="description" content="需求 在使用octopress写文章时有些命令记不太全,如 new_post["title"],rake generate,rake preview,rake deploy,rake gen_deploy.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +86,83 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/09/19/rake-completion-in-bash/">使rake自动补全task</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-19T21:07:00+08:00" pubdate data-updated="true">2012-09-19 21:07</time>
+        
+         | <a href="/blog/2012/09/19/rake-completion-in-bash/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>需求</h1>
+
+<p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.于是在git找到了下面这个项目</p>
+
+<h1>rake-completion</h1>
+
+<p>网址:<a href="https://github.com/ai/rake-completion">https://github.com/ai/rake-completion</a></p>
+
+<p>安装也能简单,如README所示:</p>
+
+<h2>other unix-like 我的是fedora</h2>
+
+<p> 复制<code>rake</code>文件到<code>/etc/bash_completion.d/</code>目录下.</p>
+
+<pre><code>su -c 'cp ./rake /etc/bash_completion.d/'
+</code></pre>
+
+<h2>使用</h2>
+
+<p> 需要补全的时候按<code>Tab</code>键就好啦~</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[user1@localhost octopress]$ rake &lt;Tab&gt;
+</span><span class='line'>clean                     isolate[filename]         set_root_dir[dir]
+</span><span class='line'>copydot[source,dest]      list                      setup_github_pages[repo]
+</span><span class='line'>deploy                    new_page[filename]        update_source[theme]
+</span><span class='line'>gen_deploy                new_post[title]           update_style[theme]
+</span><span class='line'>generate                  preview                   watch
+</span><span class='line'>install[theme]            push                      
+</span><span class='line'>integrate                 rsync    </span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -440,65 +515,6 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/08/27/fedora-17-corsstool/">Crosstool在fedora17下的编译遇到的问题和解决方法</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-27T11:15:00+08:00" pubdate data-updated="true">2012-08-27 11:15</time>
-        
-         | <a href="/blog/2012/08/27/fedora-17-corsstool/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>/<em>##crosstool在fedora 17下的编译一到的问题/解决</em>/</p>
-
-<p>构建过程<a href="http://blog.chinaunix.net/space.php?uid=20543672&amp;do=blog&amp;id=94268">blog.chinaunix.net</a>,在这个过程中出现的问题,笔记如下:</p>
-
-<h3>问题1:</h3>
-
-<pre><code>gcc: error trying to exec ‘cc1obj’: execvp: No such file or directory
-</code></pre>
-
-<p>obj-c的库问题,参看
-<a href="http://lok.me/a/1182.html">http://lok.me/a/1182.html</a></p>
-
-<p>一句话解决方式</p>
-
-<p><code>yum install gcc-objc gcc-objc++ libobjc</code></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/27/fedora-17-corsstool/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -512,6 +528,10 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/19/rake-completion-in-bash/">使rake自动补全task</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/09/17/linux-fedora-17-install-nfs-server/">Linux/Fedora 17下安装配置NFS服务</a>
@@ -535,10 +555,6 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
     
       <li class="post">
         <a href="/blog/2012/08/22/cpp-class-overload/">cpp运算符重载笔记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/22/rtpheader/">rtp传输协议头浅析</a>
       </li>
     
   </ul>
