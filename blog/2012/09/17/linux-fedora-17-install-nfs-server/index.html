@@ -158,21 +158,19 @@
 <li>共享目录  服务器共享的目录</li>
 <li>主机名 指示能够访问这个共享目录的主机</li>
 <li>权限    指示主机访问该共享目录的权限</li>
+<li>ro=readonly只读 rw=读写</li>
+<li>sync是设置NFS服务器同步写磁盘，不会导致数据的丢失
+
+<h2>关闭防火墙(如果你和我一样不太了解如何配置防火墙的话)</h2></li>
 </ul>
 
 
-<p>权限:
-ro=readonly只读 rw=读写
-sync是设置NFS服务器同步写磁盘，不会导致数据的丢失</p>
-
-<h2>关闭防火墙(如果你和我一样不太了解如何配置防火墙的话)</h2>
-
 <h2>启用新的配置</h2>
 
-<p>exportfs 指令主要的三个作用：<br/>
-exportfs -rv   重新读取共享配置文件，马上生效 <br/>
-exportfs -auv  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享<br/>
-exportfs -av   显示所有当前机器上的NFS共享目录信息</p>
+<p><code>exportfs</code> 指令主要的三个作用：<br/>
+<code>exportfs -rv</code>   重新读取共享配置文件，马上生效 <br/>
+<code>exportfs -auv</code>  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享<br/>
+<code>exportfs -av</code>   显示所有当前机器上的NFS共享目录信息</p>
 
 <h2>测试</h2>
 
