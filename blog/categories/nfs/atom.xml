@@ -4,7 +4,7 @@
   <title><![CDATA[Category: nfs | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/nfs/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-19T21:21:53+08:00</updated>
+  <updated>2012-09-19T21:24:10+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -33,11 +33,14 @@
 <li><p>使用:</p>
 
 <p> rpc.nfsd [数量]       #设置最大线程
- man 8 rpc.nfsd      #查看 帮助</p>
-
-<h2>配置可用NFS服务器的目录</h2></li>
+ man 8 rpc.nfsd      #查看 帮助</p></li>
 </ol>
 
+
+<!-- more -->
+
+
+<h2>配置可用NFS服务器的目录</h2>
 
 <p>使用您喜欢的文本编辑器编辑/etc/exports 文件
 例如:<code>vi /etc/exports</code></p>
