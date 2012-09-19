@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-19T21:24:48+08:00</updated>
+  <updated>2012-09-19T21:26:13+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -30,10 +30,10 @@
 <li>得到:<code>nfs-utils.i686 : NFS utilities and supporting clients and daemons for the kernel NFS server</code><br/>
  看描述就是这货了.</li>
 <li>安装:<code>yum install nfs-utils</code></li>
-<li><p>使用:</p>
-
-<p> rpc.nfsd [数量]       #设置最大线程
- man 8 rpc.nfsd      #查看 帮助</p></li>
+<li>使用:
+<code>
+ rpc.nfsd [数量]       #设置最大线程
+</code> man 8 rpc.nfsd      #查看 帮助</li>
 </ol>
 
 
