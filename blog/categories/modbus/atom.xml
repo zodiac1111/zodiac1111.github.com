@@ -4,7 +4,7 @@
   <title><![CDATA[Category: modbus | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/modbus/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-19T20:27:03+08:00</updated>
+  <updated>2012-09-19T20:31:30+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -150,7 +150,8 @@
 <h2>简介</h2>
 
 <p>使用c语言编写的modbus库
-官网:<a href="http://libmodbus.org/">http://libmodbus.org/</a>(墙?)</p>
+1. 官网:<a href="http://libmodbus.org/">http://libmodbus.org/</a>(墙?)
+2. 代码托管:git <a href="https://github.com/stephane/libmodbus">https://github.com/stephane/libmodbus</a></p>
 
 <h1>参考资料:</h1>
 
