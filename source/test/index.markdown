@@ -11,7 +11,7 @@ footer: true
 以下就是测试咯
 ---
 #1代码测试
-codeblock:lang
+codeblock:c
 {% codeblock lang:c %}
 int main(void)
 {
@@ -20,8 +20,8 @@ int main(void)
 }
 {% endcodeblock %}
 
-codeblock lang bash:
-{% codeblock lang:bash %}
+codeblock :
+{% codeblock %}
 	$ sudo make me a sandwich
 {% endcodeblock %}
 

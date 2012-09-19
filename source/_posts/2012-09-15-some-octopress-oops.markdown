@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "使用octopress一些错误和解决方式"
+title: "使用 octopress 一些错误和解决方式"
 date: 2012-09-15 19:21
 comments: true
 categories: [octopress]
