@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Linux/Fedora 17下安装配置NFS服务 - 喜乐</title>
+  <title>在otcopress使用githubRepoWidget显示github项目 - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="NFS服务器安装和配置 OS:fedora17.i686 &amp; fedora17.x86_64 &amp; f17beta.i686 &amp; f17beta.x86-64 现在已经改成不用 imapXXXX的了
-改成 守护进程rpc.nfsd
-安装守护进程程序: 搜索:yum &hellip;">
+  <meta name="description" content="例子: 示例项目1: 示例项目2: 示例项目3: 介绍: 项目地址: https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget 配置: 复制库jquery.githubRepoWidget.min.js到octopress/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-nfs-server/">
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/09/20/otcopress-githubrepowidget/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -92,7 +90,7 @@
   <header>
     
       
-        <h1 class="entry-title">Linux/Fedora 17下安装配置NFS服务</h1>
+        <h1 class="entry-title">在otcopress使用githubRepoWidget显示github项目</h1>
       
     
     
@@ -109,7 +107,7 @@
   
 
 
-<time datetime="2012-09-17T21:23:00+08:00" pubdate data-updated="true">2012-09-17 21:23</time>
+<time datetime="2012-09-20T22:55:00+08:00" pubdate data-updated="true">2012-09-20 22:55</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -118,112 +116,76 @@
   </header>
 
 
-<div class="entry-content"><h1>NFS服务器安装和配置</h1>
-
-<p>OS:fedora17.i686 &amp; fedora17.x86_64 &amp; f17beta.i686 &amp; f17beta.x86-64 <br/>
-现在已经改成不用 imapXXXX的了
-改成 守护进程rpc.nfsd
-安装守护进程程序:</p>
-
-<ol>
-<li>搜索:<code>yum search nfs</code></li>
-<li>得到:<code>nfs-utils.i686 : NFS utilities and supporting clients and daemons for the kernel NFS server</code><br/>
- 看描述就是这货了.</li>
-<li>安装:<code>yum install nfs-utils</code></li>
-<li>使用:</li>
-</ol>
+<div class="entry-content"><script src="/javascripts/libs/jquery.min.js"></script>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpc.nfsd [数量]        #设置最大线程
-</span><span class='line'>man 8 rpc.nfsd        #查看 帮助</span></code></pre></td></tr></table></div></figure>
+<script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"></script>
+
+
+<h1>例子:</h1>
+
+<p>示例项目1:</p>
+
+<div class="github-widget" data-repo="torvalds/linux"></div>
+
+
+<p>示例项目2:</p>
+
+<div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"></div>
+
+
+<p>示例项目3:</p>
+
+<div class="github-widget" data-repo="zodiac1111/zodiac1111.github.com"></div>
 
 
 <!-- more -->
 
 
-<h2>配置可用NFS服务器的目录</h2>
+<h1>介绍:</h1>
 
-<p>使用您喜欢的文本编辑器编辑<code>/etc/exports</code>文件
-例如:<code>vi /etc/exports</code></p>
+<p>项目地址: <a href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget">https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget</a></p>
+
+<h3>配置:</h3>
+
+<p>复制库<code>jquery.githubRepoWidget.min.js</code>到<code>octopress/source/javascripts/libs</code></p>
+
+<h3>启用:</h3>
+
+<p>启用1:局部(最小化原则)</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/mnt         127.0.0.1(ro,sync)
-</span><span class='line'>共享目录          主机名   (权限)</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"&gt;&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-<p>其中:</p>
+<p>启动2:全局(简单方便)
+(建议)在<code>octopress/source/_includes/custom/head.html</code>文件增加:</p>
 
-<ul>
-<li>共享目录  服务器共享的目录</li>
-<li>主机名 指示能够访问这个共享目录的主机</li>
-<li>权限    指示主机访问该共享目录的权限
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"&gt;&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在需要引用项目时,这样添加</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"&gt;&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>其他:</h3>
+
+<h1>资料:</h1>
 
 <ol>
-<li>ro=readonly只读 rw=读写</li>
-<li>sync是设置NFS服务器同步写磁盘，不会导致数据的丢失
-
-<h2>关闭防火墙(如果你和我一样不太了解如何配置防火墙的话)</h2></li>
+<li>项目github:<a href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget">https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget</a></li>
+<li>OSCHINA 增加软件与 Github 的集成:<a href="http://www.oschina.net/news/30679/oschina-projects-integration-with-github">http://www.oschina.net/news/30679/oschina-projects-integration-with-github</a></li>
 </ol>
-</li>
-</ul>
 
-
-<h2>启用新的配置</h2>
-
-<p><code>exportfs</code> 指令主要的三个作用：<br/>
-1. <code>exportfs -rv</code>   重新读取共享配置文件，马上生效 <br/>
-2. <code>exportfs -auv</code>  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享<br/>
-3. <code>exportfs -av</code>   显示所有当前机器上的NFS共享目录信息</p>
-
-<h2>测试</h2>
-
-<h3>启用挂载</h3>
-
-<p>启动服务:</p>
-
-<p><code>systemctl restart nfs-server.service</code></p>
-
-<p>In older versions of Fedora (for instance Fedora 14),</p>
-
-<p><code>su -c 'service nfs restart'</code></p>
-
-<p>或?且</p>
-
-<pre><code>rpc.mountd  
-</code></pre>
-
-<p>否则在下一步挂载可能出现:<br/>
-mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
-或者在输入&#8221;mount -t nfs 127.0.0.1:&#8221;后按Tab键补全<br/>
-:rpc mount export: RPC: Unable to receive; errno = Connection refused</p>
-
-<h3>挂载</h3>
-
-<p></del>貌似只能挂载 /home 这样的一级目录 像/home/tom 这样的目录就不行??</del><br/>
-像/home/tom/doc/nfsroot 这样的目录必须保证这条路径<strong>所有文件夹</strong>都是有相应的权限的.<br/>
-<code>chmod -R</code>或许会用得着 <br/>
-即/home 得有(读写)权限 /home/tom 也一样 /home/tom/doc 也一样. 仅仅nfsroot文件夹有读写权限是不行的. <br/>
-在挂在时还是会提示没有访问权限&#8230;..</p>
-
-<pre><code>mount -t nfs 127.0.0.1:/home    /mnt
-挂载 -t 类型 把远端/home    (挂在)   到/mnt
-#将127.0.0.1:/home 挂载到本机的/mnt目录下
-</code></pre>
-
-<h3>卸载</h3>
-
-<pre><code>unomt /mnt
-</code></pre>
-
-<h1>参考</h1>
-
-<p>=====<br/>
-1. <a href="http://fedoraproject.org/wiki/Administration_Guide_Draft/NFS">Fedora官方帮助文档</a><br/>
-2. 查看错误日志<code>cat /var/log/messages | grep mount</code> 来自<a href="http://liuzhigong.blog.163.com/blog/static/17827237520115305226932/">这里</a><br/>
-3. 图形化的配置工具 <code>yum install system-config-nfs.noarch</code></p>
 </div>
 
 
@@ -246,12 +208,12 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
   
 
 
-<time datetime="2012-09-17T21:23:00+08:00" pubdate data-updated="true">2012-09-17 21:23</time>
+<time datetime="2012-09-20T22:55:00+08:00" pubdate data-updated="true">2012-09-20 22:55</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/nfs/'>nfs</a>
+    <a class='category' href='/blog/categories/git/'>git</a>, <a class='category' href='/blog/categories/github/'>github</a>, <a class='category' href='/blog/categories/otcopress/'>otcopress</a>, <a class='category' href='/blog/categories/widget/'>widget</a>
   
 </span>
 
@@ -260,7 +222,7 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-nfs-server/" data-via="" data-counturl="http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-nfs-server/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zodiac1111.github.com/blog/2012/09/20/otcopress-githubrepowidget/" data-via="" data-counturl="http://zodiac1111.github.com/blog/2012/09/20/otcopress-githubrepowidget/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -271,10 +233,8 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
     
     <p class="meta">
       
-        <a class="basic-alignment left articlenav" href="/blog/2012/09/17/linux-fedora-17-install-man/" title="Previous Post: Linux/Fedora 17 安装man手册">&laquo; Linux/Fedora 17 安装man手册</a>
+        <a class="basic-alignment left articlenav" href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/" title="Previous Post: 在线分析转换标准float型数据">&laquo; 在线分析转换标准float型数据</a>
       
-      
-        <a class="basic-alignment right articlenav" href="/blog/2012/09/19/rake-completion-in-bash/" title="Next Post: 使rake自动补全task">使rake自动补全task &raquo;</a>
       
     </p>
   </footer>
@@ -378,8 +338,8 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-nfs-server/';
-        var disqus_url = 'http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-nfs-server/';
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/09/20/otcopress-githubrepowidget/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2012/09/20/otcopress-githubrepowidget/';
         var disqus_script = 'embed.js';
       
     (function () {

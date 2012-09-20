@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-20T21:51:58+08:00</updated>
+  <updated>2012-09-20T23:30:04+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在otcopress使用githubRepoWidget显示github项目]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/09/20/otcopress-githubrepowidget/"/>
+    <updated>2012-09-20T22:55:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/09/20/otcopress-githubrepowidget</id>
+    <content type="html"><![CDATA[<script src="http://zodiac1111.github.com/javascripts/libs/jquery.min.js"></script>
+
+
+<script type="text/javascript" src="http://zodiac1111.github.com/javascripts/libs/jquery.githubRepoWidget.min.js"></script>
+
+
+<h1>例子:</h1>
+
+<p>示例项目1:</p>
+
+<div class="github-widget" data-repo="torvalds/linux"></div>
+
+
+<p>示例项目2:</p>
+
+<div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"></div>
+
+
+<p>示例项目3:</p>
+
+<div class="github-widget" data-repo="zodiac1111/zodiac1111.github.com"></div>
+
+
+<!-- more -->
+
+
+<h1>介绍:</h1>
+
+<p>项目地址: <a href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget">https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget</a></p>
+
+<h3>配置:</h3>
+
+<p>复制库<code>jquery.githubRepoWidget.min.js</code>到<code>octopress/source/javascripts/libs</code></p>
+
+<h3>启用:</h3>
+
+<p>启用1:局部(最小化原则)</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="http://zodiac1111.github.com/javascripts/libs/jquery.githubRepoWidget.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"&gt;&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>启动2:全局(简单方便)
+(建议)在<code>octopress/source/_includes/custom/head.html</code>文件增加:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"&gt;&lt;/script&gt;
+</span><span class='line'>&lt;script type="text/javascript" src="http://zodiac1111.github.com/javascripts/libs/jquery.githubRepoWidget.min.js"&gt;&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在需要引用项目时,这样添加</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"&gt;&lt;/div&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>其他:</h3>
+
+<h1>资料:</h1>
+
+<ol>
+<li>项目github:<a href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget">https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget</a></li>
+<li>OSCHINA 增加软件与 Github 的集成:<a href="http://www.oschina.net/news/30679/oschina-projects-integration-with-github">http://www.oschina.net/news/30679/oschina-projects-integration-with-github</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[在线分析转换标准float型数据]]></title>
