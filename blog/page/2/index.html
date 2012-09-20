@@ -9,7 +9,10 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="/##crosstool在fedora 17下的编译一到的问题/解决/ 构建过程blog.chinaunix.net,在这个过程中出现的问题,笔记如下: 问题1: gcc: error trying to exec ‘cc1obj’: execvp: No such file or &hellip;">
+  <meta name="description" content="测试工具: modpoll(主站) diagslave(从站) 简介 支持平台: Windows
+Linux (x86 32-bit) &lt;-本文实验平台
+Solaris (SPARC)
+QNX Neutrino 6 (x86) 本文使用这两个软件进行Linux 32位平台下的Modbus/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +89,97 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">简单的modbus/tcp实现</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T00:15:00+08:00" pubdate data-updated="true">2012-09-15 00:15</time>
+        
+         | <a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>测试工具: modpoll(主站) diagslave(从站)</h1>
+
+<h2>简介</h2>
+
+<p>支持平台:</p>
+
+<ol>
+<li>Windows</li>
+<li>Linux (x86 32-bit) &lt;-本文实验平台</li>
+<li>Solaris (SPARC)</li>
+<li>QNX Neutrino 6 (x86)</li>
+</ol>
+
+
+<p>本文使用这两个软件进行Linux 32位平台下的Modbus/TCP程序调试.</p>
+
+<h3>1. 模拟主站(Linux):</h3>
+
+<pre><code>./modpoll -m tcp -a 2 -t4:hex -r 10 -c 3  127.0.0.1 -1 -p 10001
+</code></pre>
+
+<p>各个选项意义如下:</p>
+
+<ol>
+<li>-m &lt;模式名>    : -m tcp即MODBUS/TCP protocol模式</li>
+<li>-a &lt;从站编号>  : Slave address (1-255, 默认 1 )</li>
+<li>-t 4:hex      : 16-bit output (holding) register data type with hex display;另有其他多种参见<strong>参考</strong></li>
+<li>-r #          : Start reference (1-65536, 100 is default)</li>
+<li>-c #          : Number of values to poll (1-100, 1 is default)</li>
+<li>127.0.0.1     : IP地址(tcp模式)</li>
+<li>-1            : (数字1)发送一次,没有这个选项则连续发送</li>
+<li>-p &lt;端口号>    : tcp模式下指定端口号,默认 502</li>
+</ol>
+
+
+<h3>2. 模拟从站(Linux):</h3>
+
+<pre><code>./diagslave -m tcp -p 10001
+</code></pre>
+
+<p>选项意义:</p>
+
+<ol>
+<li>-m tcp :tcp模式</li>
+<li>-p 10001 : 监听端口</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -310,61 +404,6 @@ w3m  A pager with Web browsing abilities</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/08/22/other/">Other</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-22T20:33:00+08:00" pubdate data-updated="true">2012-08-22 20:33</time>
-        
-         | <a href="/blog/2012/08/22/other/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>使用valgrind测试程序的内存泄露/多线程竞争/等等</h1>
-
-<p>http://www.ibm.com/developerworks/cn/linux/l-cn-valgrind/</p>
-
-<h1>在执行 Valgrind 期间连接 gdb</h1>
-
-<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html</p></blockquote>
-
-<p>algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
-valgrind &#8211;tool=memcheck &#8211;leak-check=full  &#8211;db-attach=yes ./test
-ps:&#8211;db-command=<command> 选项可以指定调试器</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/22/other/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -380,6 +419,10 @@ ps:&#8211;db-command=<command> 选项可以指定调试器</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/09/20/chromium-pdf-viewer/">使chromium能够像chrome一样预览pdf文件</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/09/19/rake-completion-in-bash/">使rake自动补全task</a>
@@ -403,10 +446,6 @@ ps:&#8211;db-command=<command> 选项可以指定调试器</p>
     
       <li class="post">
         <a href="/blog/2012/08/27/fedora-17-corsstool/">crosstool在fedora17下的编译遇到的问题和解决方法</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/08/22/cpp-class-overload/">cpp运算符重载笔记</a>
       </li>
     
   </ul>
