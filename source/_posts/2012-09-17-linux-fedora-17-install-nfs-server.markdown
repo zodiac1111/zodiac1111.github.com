@@ -18,38 +18,43 @@ OS:fedora17.i686 & fedora17.x86_64 & f17beta.i686 & f17beta.x86-64
 	看描述就是这货了.  
 3. 安装:`yum install nfs-utils`  
 4. 使用:
- 
+```
 	rpc.nfsd [数量]		#设置最大线程
 	man 8 rpc.nfsd 		#查看 帮助
+```
+<!-- more -->
 ##配置可用NFS服务器的目录
 
-使用您喜欢的文本编辑器编辑/etc/exports 文件
+使用您喜欢的文本编辑器编辑`/etc/exports`文件
 例如:`vi /etc/exports`
-
+```
 	/mnt			127.0.0.1(ro,sync)
-	共享目录			主机名	(权限)  
+	共享目录			主机名	(权限)
+```
 其中:
 
 * 共享目录	服务器共享的目录
 * 主机名	指示能够访问这个共享目录的主机
 * 权限	指示主机访问该共享目录的权限
-
-	
-权限:
-ro=readonly只读 rw=读写
-sync是设置NFS服务器同步写磁盘，不会导致数据的丢失
+	1. ro=readonly只读 rw=读写
+	2. sync是设置NFS服务器同步写磁盘，不会导致数据的丢失
 ##关闭防火墙(如果你和我一样不太了解如何配置防火墙的话)
 
 ##启用新的配置
-exportfs 指令主要的三个作用：  
-exportfs -rv   重新读取共享配置文件，马上生效   
-exportfs -auv  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享  
-exportfs -av   显示所有当前机器上的NFS共享目录信息  
+`exportfs` 指令主要的三个作用：  
+1. `exportfs -rv`   重新读取共享配置文件，马上生效   
+2. `exportfs -auv`  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享  
+3. `exportfs -av`   显示所有当前机器上的NFS共享目录信息  
 ##测试
 ###启用挂载
 
-启动服务:`systemctl restart nfs-server.service`  
-In older versions of Fedora (for instance Fedora 14),`su -c 'service nfs restart'`  
+启动服务:
+
+`systemctl restart nfs-server.service` 
+
+In older versions of Fedora (for instance Fedora 14),
+
+`su -c 'service nfs restart'`  
 
 
 或?且   

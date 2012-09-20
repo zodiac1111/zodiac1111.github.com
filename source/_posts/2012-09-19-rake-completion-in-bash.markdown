@@ -5,15 +5,16 @@ date: 2012-09-19 21:07
 comments: true
 categories: [rake,completion]
 ---
-#需求
 在使用octopress写文章时有些命令记不太全,如`  new_post["title"]`,`rake generate`,`rake preview`,`rake deploy`,`rake gen_deploy`.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.于是在git找到了下面这个项目:
 
 rake-completion 网址:<https://github.com/ai/rake-completion>
 
+##安装
 安装也能简单,如README所示:
-##other unix-like 
- 我的是fedora,复制`rake`文件到`/etc/bash_completion.d/`目录下:
 
+> other unix-like:
+
+	#复制`rake`文件到`/etc/bash_completion.d/`目录下:
 	su -c 'cp ./rake /etc/bash_completion.d/'
 
 ##使用
