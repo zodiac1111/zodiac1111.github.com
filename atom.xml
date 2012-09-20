@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-20T20:10:58+08:00</updated>
+  <updated>2012-09-20T20:11:37+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -18,7 +18,9 @@
     <link href="http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/"/>
     <updated>2012-09-20T19:54:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter</id>
-    <content type="html"><![CDATA[<p>计算机中float型数据以IEEE-754标准存储,例如<code>1234.5678</code>存储为<code>0x 449A 522B</code>(32位).使用二进制表示即:</p>
+    <content type="html"><![CDATA[<p>计算机中float型数据以IEEE-754标准存储,例如<code>1234.5678</code>存储为<code>0x449A522B</code>(32位).</p>
+
+<p>使用二进制表示即:</p>
 
 <pre><code>01000100 10011010 01010010 00101011
 </code></pre>
