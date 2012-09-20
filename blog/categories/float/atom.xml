@@ -4,7 +4,7 @@
   <title><![CDATA[Category: float | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/float/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-20T20:08:04+08:00</updated>
+  <updated>2012-09-20T20:10:58+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -25,7 +25,7 @@
 
 <p>根据IEEE754 Single precision 32-bit标准的定义:</p>
 
-<p><img src="" alt="例子" /></p>
+<p><img src="https://github.com/zodiac1111/zodiac1111.github.com/blob/source/source/downloads/img/IEEE-754-float.png" alt="例子" /></p>
 
 <p>更多的分析和在线转换参见参考资料.</p>
 
