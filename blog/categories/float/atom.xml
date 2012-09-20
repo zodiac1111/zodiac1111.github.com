@@ -4,7 +4,7 @@
   <title><![CDATA[Category: float | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/float/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-20T20:24:11+08:00</updated>
+  <updated>2012-09-20T20:49:15+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -29,11 +29,16 @@
 
 <p><img src="https://raw.github.com/zodiac1111/zodiac1111.github.com/source/source/downloads/img/IEEE-754-float.png"></p>
 
+<p>通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>
+
+<p>一些特殊的值,如正无穷等,参见维基百科.</p>
+
 <p>更多的分析和在线转换参见参考资料.</p>
 
 <h2>参考资料</h2>
 
 <ol>
+<li>维基百科:<a href="https://zh.wikipedia.org/zh/IEEE_754">https://zh.wikipedia.org/zh/IEEE_754</a></li>
 <li>在线分析:<a href="http://babbage.cs.qc.cuny.edu/IEEE-754/">http://babbage.cs.qc.cuny.edu/IEEE-754/</a></li>
 <li>在线转换:<a href="http://www.binaryconvert.com/">http://www.binaryconvert.com/</a></li>
 </ol>
