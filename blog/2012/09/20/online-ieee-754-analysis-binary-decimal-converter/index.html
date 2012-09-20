@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: c++ - 喜乐</title>
+  <title>在线分析转换标准float型数据 - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="Category: c++">
+  <meta name="description" content="计算机中float型数据以IEEE-754标准存储,例如1234.5678存储为0x 449A 522B(32位).使用二进制表示即: 01000100 10011010 01010010 00101011 根据IEEE754 Single precision 32-bit标准的定义: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.comblog/categories/c-/">
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -85,50 +85,114 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: C++</h1>
+    
+      
+        <h1 class="entry-title">在线分析转换标准float型数据</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-20T19:54:00+08:00" pubdate data-updated="true">2012-09-20 19:54</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>计算机中float型数据以IEEE-754标准存储,例如<code>1234.5678</code>存储为<code>0x 449A 522B</code>(32位).使用二进制表示即:</p>
 
-  
-  <h2>2012</h2>
+<pre><code>01000100 10011010 01010010 00101011
+</code></pre>
 
-<article>
-  
-<h1><a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">简单的modbus/tcp实现</a></h1>
-<time datetime="2012-09-15T00:15:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>15</span> <span class='year'>2012</span></time>
+<p>根据IEEE754 Single precision 32-bit标准的定义:</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/c-/'>c++</a>, <a class='category' href='/blog/categories/modbus/'>modbus</a></span>
-</footer>
+<p><img src="" alt="例子" /></p>
 
+<p>更多的分析和在线转换参见参考资料.</p>
 
-</article>
+<h2>参考资料</h2>
 
-
-
-<article>
-  
-<h1><a href="/blog/2012/08/22/cpp-class-overload/">cpp运算符重载笔记</a></h1>
-<time datetime="2012-08-22T20:37:00+08:00" pubdate><span class='month'>Aug</span> <span class='day'>22</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/c-/'>c++</a></span>
-</footer>
-
-
-</article>
+<ol>
+<li>在线分析:<a href="http://babbage.cs.qc.cuny.edu/IEEE-754/">http://babbage.cs.qc.cuny.edu/IEEE-754/</a></li>
+<li>在线转换:<a href="http://www.binaryconvert.com/">http://www.binaryconvert.com/</a></li>
+</ol>
 
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-20T19:54:00+08:00" pubdate data-updated="true">2012-09-20 19:54</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ieee-754/'>IEEE-754</a>, <a class='category' href='/blog/categories/float/'>float</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/" data-via="" data-counturl="http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2012/09/20/chromium-pdf-viewer/" title="Previous Post: 使chromium能够像chrome一样预览pdf文件">&laquo; 使chromium能够像chrome一样预览pdf文件</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -221,7 +285,10 @@
       var disqus_shortname = 'zodiac1111blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
