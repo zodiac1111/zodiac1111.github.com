@@ -9,10 +9,8 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="查看和设定vi的选项 :set
-:set all
-查看设定选项
-">
+  <meta name="description" content="#vim查找替换
+参考资料:http://www.chinavim.org/vivim-%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%A4%A7%E5%85%A8.html 可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符 :替换当前行第一个 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +87,63 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/08/21/vim-search-replace/">Vim查找替换</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-21T17:15:00+08:00" pubdate data-updated="true">2012-08-21 17:15</time>
+        
+         | <a href="/blog/2012/08/21/vim-search-replace/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><code>#vim查找替换</code>
+参考资料:http://www.chinavim.org/vivim-%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%A4%A7%E5%85%A8.html</p>
+
+<p> 可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符</p>
+
+<p> :替换当前行第一个 vivian/ 为 sky/</p>
+
+<p> <code>:n,$s/vivian/sky/</code> 替换第 n 行开始到最后一行中每一行的<strong>第一个</strong> vivian 为 sky</p>
+
+<p> <code>:n,$s/vivian/sky/g</code> 替换第 n 行开始到最后一行中每一行<strong>所有</strong> vivian 为 sky
+<code>
+:[地址/范围]s/&lt;搜索字&gt;/&lt;替换字&gt;[/g]
+</code></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/21/vim-search-replace/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -259,6 +314,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2012/09/29/build-goldendict-from-source/">从源代码(git)编译 goldendict 笔记</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2012/09/20/otcopress-githubrepowidget/">在otcopress使用githubRepoWidget显示github项目</a>
       </li>
     
@@ -280,10 +339,6 @@
     
       <li class="post">
         <a href="/blog/2012/09/17/linux-fedora-17-install-man/">Linux/Fedora 17 安装man手册</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/15/some-octopress-oops/">使用 octopress 一些错误和解决方式</a>
       </li>
     
   </ul>

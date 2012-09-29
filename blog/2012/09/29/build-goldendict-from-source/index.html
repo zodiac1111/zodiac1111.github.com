@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: octopress - 喜乐</title>
+  <title>从源代码(git)编译 goldendict 笔记 - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="Category: octopress">
+  <meta name="description" content="官网:http://goldendict.org/
+官方编译介绍:http://goldendict.org/buildfromgit.php 在Fedora 17上编译可能出现的一些小问题: articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.comblog/categories/octopress/">
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/09/29/build-goldendict-from-source/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -85,36 +86,124 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Octopress</h1>
+    
+      
+        <h1 class="entry-title">从源代码(git)编译 Goldendict 笔记</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-29T22:30:00+08:00" pubdate data-updated="true">2012-09-29 22:30</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a>
+官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a></p>
 
-  
-  <h2>2012</h2>
+<p>在Fedora 17上编译可能出现的一些小问题:</p>
 
-<article>
-  
-<h1><a href="/blog/2012/09/15/some-octopress-oops/">使用 octopress 一些错误和解决方式</a></h1>
-<time datetime="2012-09-15T19:21:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>15</span> <span class='year'>2012</span></time>
+<h3>articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</h3>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/octopress/'>octopress</a></span>
-</footer>
+<p>缺少qt的某个东西的头文件,安装即可:<code>yum install qtwebkit-devel</code></p>
 
+<h3>hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</h3>
 
-</article>
+<p>缺少X11开发用的头文件,安装:<code>yum install libXtst-devel</code></p>
 
+<h3>articleview.cc:37:32: 致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</h3>
+
+<p><code>yum install phonon-devel</code></p>
+
+<h3>decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</h3>
+
+<p><code>yum install bzip2-devel</code></p>
+
+<h3>安装到应用程序目录</h3>
+
+<p><code>su -c 'make install'</code></p>
+
+<h2>goldendict词典下载</h2>
+
+<p>星际译王词典:<a href="http://abloz.com/huzheng/stardict-dic">http://abloz.com/huzheng/stardict-dic</a></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-29T22:30:00+08:00" pubdate data-updated="true">2012-09-29 22:30</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/goldendict/'>goldendict</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zodiac1111.github.com/blog/2012/09/29/build-goldendict-from-source/" data-via="" data-counturl="http://zodiac1111.github.com/blog/2012/09/29/build-goldendict-from-source/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2012/09/20/otcopress-githubrepowidget/" title="Previous Post: 在otcopress使用githubRepoWidget显示github项目">&laquo; 在otcopress使用githubRepoWidget显示github项目</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -207,7 +296,10 @@
       var disqus_shortname = 'zodiac1111blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/09/29/build-goldendict-from-source/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2012/09/29/build-goldendict-from-source/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
