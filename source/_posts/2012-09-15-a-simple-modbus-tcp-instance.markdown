@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "简单的modbus/tcp实现"
+title: "简单的 modbus/tcp 实现"
 date: 2012-09-15 00:15
 comments: true
-categories: [modbus,c++]
+categories: [modbus,tcp,c/c++]
 ---
 #测试工具: modpoll(主站) diagslave(从站)
 ##简介
@@ -89,8 +89,8 @@ Data type.............: 16-bit register (hex), output (holding) register table -
 
 ##参考:
 
-1. 模拟主站(master)软件以及官方说明:[modpoll](http://www.modbusdriver.com/modpoll.html)
-2. 模拟从站软件以及官方说明:[diagslave](http://www.modbusdriver.com/diagslave.html)
+1. 模拟主站(master)软件以及官方说明(modpoll)<http://www.modbusdriver.com/modpoll.html>
+2. 模拟从站软件以及官方说明:(diagslave)<http://www.modbusdriver.com/diagslave.html>
 
 #libmodbus 开源modbus库
 ##简介
@@ -102,7 +102,7 @@ Data type.............: 16-bit register (hex), output (holding) register table -
 
 #参考资料:
 
-1. [www.simplymodbus.ca](http://www.simplymodbus.ca/TCP.htm)
+1. <http://www.simplymodbus.ca/TCP.htm>
 2. 实现指导手册[Modbus_messaging_on_TCPIP_implementation_guide](http://www.electroind.com/pdf/Modbus_messaging_on_TCPIP_implementation_guide_V11.pdf)
 3. 协议[Modbus_Application_Protocol_V1_1b.pdf](http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf)(官网,mbap)
 4. 实现指导手册[Modbus_Messaging_Implementation_Guide_V1_0b.pdf](http://www.modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf)(官网,实现指导)

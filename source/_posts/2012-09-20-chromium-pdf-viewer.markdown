@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "使chromium能够像chrome一样预览pdf文件"
+title: "chromium 预览 pdf 文件"
 date: 2012-09-20 19:46
 comments: true
-categories: [pdf,chromium]
+categories: [pdf,chromium,chrome]
 ---
 chrome使用libpdf.so库,这个库不是自由软件,所以chromium默认没有带.
 chrome默认自带的库默认路径为:`/opt/google/chrome/libpdf.so`
