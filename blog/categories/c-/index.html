@@ -101,20 +101,6 @@
 
 <article>
   
-<h1><a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">简单的modbus/tcp实现</a></h1>
-<time datetime="2012-09-15T00:15:00+08:00" pubdate><span class='month'>09</span> <span class='day'>15</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/c-/'>c++</a>, <a class='category' href='/blog/categories/modbus/'>modbus</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
 <h1><a href="/blog/2012/08/22/cpp-class-overload/">cpp运算符重载笔记</a></h1>
 <time datetime="2012-08-22T20:37:00+08:00" pubdate><span class='month'>08</span> <span class='day'>22</span> <span class='year'>2012</span></time>
 
@@ -143,7 +129,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2012/09/20/otcopress-githubrepowidget/">在otcopress使用githubRepoWidget显示github项目</a>
+        <a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用githubRepoWidget展示github项目</a>
       </li>
     
       <li class="post">
@@ -199,6 +185,22 @@
 </section>
 
 
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("zodiac_2012", 2, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/zodiac_2012">@zodiac_2012</a></p>
+  
+</section>
+
 
 
 
@@ -235,16 +237,6 @@
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

@@ -9,7 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="官网:http://goldendict.org/ 官方编译介绍:http://goldendict.org/buildfromgit.php 在Fedora 17上编译可能出现的一些小问题: 1.articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录 &hellip;">
+  <meta name="description" content="官网:http://goldendict.org/. 官方编译介绍:http://goldendict.org/buildfromgit.php. 在Fedora 17上编译可能出现的一些小问题: 1.articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -119,31 +119,31 @@
   </header>
 
 
-  <div class="entry-content"><p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a></p>
+  <div class="entry-content"><p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a>.</p>
 
-<p>官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a></p>
+<p>官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a>.</p>
 
 <p>在Fedora 17上编译可能出现的一些小问题:</p>
 
-<p><strong>1.</strong>articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</p>
+<p><strong>1.</strong><code>articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</code></p>
 
 <p>缺少qt的某个东西的头文件,安装即可:<code>yum install qtwebkit-devel</code></p>
 
-<p><strong>2.</strong>hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</p>
+<p><strong>2.</strong><code>hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</code></p>
 
 <p>缺少X11开发用的头文件,安装:<code>yum install libXtst-devel</code></p>
 
-<p><strong>3.</strong>articleview.cc:37:32: 致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</p>
+<p><strong>3.</strong><code>articleview.cc:37:32:致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</code></p>
 
 <p>安装:<code>yum install phonon-devel</code></p>
 
-<p><strong>4.</strong>decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</p>
+<p><strong>4.</strong><code>decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</code></p>
 
 <p>安装:<code>yum install bzip2-devel</code></p>
 
 <p><strong>5.</strong>安装到应用程序目录</p>
 
-<p>执行完<code>make</code>之后可以执行<code>su -c 'make install'</code>将图标等复制到特定的目录中</p>
+<p>执行完<code>make</code>之后可以执行<code>su -c 'make install'</code>将图标等复制到特定的目录中.</p>
 
 <h2>goldendict词典下载</h2>
 
@@ -161,7 +161,7 @@
   <header>
     
       <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/20/otcopress-githubrepowidget/">在otcopress使用githubRepoWidget显示github项目</a></h1>
+        <h1 class="entry-title"><a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用githubRepoWidget展示github项目</a></h1>
       
     
     
@@ -193,21 +193,18 @@
 <script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"></script>
 
 
-<h1>例子:</h1>
+<p>使用githubRepoWidget在otcopress上展示项目的方法.</p>
 
-<p>示例项目1:</p>
+<h1>先看效果:</h1>
+
+<p>例子1 Linux kernel:</p>
 
 <div class="github-widget" data-repo="torvalds/linux"></div>
 
 
-<p>示例项目2:</p>
+<p>例子2 githubRepoWidget:</p>
 
 <div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"></div>
-
-
-<p>示例项目3:</p>
-
-<div class="github-widget" data-repo="zodiac1111/zodiac1111.github.com"></div>
 
 
 </div>
@@ -262,9 +259,10 @@
 
 <p>根据IEEE754 Single precision 32-bit标准的定义:</p>
 
-<p><img src="https://raw.github.com/zodiac1111/zodiac1111.github.com/source/source/downloads/img/IEEE-754-float.png"></p>
+<p><code>&lt;img src="https://raw.github.com/zodiac1111/zodiac1111.github.com/source/source/downloads/img/IEEE-754-float.png"&gt;</code></p>
 
-<p>通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>
+<p><img src="/downloads/img/IEEE-754-float.png">
+通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>
 
 <p>一些特殊的值,如正无穷等,参见维基百科.</p>
 
@@ -373,25 +371,35 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
   </header>
 
 
-  <div class="entry-content"><p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.那么想到既然make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.于是在git找到了下面这个项目:</p>
+  <div class="entry-content"><p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.</p>
 
-<p>rake-completion 网址:<a href="https://github.com/ai/rake-completion">https://github.com/ai/rake-completion</a></p>
+<p>那么想到既然bash中make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.<br/>
+于是在git找到了 rake-completion 这个项目:</p>
+
+<script src="/javascripts/libs/jquery.min.js"></script>
+
+
+<div class="github-widget" data-repo="ai/rake-completion"></div>
+
+
+<p>网址:<a href="https://github.com/ai/rake-completion">https://github.com/ai/rake-completion</a></p>
 
 <h2>安装</h2>
 
-<p>安装也能简单,如README所示:</p>
+<p>安装也很简单,如<code>README</code>文件中<code>other unix-like</code>一节指示:</p>
 
-<blockquote><p>other unix-like:</p></blockquote>
+<p>复制<code>rake</code>文件到<code>/etc/bash_completion.d/</code>目录下(需要root权限):</p>
 
-<pre><code>#复制`rake`文件到`/etc/bash_completion.d/`目录下:
-su -c 'cp ./rake /etc/bash_completion.d/'
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> su -c <span class="s1">&#39;cp ./rake /etc/bash_completion.d/&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <h2>使用</h2>
 
 <p> 需要补全的时候按<code>Tab</code>键就好啦~</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -399,14 +407,17 @@ su -c 'cp ./rake /etc/bash_completion.d/'
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[user1@localhost octopress]$ rake &lt;Tab&gt;
-</span><span class='line'>clean                     isolate[filename]         set_root_dir[dir]
-</span><span class='line'>copydot[source,dest]      list                      setup_github_pages[repo]
-</span><span class='line'>deploy                    new_page[filename]        update_source[theme]
-</span><span class='line'>gen_deploy                new_post[title]           update_style[theme]
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>user1@localhost octopress<span class="o">]</span><span class="nv">$ </span>rake &lt;Tab&gt;
+</span><span class='line'>clean                     isolate<span class="o">[</span>filename<span class="o">]</span>         set_root_dir<span class="o">[</span>dir<span class="o">]</span>
+</span><span class='line'>copydot<span class="o">[</span><span class="nb">source</span>,dest<span class="o">]</span>      list                      setup_github_pages<span class="o">[</span>repo<span class="o">]</span>
+</span><span class='line'>deploy                    new_page<span class="o">[</span>filename<span class="o">]</span>        update_source<span class="o">[</span>theme<span class="o">]</span>
+</span><span class='line'>gen_deploy                new_post<span class="o">[</span>title<span class="o">]</span>           update_style<span class="o">[</span>theme<span class="o">]</span>
 </span><span class='line'>generate                  preview                   watch
-</span><span class='line'>install[theme]            push
-</span><span class='line'>integrate                 rsync</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>install<span class="o">[</span>theme<span class="o">]</span>            push
+</span><span class='line'>integrate                 rsync
+</span></code></pre></td></tr></table></div></figure>
+
+
 
 </div>
   
@@ -435,7 +446,7 @@ su -c 'cp ./rake /etc/bash_completion.d/'
       </li>
     
       <li class="post">
-        <a href="/blog/2012/09/20/otcopress-githubrepowidget/">在otcopress使用githubRepoWidget显示github项目</a>
+        <a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用githubRepoWidget展示github项目</a>
       </li>
     
       <li class="post">
@@ -491,6 +502,22 @@ su -c 'cp ./rake /etc/bash_completion.d/'
 </section>
 
 
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("zodiac_2012", 2, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/zodiac_2012">@zodiac_2012</a></p>
+  
+</section>
+
 
 
 
@@ -526,16 +553,6 @@ su -c 'cp ./rake /etc/bash_completion.d/'
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 
