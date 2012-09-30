@@ -4,7 +4,7 @@
   <title><![CDATA[Category: IEEE-754 | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/ieee-754/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-30T14:57:41+08:00</updated>
+  <updated>2012-09-30T15:04:17+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[在线分析转换标准float型数据]]></title>
+    <title type="html"><![CDATA[在线分析转换标准 float 型数据]]></title>
     <link href="http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/"/>
     <updated>2012-09-20T19:54:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter</id>
@@ -26,8 +26,6 @@
 </code></pre>
 
 <p>根据IEEE754 Single precision 32-bit标准的定义:</p>
-
-<p><code><img src="https://raw.github.com/zodiac1111/zodiac1111.github.com/source/source/downloads/img/IEEE-754-float.png"></code></p>
 
 <p><img src="/downloads/img/IEEE-754-float.png">
 通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>

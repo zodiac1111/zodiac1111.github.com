@@ -4,7 +4,7 @@
   <title><![CDATA[Category: bash | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/bash/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-30T14:57:41+08:00</updated>
+  <updated>2012-09-30T15:04:17+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[使rake自动补全task]]></title>
+    <title type="html"><![CDATA[rake 自动补全 task]]></title>
     <link href="http://zodiac1111.github.com/blog/2012/09/19/rake-completion-in-bash/"/>
     <updated>2012-09-19T21:07:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/09/19/rake-completion-in-bash</id>
