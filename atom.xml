@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-29T23:08:00+08:00</updated>
+  <updated>2012-09-30T09:37:46+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -18,30 +18,31 @@
     <link href="http://zodiac1111.github.com/blog/2012/09/29/build-goldendict-from-source/"/>
     <updated>2012-09-29T22:30:00+08:00</updated>
     <id>http://zodiac1111.github.com/blog/2012/09/29/build-goldendict-from-source</id>
-    <content type="html"><![CDATA[<p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a>
-官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a></p>
+    <content type="html"><![CDATA[<p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a></p>
+
+<p>官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a></p>
 
 <p>在Fedora 17上编译可能出现的一些小问题:</p>
 
-<h3>articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</h3>
+<p>1.articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</p>
 
 <p>缺少qt的某个东西的头文件,安装即可:<code>yum install qtwebkit-devel</code></p>
 
-<h3>hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</h3>
+<p>2.hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</p>
 
 <p>缺少X11开发用的头文件,安装:<code>yum install libXtst-devel</code></p>
 
-<h3>articleview.cc:37:32: 致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</h3>
+<p>3.articleview.cc:37:32: 致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</p>
 
-<p><code>yum install phonon-devel</code></p>
+<p>安装:<code>yum install phonon-devel</code></p>
 
-<h3>decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</h3>
+<p>4.decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</p>
 
-<p><code>yum install bzip2-devel</code></p>
+<p>安装:<code>yum install bzip2-devel</code></p>
 
-<h3>安装到应用程序目录</h3>
+<p>5.安装到应用程序目录</p>
 
-<p><code>su -c 'make install'</code></p>
+<p>执行完<code>make</code>之后可以执行<code>su -c 'make install'</code>将图标等复制到特定的目录中</p>
 
 <h2>goldendict词典下载</h2>
 
