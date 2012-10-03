@@ -260,8 +260,6 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-nfs-server/" data-via="" data-counturl="http://zodiac1111.github.com/blog/2012/09/17/linux-fedora-17-install-nfs-server/" >Tweet</a>
-  
   
   
 </div>
@@ -353,6 +351,22 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
 </section>
 
 
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("zodiac_2012", 0, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/zodiac_2012">@zodiac_2012</a></p>
+  
+</section>
+
 
 
 
@@ -392,16 +406,6 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 

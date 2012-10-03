@@ -4,7 +4,7 @@
   <title><![CDATA[Category: float | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/float/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-09-30T15:07:28+08:00</updated>
+  <updated>2012-10-03T13:40:53+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -27,7 +27,7 @@
 
 <p>根据IEEE754 Single precision 32-bit标准的定义:</p>
 
-<p>{% img /downloads/img/IEEE-754-float.png %}
+<p><img src="/downloads/img/IEEE-754-float.png">
 通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>
 
 <p>一些特殊的值,如正无穷等,参见维基百科.</p>

@@ -388,16 +388,15 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 
 <p>复制<code>rake</code>文件到<code>/etc/bash_completion.d/</code>目录下(需要root权限):</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'> su -c <span class="s1">&#39;cp ./rake /etc/bash_completion.d/&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>su -c 'cp ./rake /etc/bash_completion.d/'</span></code></pre></td></tr></table></div></figure>
 
 
 <h2>使用</h2>
 
-<p> 需要补全的时候按<code>Tab</code>键就好啦~</p>
+<p>需要补全的时候按<code>Tab</code>键就好啦~,效果如下:</p>
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -405,15 +404,14 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>user1@localhost octopress<span class="o">]</span><span class="nv">$ </span>rake &lt;Tab&gt;
-</span><span class='line'>clean                     isolate<span class="o">[</span>filename<span class="o">]</span>         set_root_dir<span class="o">[</span>dir<span class="o">]</span>
-</span><span class='line'>copydot<span class="o">[</span><span class="nb">source</span>,dest<span class="o">]</span>      list                      setup_github_pages<span class="o">[</span>repo<span class="o">]</span>
-</span><span class='line'>deploy                    new_page<span class="o">[</span>filename<span class="o">]</span>        update_source<span class="o">[</span>theme<span class="o">]</span>
-</span><span class='line'>gen_deploy                new_post<span class="o">[</span>title<span class="o">]</span>           update_style<span class="o">[</span>theme<span class="o">]</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[user1@localhost octopress]$ rake &lt;Tab>
+</span><span class='line'>clean                     isolate[filename]         set_root_dir[dir]
+</span><span class='line'>copydot[source,dest]      list                      setup_github_pages[repo]
+</span><span class='line'>deploy                    new_page[filename]        update_source[theme]
+</span><span class='line'>gen_deploy                new_post[title]           update_style[theme]
 </span><span class='line'>generate                  preview                   watch
-</span><span class='line'>install<span class="o">[</span>theme<span class="o">]</span>            push
-</span><span class='line'>integrate                 rsync
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>install[theme]            push
+</span><span class='line'>integrate                 rsync</span></code></pre></td></tr></table></div></figure>
 
 
 
@@ -500,6 +498,22 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 </section>
 
 
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("zodiac_2012", 0, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/zodiac_2012">@zodiac_2012</a></p>
+  
+</section>
+
 
 
 
@@ -535,16 +549,6 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 
 
 
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'https://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
 
 
 
