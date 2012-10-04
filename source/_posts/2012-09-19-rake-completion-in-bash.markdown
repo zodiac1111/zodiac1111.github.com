@@ -14,16 +14,19 @@ categories: [rake,bash,completion]
 网址:<https://github.com/ai/rake-completion>
 
 ##安装
+
 安装也很简单,如`README`文件中`other unix-like`一节指示:
 
 复制`rake`文件到`/etc/bash_completion.d/`目录下(需要root权限):
-{% codeblock lang:bash %}
+{% codeblock %}
 	su -c 'cp ./rake /etc/bash_completion.d/'
 {% endcodeblock %}
-##使用
- 需要补全的时候按`Tab`键就好啦~
 
-{% codeblock lang:bash %}
+##使用
+
+需要补全的时候按`Tab`键就好啦~,效果如下:
+
+{% codeblock %}
 [user1@localhost octopress]$ rake <Tab>
 clean                     isolate[filename]         set_root_dir[dir]
 copydot[source,dest]      list                      setup_github_pages[repo]
