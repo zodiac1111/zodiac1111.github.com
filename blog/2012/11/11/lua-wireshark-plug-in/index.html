@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>喜乐</title>
+  <title>lua实现简单的wireshark自定义协议解析 - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
@@ -20,7 +20,7 @@ api定义参考 http://www. &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.com/">
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/11/11/lua-wireshark-plug-in/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -86,16 +86,13 @@ api定义参考 http://www. &hellip;">
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/11/11/lua-wireshark-plug-in/">Lua实现简单的wireshark自定义协议解析</a></h1>
+      
+        <h1 class="entry-title">Lua实现简单的wireshark自定义协议解析</h1>
       
     
     
@@ -114,14 +111,14 @@ api定义参考 http://www. &hellip;">
 
 <time datetime="2012-11-11T13:27:00+08:00" pubdate data-updated="true">2012-11-11 13:27</time>
         
-         | <a href="/blog/2012/11/11/lua-wireshark-plug-in/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>主要参考:</h3>
+<div class="entry-content"><h3>主要参考:</h3>
 
 <ol>
 <li>简单参考中文 <a href="http://yoursunny.com/study/IS409/ScoreBoard.htm">http://yoursunny.com/study/IS409/ScoreBoard.htm</a></li>
@@ -987,24 +984,16 @@ api定义参考 http://www. &hellip;">
 </span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
 
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/29/build-goldendict-from-source/">编译 Goldendict 笔记</a></h1>
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
       
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -1016,240 +1005,34 @@ api定义参考 http://www. &hellip;">
   
 
 
-<time datetime="2012-09-29T22:30:00+08:00" pubdate data-updated="true">2012-09-29 22:30</time>
-        
-         | <a href="/blog/2012/09/29/build-goldendict-from-source/#disqus_thread">Comments</a>
-        
-      </p>
+<time datetime="2012-11-11T13:27:00+08:00" pubdate data-updated="true">2012-11-11 13:27</time>
+      
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a>.</p>
-
-<p>官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a>.</p>
-
-<p>在Fedora 17上编译可能出现的一些小问题:</p>
-
-<p><strong>1.</strong><code>articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</code></p>
-
-<p>缺少qt的某个东西的头文件,安装即可:<code>yum install qtwebkit-devel</code></p>
-
-<p><strong>2.</strong><code>hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</code></p>
-
-<p>缺少X11开发用的头文件,安装:<code>yum install libXtst-devel</code></p>
-
-<p><strong>3.</strong><code>articleview.cc:37:32:致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</code></p>
-
-<p>安装:<code>yum install phonon-devel</code></p>
-
-<p><strong>4.</strong><code>decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</code></p>
-
-<p>安装:<code>yum install bzip2-devel</code></p>
-
-<p><strong>5.</strong>安装到应用程序目录</p>
-
-<p>执行完<code>make</code>之后可以执行<code>su -c 'make install'</code>将图标等复制到特定的目录中.</p>
-
-<h2>goldendict词典下载</h2>
-
-<p>星际译王词典:<a href="http://abloz.com/huzheng/stardict-dic">http://abloz.com/huzheng/stardict-dic</a></p>
+      <div class="sharing">
+  
+  
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用 githubRepoWidget 展示 Github 项目</a></h1>
+        <a class="basic-alignment left articlenav" href="/blog/2012/09/29/build-goldendict-from-source/" title="Previous Post: 编译 goldendict 笔记">&laquo; 编译 goldendict 笔记</a>
       
-    
-    
-      <p class="meta">
-        
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-20T22:55:00+08:00" pubdate data-updated="true">2012-09-20 22:55</time>
-        
-         | <a href="/blog/2012/09/20/otcopress-githubrepowidget/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><script src="/javascripts/libs/jquery.min.js"></script>
-
-
-<script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"></script>
-
-
-<p>使用githubRepoWidget在otcopress上展示项目的方法.</p>
-
-<h1>先看效果:</h1>
-
-<p>例子1 Linux kernel:</p>
-
-<div class="github-widget" data-repo="torvalds/linux"></div>
-
-
-<p>例子2 githubRepoWidget:</p>
-
-<div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"></div>
-
-
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/20/otcopress-githubrepowidget/">Read more &rarr;</a>
-    </footer>
-  
+  </section>
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/">在线分析转换标准 Float 型数据</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-20T19:54:00+08:00" pubdate data-updated="true">2012-09-20 19:54</time>
-        
-         | <a href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>计算机中float型数据以IEEE-754标准存储,例如<code>1234.5678</code>存储为<code>0x449A522B</code>(32位).</p>
-
-<p>使用二进制表示即:</p>
-
-<pre><code>01000100 10011010 01010010 00101011
-</code></pre>
-
-<p>根据IEEE754 Single precision 32-bit标准的定义:</p>
-
-<p><img src="/downloads/img/IEEE-754-float.png">
-通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>
-
-<p>一些特殊的值,如正无穷等,参见维基百科.</p>
-
-<p>更多的分析和在线转换参见参考资料.</p>
-
-<h2>参考资料</h2>
-
-<ol>
-<li>维基百科:<a href="https://zh.wikipedia.org/zh/IEEE_754">https://zh.wikipedia.org/zh/IEEE_754</a></li>
-<li>在线分析:<a href="http://babbage.cs.qc.cuny.edu/IEEE-754/">http://babbage.cs.qc.cuny.edu/IEEE-754/</a></li>
-<li>在线转换:<a href="http://www.binaryconvert.com/">http://www.binaryconvert.com/</a></li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/20/chromium-pdf-viewer/">Chromium 预览 Pdf 文件</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-20T19:46:00+08:00" pubdate data-updated="true">2012-09-20 19:46</time>
-        
-         | <a href="/blog/2012/09/20/chromium-pdf-viewer/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>chrome使用libpdf.so库,这个库不是自由软件,所以chromium默认没有带.
-chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code></p>
-
-<h2>复制chrome的pdf库</h2>
-
-<p>复制 <code>/opt/google/chrome/libpdf.so</code>到chrome-linux(chromium)下</p>
-
-<p>或许需要在浏览器中键入<code>chrome://plugins/</code>,使能Chrome PDF Viewer插件.</p>
-
-<h1>参考资料</h1>
-
-<ol>
-<li>简单的解决方式:<a href="http://askubuntu.com/questions/12584/why-doesnt-chromium-have-chrome-pdf-viewer-plugin">http://askubuntu.com/questions/12584/why-doesnt-chromium-have-chrome-pdf-viewer-plugin</a></li>
-<li>chromium issues:<a href="https://code.google.com/p/chromium/issues/detail?id=50852#c16">https://code.google.com/p/chromium/issues/detail?id=50852#c16</a></li>
-<li>libpdf.so</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
 
 <aside class="sidebar">
@@ -1292,7 +1075,7 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
@@ -1322,7 +1105,7 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -1342,6 +1125,7 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -1356,7 +1140,10 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
       var disqus_shortname = 'zodiac1111blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/11/11/lua-wireshark-plug-in/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2012/11/11/lua-wireshark-plug-in/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
