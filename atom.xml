@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-11-17T14:45:30+08:00</updated>
+  <updated>2012-11-17T14:59:09+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -104,6 +104,10 @@ Build id: M20120914-1800
 <p>[图:下载器/编程器配置]
 <img src="http://zodiac1111.github.com/downloads/img/avr-eclipse-config-hw.png"></p>
 
+<p>同时,在项目-属性中也可以设置.
+[图:项目属性中的设置(目标硬件设置等)]
+<img src="http://zodiac1111.github.com/downloads/img/avr-eclipse-proj-hwset.png"></p>
+
 <h2>使用</h2>
 
 <p>文件(File)->新建(New)->C语言项目(C Project).项目类型(Project type)中选择AVR Cross Target Project -> Empty Project. 给项目名字.</p>
@@ -139,6 +143,8 @@ Build id: M20120914-1800
 <li>自制USBasp下载器(CN):<a href="http://www.amobbs.com/thread-723786-1-1.html">http://www.amobbs.com/thread-723786-1-1.html</a></li>
 </ol>
 
+
+<p>本文地址:<a href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/</a></p>
 ]]></content>
   </entry>
   
