@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-11-17T15:09:13+08:00</updated>
+  <updated>2012-11-17T15:24:04+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -25,7 +25,7 @@
 
 <p>引用来源:见参考一节.</p>
 
-<h1>环境</h1>
+<h1>前提:环境</h1>
 
 <h2>软件:</h2>
 
@@ -57,8 +57,10 @@ Build id: M20120914-1800
 <h3>Eclipse 软件(插件)avr-eclipse:</h3>
 
 <pre><code>http://avr-eclipse.sourceforge.net
-&lt;!-- more --&gt;
 </code></pre>
+
+<!-- more -->
+
 
 <h4>下载软件:</h4>
 
@@ -76,22 +78,29 @@ Build id: M20120914-1800
 
 <h4>USBasp,很早以前淘宝上买的[参考4]:</h4>
 
-<p>lsusb查看如下:注意ID <strong>16c0:05dc</strong>, vid=0x16c0 pid=0x5dc</p>
+<p>lsusb查看如下:</p>
 
 <pre><code>Bus 003 Device 006: ID 16c0:05dc VOTI shared ID for use with libusb
 </code></pre>
 
+<p>这个好像只能下载(ISP).</p>
+
 <h4>AVR-JTAG-USB仿真器,也是很久以前买的[参考8]:</h4>
 
-<p>除了下载功能以外,还能在线调试.</p>
+<p>lsusb识别是usb转串,应该就是这样吧 = = .</p>
 
-<p><strong>以上两者任意一个就可以下载程序.</strong></p>
+<pre><code>Bus 003 Device 012: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
+</code></pre>
+
+<p>除了下载功能以外,这个还能在线调试.</p>
+
+<p><strong>以上两者任意一个都可以下载程序.</strong></p>
 
 <h3>开发板:</h3>
 
-<p>一年多前淘宝买的(ATmega128a)[参考5],原理图(TODO):</p>
+<p>一年多前淘宝买的开发板(ATmega128a)[参考5],原理图[参考6],扔那里也没怎么玩,最近来了兴致拿起来折腾折腾 :P .</p>
 
-<h1>搭建开发环境:在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.</h1>
+<h1>正文:搭建开发环境:在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.</h1>
 
 <p>[参考1]</p>
 
@@ -155,13 +164,14 @@ avrdude: jtagmkI_close(): unsupported baudrate -1
 <h1>参考:</h1>
 
 <ol>
-<li>avr开发环境搭建教程(EN) <a href="http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/">http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/</a></li>
+<li>avr开发环境搭建教程(EN),本文主要就是参考/翻译它的. <a href="http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/">http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/</a></li>
 <li>Linux下avr-Eclipse环境(EN):<a href="http://awawa.hariko.com/eclipse_avr_en.html">http://awawa.hariko.com/eclipse_avr_en.html</a></li>
 <li>avrdude 命令说明(CN):<a href="http://blog.21ic.com/user1/69/archives/2005/1551.html">http://blog.21ic.com/user1/69/archives/2005/1551.html</a></li>
 <li>淘宝上的USBasp下载器:<a href="http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.147.BquMN6&amp;tradeID=79509563401088">http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.147.BquMN6&amp;tradeID=79509563401088</a></li>
 <li>ATmega128a开发板淘宝:<a href="http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.184.BquMN6&amp;tradeID=79064532741088">http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.184.BquMN6&amp;tradeID=79064532741088</a></li>
-<li>开发板原理图(DropBox):</li>
+<li>开发板原理图(DropBox),包括厂商提供的学习手册:<a href="https://www.dropbox.com/sh/hyh2zcqd3px6iml/tOYBevw_Co">https://www.dropbox.com/sh/hyh2zcqd3px6iml/tOYBevw_Co</a></li>
 <li>自制USBasp下载器(CN):<a href="http://www.amobbs.com/thread-723786-1-1.html">http://www.amobbs.com/thread-723786-1-1.html</a></li>
+<li>AVR-jtag usb仿真器(也可以用来下载):<a href="http://item.taobao.com/item.htm?spm=0.0.0.46.W1V8IW&amp;id=2332186600">http://item.taobao.com/item.htm?spm=0.0.0.46.W1V8IW&amp;id=2332186600</a></li>
 </ol>
 
 
