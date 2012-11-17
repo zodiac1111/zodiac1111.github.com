@@ -9,7 +9,8 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="目前实现: 可以用过USBasp下载器下载到ATmega128a单片机中运行(厂商例程) 引用来源:见参考一节. 环境 软件: 开发平台Linux(kernel 3.6): 终端使用uname -a命令查看: Linux localhost.localdomain 3.6.3-1.fc17. &hellip;">
+  <meta name="description" content="目前实现: 可以用过USBasp下载器下载到ATmega128a单片机中运行(厂商例程),
+还未实现在线调试. 引用来源:见参考一节. 环境 软件: 开发平台Linux(kernel 3.6): 终端使用uname -a命令查看: Linux localhost.localdomain 3.6.3 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -121,7 +122,8 @@
 
   <div class="entry-content"><p>目前实现:</p>
 
-<p>可以用过USBasp下载器下载到ATmega128a单片机中运行(厂商例程)</p>
+<p>可以用过USBasp下载器<strong>下载</strong>到ATmega128a单片机中运行(厂商例程),
+还未实现在线调试.</p>
 
 <p>引用来源:见参考一节.</p>
 
@@ -174,12 +176,18 @@ Build id: M20120914-1800
 
 <h3>下载器:</h3>
 
-<p>USBasp,很早以前淘宝上买的[参考4]:</p>
+<h4>USBasp,很早以前淘宝上买的[参考4]:</h4>
 
 <p>lsusb查看如下:注意ID <strong>16c0:05dc</strong>, vid=0x16c0 pid=0x5dc</p>
 
 <pre><code>Bus 003 Device 006: ID 16c0:05dc VOTI shared ID for use with libusb
 </code></pre>
+
+<h4>AVR-JTAG-USB仿真器,也是很久以前买的[参考8]:</h4>
+
+<p>除了下载功能以外,还能在线调试.</p>
+
+<p><strong>以上两者任意一个就可以下载程序.</strong></p>
 
 <h3>开发板:</h3>
 
@@ -223,7 +231,21 @@ Build id: M20120914-1800
 
 <h3>可能遇到的问题:</h3>
 
-<p>选择好适当的下载器.本硬件在Eclipse中工程项目的属性选项中,左侧Programmer Hardwavr编程器硬件应该选择&#8221;USBasp&#8221;.默认端口如果不是默认的ttyUSB0,必须填写正确的端口以覆盖配置.</p>
+<h4>下载器(硬件)</h4>
+
+<p>选择好适当的下载器.USBasp在Eclipse中工程项目的属性选项中,左侧Programmer Hardwavr编程器硬件应该选择&#8221;USBasp&#8221;.默认端口如果不是默认的<code>/dev/ttyUSB0</code>,必须填写正确的端口以覆盖配置.</p>
+
+<p>使用AVR JTAG USB仿真器时选择&#8221;Atmel JTAG ICE(mk1)&#8221;.因为默认端口(/dev/parport0)不是usb,可能会提示如下错误:</p>
+
+<pre><code>avrdude: ser_open(): can't open device "/dev/parport0": No such file or directory
+avrdude: jtagmkI_close(): unsupported baudrate -1
+</code></pre>
+
+<p>所以默认端口必须覆盖,例如<code>/dev/ttyUSB0</code>. 测试可以下载,在线调试功能还在折腾中 :)</p>
+
+<p>总之:硬件和设置一定必须向配合.</p>
+
+<h4>软件:linux设备文件权限</h4>
 
 <p>默认情况下普通用户是没有linux的设备文件的读写权限的.所以avarice可能会提示访问受限.</p>
 
