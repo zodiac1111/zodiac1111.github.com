@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-11-11T14:35:53+08:00</updated>
+  <updated>2012-11-17T14:45:30+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Linux下avr单片机开发环境]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/"/>
+    <updated>2012-11-17T12:47:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set</id>
+    <content type="html"><![CDATA[<p>目前实现:</p>
+
+<p>可以用过USBasp下载器下载到ATmega128a单片机中运行(厂商例程)</p>
+
+<p>引用来源:见参考一节.</p>
+
+<h1>环境</h1>
+
+<h2>软件:</h2>
+
+<h3>开发平台Linux(kernel 3.6):</h3>
+
+<p>终端使用<code>uname -a</code>命令查看:</p>
+
+<pre><code>Linux localhost.localdomain 3.6.3-1.fc17.i686.PAE #1 SMP Mon Oct 22 15:48:37 UTC 2012 i686 i686 i386 GNU/Linux
+</code></pre>
+
+<h3>Linux 发行版(Fedora)</h3>
+
+<p>终端使用<code>lsb_release -a</code>命令查看:</p>
+
+<pre><code>LSB Version:    :core-4.1-ia32:core-4.1-noarch:cxx-4.1-ia32:cxx-4.1-noarch:desktop-4.1-ia32:desktop-4.1-noarch:languages-4.1-ia32:languages-4.1-noarch:printing-4.1-ia32:printing-4.1-noarch
+Distributor ID: Fedora
+Description:    Fedora release 17 (Beefy Miracle)
+Release:    17
+Codename:   BeefyMiracle
+</code></pre>
+
+<h3>IDE 平台:</h3>
+
+<pre><code>Eclipse Platform
+Version: 4.2.1
+Build id: M20120914-1800
+</code></pre>
+
+<h3>Eclipse 软件(插件)avr-eclipse:</h3>
+
+<pre><code>http://avr-eclipse.sourceforge.net
+&lt;!-- more --&gt;
+</code></pre>
+
+<h4>下载软件:</h4>
+
+<h5>Linux平台交叉编译avr程序交叉编译器:avr-gcc.</h5>
+
+<p>yum安装或者源代码编译</p>
+
+<h5>avr程序下载(烧写)软件:avrdude</h5>
+
+<p>网址<a href="http://savannah.nongnu.org/projects/avrdude/">http://savannah.nongnu.org/projects/avrdude/</a></p>
+
+<h2>硬件:</h2>
+
+<h3>下载器:</h3>
+
+<p>USBasp,很早以前淘宝上买的[参考4]:</p>
+
+<p>lsusb查看如下:注意ID <strong>16c0:05dc</strong>, vid=0x16c0 pid=0x5dc</p>
+
+<pre><code>Bus 003 Device 006: ID 16c0:05dc VOTI shared ID for use with libusb
+</code></pre>
+
+<h3>开发板:</h3>
+
+<p>一年多前淘宝买的(ATmega128a)[参考5],原理图(TODO):</p>
+
+<h1>搭建开发环境:在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.</h1>
+
+<p>[参考1]</p>
+
+<h2>安装AVR-Eclipse</h2>
+
+<p>在Eclipse中单击帮助(Help)->安装新软件(Install New Sofrware),之后将打开一个对话框.在对话框的顶部 Work with 文本框中粘贴 AVR-Eclipse 更新服务器的地址 (<a href="http://avr-eclipse.sourceforge.net/updatesite/">http://avr-eclipse.sourceforge.net/updatesite/</a>).如图:
+[图:安装插件]
+<img src="http://zodiac1111.github.com/downloads/img/avr-eclipse-plug-in.png"></p>
+
+<p>安装好之后,点击窗口(Window)->首选项(Preferences)展开左边的AVR一栏.
+[图:配置窗口]
+<img src="http://zodiac1111.github.com/downloads/img/avr-eclipse-config.png"></p>
+
+<p>侧边栏 编程器配置(Programmer COnfigurations)中点击添加(Add).
+左侧选择&#8221;USBasp,http://www.fishchl.de/usbasp&#8221;(<strong>注意</strong>:需要根据实际下载器硬件选择).</p>
+
+<p>[图:下载器/编程器配置]
+<img src="http://zodiac1111.github.com/downloads/img/avr-eclipse-config-hw.png"></p>
+
+<h2>使用</h2>
+
+<p>文件(File)->新建(New)->C语言项目(C Project).项目类型(Project type)中选择AVR Cross Target Project -> Empty Project. 给项目名字.</p>
+
+<p>下一步,点击高级设置(Advanced settings),选择之前配置文件. 就可以开始在Linux下进行单片机开发了.</p>
+
+<p>编译完成后,点击avr菜单->上载项目到目标设备即可
+[图:上载到设备(开发板)]
+<img src="http://zodiac1111.github.com/downloads/img/avr-eclipse-download.png"></p>
+
+<p>环境详情参阅[参考1]</p>
+
+<h3>可能遇到的问题:</h3>
+
+<p>选择好适当的下载器.本硬件在Eclipse中工程项目的属性选项中,左侧Programmer Hardwavr编程器硬件应该选择&#8221;USBasp&#8221;.默认端口如果不是默认的ttyUSB0,必须填写正确的端口以覆盖配置.</p>
+
+<p>默认情况下普通用户是没有linux的设备文件的读写权限的.所以avarice可能会提示访问受限.</p>
+
+<p>这时只要给avarice增加权限位即可.
+1. 切换到root用户
+2. chmod a+s /usr/bin/avrdude #赋予权限位
+3. 切换回普通用户,继续操作即可.</p>
+
+<h1>参考:</h1>
+
+<ol>
+<li>avr开发环境搭建教程(EN) <a href="http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/">http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/</a></li>
+<li>Linux下avr-Eclipse环境(EN):<a href="http://awawa.hariko.com/eclipse_avr_en.html">http://awawa.hariko.com/eclipse_avr_en.html</a></li>
+<li>avrdude 命令说明(CN):<a href="http://blog.21ic.com/user1/69/archives/2005/1551.html">http://blog.21ic.com/user1/69/archives/2005/1551.html</a></li>
+<li>淘宝上的USBasp下载器:<a href="http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.147.BquMN6&amp;tradeID=79509563401088">http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.147.BquMN6&amp;tradeID=79509563401088</a></li>
+<li>ATmega128a开发板淘宝:<a href="http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.184.BquMN6&amp;tradeID=79064532741088">http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.184.BquMN6&amp;tradeID=79064532741088</a></li>
+<li>开发板原理图(DropBox):</li>
+<li>自制USBasp下载器(CN):<a href="http://www.amobbs.com/thread-723786-1-1.html">http://www.amobbs.com/thread-723786-1-1.html</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[lua实现简单的wireshark自定义协议解析]]></title>
@@ -2349,56 +2478,6 @@ airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
 
 <p>tftpd设定<a href="http://std.sssh.tp.edu.tw/lesson/linux/tftp.htm">TFTP Trivial File Transfer Protocol</a><br/>
 防火墙设置 http://himme007.blog.163.com/blog/static/3466802520095742420660/</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[hello world]]></title>
-    <link href="http://zodiac1111.github.com/blog/2012/06/03/hello-world/"/>
-    <updated>2012-06-03T09:01:00+08:00</updated>
-    <id>http://zodiac1111.github.com/blog/2012/06/03/hello-world</id>
-    <content type="html"><![CDATA[<p>这是一个沙盒,测试各种不成熟的东西.</p>
-
-<!-- more -->
-
-
-<p>测试程序:测试2</p>
-
-<h1>代码测试</h1>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>int main()
-</span><span class='line'>{
-</span><span class='line'>  int i;
-</span><span class='line'>  return 0;
-</span><span class='line'>}
-</span><span class='line'>$ sudo make me a sandwich</span></code></pre></td></tr></table></div></figure>
-
-
-<h1>影片测试</h1>
-
-<div class="video-container">
-    <embed src="http://player.youku.com/player.php/sid/XNDQ4ODQxNTI0/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
-</div>
-
-
-<h1>图片测试</h1>
-
-<p><img src="http://placekitten.com/890/280">
-Bacon ipsum dolor sit amet exercitation ball tip consectetur tempor. Biltong exercitation aliqua, ribeye consequat veniam consectetur.
-Aliquip nulla do tempor, ball tip dolore anim esse strip steak nisi nostrud. Tri-tip mollit deserunt ut duis, commodo brisket short loin est hamburger sunt consequat rump meatloaf. Exercitation enim aliqua tempor dolore. Non eu venison, officia boudin tri-tip enim beef ribs flank cupidatat in aute. Tail voluptate fugiat aute flank, venison sint.
-Filler text courtesy of Bacon Ipsum, Images courtesy of Place Kitten.
-Brisket quis velit bresaola. Pork loin pork chop beef duis. Short loin fugiat officia short ribs magna. Ullamco eu proident jerky, fugiat chuck nostrud ham rump meatloaf eiusmod adipisicing. Qui et reprehenderit, magna biltong consequat short ribs pancetta. Tail tenderloin sausage, hamburger corned beef drumstick ad. Eu labore enim velit.
-<img class="left" src="http://placekitten.com/320/250" title="Place Kitten #2" ></p>
-
-<p><img class="right" src="http://placekitten.com/300/500" width="150" height="250" title="Place Kitten #3" ></p>
-
-<p><img class="right" src="http://placekitten.com/300/500" width="150" height="250" title="Place Kitten #4" alt="An image of a very cute kitten"></p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="来源 当然，通过输入iwconfig查看也是可以滴。这个命令专用于查看无线网卡，不像ifconfig那样查看所有适配器。 iwconfig 在Linux下，我们使用Aircrack-ng套装里的airmon-ng工具来实现，具体命令如下： ">
+  <meta name="description" content="使用valgrind测试程序的内存泄露/多线程竞争/等等 http://www.ibm.com/developerworks/cn/linux/l-cn-valgrind/ 在执行 Valgrind 期间连接 gdb http://www.ibm.com/developerworks/cn/aix &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +86,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/08/22/other/">Other</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-22T20:33:00+08:00" pubdate data-updated="true">2012-08-22 20:33</time>
+        
+         | <a href="/blog/2012/08/22/other/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>使用valgrind测试程序的内存泄露/多线程竞争/等等</h1>
+
+<p>http://www.ibm.com/developerworks/cn/linux/l-cn-valgrind/</p>
+
+<h1>在执行 Valgrind 期间连接 gdb</h1>
+
+<blockquote><p>http://www.ibm.com/developerworks/cn/aix/library/au-aixnirvana/index.html</p></blockquote>
+
+<p>algrind 和 gdb 可以结合使用。通过在 Valgrind 中使用 -db-attach=yes 选项，可以在运行 Valgrind 时直接调用 gdb。例如，如果带 –db-attach 选项对清单 12 中的代码调用 Valgrind，在首次遇到内存问题时，它会调用 gdb，见清单 13。
+valgrind &#8211;tool=memcheck &#8211;leak-check=full  &#8211;db-attach=yes ./test
+ps:&#8211;db-command=<command> 选项可以指定调试器</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/22/other/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -303,52 +358,9 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/06/03/hello-world/">Hello World</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-06-03T09:01:00+08:00" pubdate data-updated="true">2012-06-03 09:01</time>
-        
-         | <a href="/blog/2012/06/03/hello-world/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>这是一个沙盒,测试各种不成熟的东西.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/06/03/hello-world/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -362,6 +374,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
@@ -385,10 +401,6 @@
     
       <li class="post">
         <a href="/blog/2012/09/19/rake-completion-in-bash/">rake 自动补全 task</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/17/linux-fedora-17-install-nfs-server/">Linux/Fedora 17下安装配置NFS服务</a>
       </li>
     
   </ul>

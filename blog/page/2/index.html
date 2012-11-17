@@ -9,7 +9,8 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="在使用octopress写文章时有些命令记不太全,如 new_post["title"],rake generate,rake preview,rake deploy,rake gen_deploy. 那么想到既然bash中make可以自动补全目标(target), &hellip;">
+  <meta name="description" content="chrome使用libpdf.so库,这个库不是自由软件,所以chromium默认没有带.
+chrome默认自带的库默认路径为:/opt/google/chrome/libpdf.so 复制chrome的pdf库 复制 /opt/google/chrome/libpdf.so到chrome- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +87,62 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/09/20/chromium-pdf-viewer/">Chromium 预览 Pdf 文件</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-20T19:46:00+08:00" pubdate data-updated="true">2012-09-20 19:46</time>
+        
+         | <a href="/blog/2012/09/20/chromium-pdf-viewer/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>chrome使用libpdf.so库,这个库不是自由软件,所以chromium默认没有带.
+chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code></p>
+
+<h2>复制chrome的pdf库</h2>
+
+<p>复制 <code>/opt/google/chrome/libpdf.so</code>到chrome-linux(chromium)下</p>
+
+<p>或许需要在浏览器中键入<code>chrome://plugins/</code>,使能Chrome PDF Viewer插件.</p>
+
+<h1>参考资料</h1>
+
+<ol>
+<li>简单的解决方式:<a href="http://askubuntu.com/questions/12584/why-doesnt-chromium-have-chrome-pdf-viewer-plugin">http://askubuntu.com/questions/12584/why-doesnt-chromium-have-chrome-pdf-viewer-plugin</a></li>
+<li>chromium issues:<a href="https://code.google.com/p/chromium/issues/detail?id=50852#c16">https://code.google.com/p/chromium/issues/detail?id=50852#c16</a></li>
+<li>libpdf.so</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -367,97 +424,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">简单的 Modbus/tcp 实现</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-15T00:15:00+08:00" pubdate data-updated="true">2012-09-15 00:15</time>
-        
-         | <a href="/blog/2012/09/15/a-simple-modbus-tcp-instance/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>测试工具: modpoll(主站) diagslave(从站)</h1>
-
-<h2>简介</h2>
-
-<p>支持平台:</p>
-
-<ol>
-<li>Windows</li>
-<li>Linux (x86 32-bit) &lt;-本文实验平台</li>
-<li>Solaris (SPARC)</li>
-<li>QNX Neutrino 6 (x86)</li>
-</ol>
-
-
-<p>本文使用这两个软件进行Linux 32位平台下的Modbus/TCP程序调试.</p>
-
-<h3>1. 模拟主站(Linux):</h3>
-
-<pre><code>./modpoll -m tcp -a 2 -t4:hex -r 10 -c 3  127.0.0.1 -1 -p 10001
-</code></pre>
-
-<p>各个选项意义如下:</p>
-
-<ol>
-<li>-m &lt;模式名>    : -m tcp即MODBUS/TCP protocol模式</li>
-<li>-a &lt;从站编号>  : Slave address (1-255, 默认 1 )</li>
-<li>-t 4:hex      : 16-bit output (holding) register data type with hex display;另有其他多种参见<strong>参考</strong></li>
-<li>-r #          : Start reference (1-65536, 100 is default)</li>
-<li>-c #          : Number of values to poll (1-100, 1 is default)</li>
-<li>127.0.0.1     : IP地址(tcp模式)</li>
-<li>-1            : (数字1)发送一次,没有这个选项则连续发送</li>
-<li>-p &lt;端口号>    : tcp模式下指定端口号,默认 502</li>
-</ol>
-
-
-<h3>2. 模拟从站(Linux):</h3>
-
-<pre><code>./diagslave -m tcp -p 10001
-</code></pre>
-
-<p>选项意义:</p>
-
-<ol>
-<li>-m tcp :tcp模式</li>
-<li>-p 10001 : 监听端口</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/15/a-simple-modbus-tcp-instance/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -474,6 +440,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
@@ -497,10 +467,6 @@
     
       <li class="post">
         <a href="/blog/2012/09/19/rake-completion-in-bash/">rake 自动补全 task</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/17/linux-fedora-17-install-nfs-server/">Linux/Fedora 17下安装配置NFS服务</a>
       </li>
     
   </ul>
