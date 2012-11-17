@@ -260,6 +260,16 @@ avrdude: jtagmkI_close(): unsupported baudrate -1
 2. chmod a+s /usr/bin/avrdude #赋予权限位
 3. 切换回普通用户,继续操作即可.</p>
 
+<h4>快捷键无效</h4>
+
+<p>快捷键可能被fcitx输入法程序截获,尝试关闭输入法在试试快捷键,例如Ctrl+Shift+f 格式化(format)代码.</p>
+
+<h4>编译程序下载后没反映</h4>
+
+<p>暂时发现 项目->属性 -> C/C++ Build栏 -> Setting -> AVR Compiler(avr编译器)<br/>
+-> Optimization(优化) -> Optimization Level(优化等级) 除了选择 (-O0)没有优化外,<br/>
+其他选项生成的程序都无法执行(没效果) 暂时不知道什么原因 :(</p>
+
 <h1>参考:</h1>
 
 <ol>
