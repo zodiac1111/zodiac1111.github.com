@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-11-17T20:20:03+08:00</updated>
+  <updated>2012-11-19T21:03:02+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -12,6 +12,129 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Linux系统下通过JTAG调试atmega128a]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/"/>
+    <updated>2012-11-19T20:00:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux</id>
+    <content type="html"><![CDATA[<p><a href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.</p>
+
+<h1>前言</h1>
+
+<p>首先说说我对编译开发调试环境的大概认识,如下图:</p>
+
+<p><img src="http://zodiac1111.github.com/downloads/img/结构示意图.png"></p>
+
+<p>PC(编译下载)大约就是<a href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>所涉及的部分.</p>
+
+<p>而PC(调试服务器)和PC(调试)就是本文涉及的内容.</p>
+
+<p>稍微解释下我的理解:</p>
+
+<ol>
+<li>调试器:使用JTAG调试器,淘宝上几十块钱买的.看样子是兼容AVR JTAG ICE(mk1)的山寨版,能用.</li>
+<li>avarice:这里avr-gdb远程调试通过TCP服务,显然板子是不能提供这个服务的,那么avarice大致功能就是将串口(USB)(连着JTAG)转化成为TCP协议,这样通过这个TCP协议可以远程调试</li>
+<li>avr-gdb:调试器,可以是使用target remote 指定远程调试</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h1>效果</h1>
+
+<p>如图:</p>
+
+<p><img src="http://zodiac1111.github.com/downloads/img/avr-debug.png"></p>
+
+<h1>配置</h1>
+
+<h2>调试器(eclipse)</h2>
+
+<p>主要参考 参考[1]和参考[2],对于Linux和win几乎没什么区别.</p>
+
+<p>对于调试配置,找着参考[1]的设置:</p>
+
+<p><img src="http://zodiac1111.github.com/downloads/img/调试配置1.png"></p>
+
+<ol>
+<li>确保使用GDB Hardware Debugging,也有说(参考[2])C/C++ Application也行,反正我没弄成</li>
+<li>执行 调试器命令.就是在命令行中输入 avr-gdb能启动调试器就可以.</li>
+<li>调试目标 等同于命令行中进入avr-gdb后 敲的 <code>target remote localhost:4242</code></li>
+<li>确保是 “Standard GDB Hardware Debugging 启动程序”</li>
+</ol>
+
+
+<p>以上是调试器的设置.光设置完调试器并不能调试,还要配置好调试服务器,这样调试器才能连接上调试服务器进行调试.这时就需要上面说的 avarice 了.</p>
+
+<h2>调试服务器</h2>
+
+<p>avarice在终端运行,并且只有他运行着才能在eclipse上正确进行调试;</p>
+
+<p>指令:</p>
+
+<pre><code>avarice -P atmega128 -j /dev/ttyUSB0 :4242
+</code></pre>
+
+<p>参数意义是</p>
+
+<ol>
+<li>-P &lt;型号> :指定型号 ,atmega128a使用 atmega128</li>
+<li>-j &lt;JTAG端口> : 指定使用JTAG的端口,我使用的是 /dev/ttyUSB0 <strong>注意设备文件的权限</strong></li>
+<li>:4242 指定开放本机TCP4242端口,之后其他程序(调试器)就可以连接到这个端口进行调试了.<strong>注意和前面参数空格空开</strong></li>
+</ol>
+
+
+<p>然后看到类似下面的提示:</p>
+
+<pre><code>AVaRICE version 2.12, Jan 12 2012 23:36:05
+
+Defaulting JTAG bitrate to 250 kHz.
+
+JTAG config starting.
+Hardware Version: 0xc3
+Software Version: 0x80
+Reported JTAG device ID: 0x9702
+Configured for device ID: 0x9702 atmega128 -- Matched with atmega128
+JTAG config complete.
+Preparing the target device for On Chip Debugging.
+Waiting for connection on port 4242.
+</code></pre>
+
+<p>JTAG已经能正确识别,单片机型号也读出来了,这时光标闪烁提示等待别的程序连接到4242端口.</p>
+
+<p>这时如果使用avr-gdb命令行指定<code>target remote localhost:4242</code>或者IDE中运行调试,则可以看到如下如是有程序从本机(127.0.0.1)的56443端口连接上来了.</p>
+
+<pre><code>....
+Preparing the target device for On Chip Debugging.
+Waiting for connection on port 4242.
+Connection opened by host 127.0.0.1, port 56443.
+</code></pre>
+
+<p>这时就可以调试了.</p>
+
+<h2>其他</h2>
+
+<p>小技巧:在eclipse调试配置的Startup启动选项卡中Runtime Options选择在&#8221;mian函数设置断点&#8221;和&#8221;Resume&#8221;则可以开始调试时直接让程序停在主函数,不然可能需要按&#8221;继续&#8221;开继续运行,或者开始执行初始化代码.
+<img src="http://zodiac1111.github.com/downloads/img/调试配置main.png"></p>
+
+<h1>遗留问题</h1>
+
+<ol>
+<li>反汇编还不能正确运行,无法一步一步执行(查看)汇编代码</li>
+</ol>
+
+
+<h1>参考:</h1>
+
+<ol>
+<li>使用eclipse调试avr(EN) <a href="http://tobias.schroepf.de/doku/doku.php?id=garage:atmel_avr_debugging_with_eclipse">http://tobias.schroepf.de/doku/doku.php?id=garage:atmel_avr_debugging_with_eclipse</a></li>
+<li>avr-eclipse 调试wiki(EN) <a href="http://avr-eclipse.sourceforge.net/wiki/index.php/Debugging">http://avr-eclipse.sourceforge.net/wiki/index.php/Debugging</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Linux下avr单片机开发环境]]></title>
@@ -2419,112 +2542,6 @@ airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
 <p>:set
 :set all
 查看设定选项</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Fedora 17 x86_64安装配置TFTP服务器]]></title>
-    <link href="http://zodiac1111.github.com/blog/2012/07/03/Fedora-17-x86_64-tftp/"/>
-    <updated>2012-07-03T10:58:00+08:00</updated>
-    <id>http://zodiac1111.github.com/blog/2012/07/03/Fedora-17-x86_64-tftp</id>
-    <content type="html"><![CDATA[<blockquote><p>http://www.oklinux.cn/html/network/ser/20090729/72351.html</p></blockquote>
-
-<hr />
-
-<p>f17下有些东西有所改变,网上一些教程略显陈旧.</p>
-
-<h3>安装环境：Fedora</h3>
-
-<p>1.安装xinetd<br/>
-这是一个守护程序(?)</p>
-
-<pre><code>yum install xinetd
-</code></pre>
-
-<p>2.安装tftp server(ftp服务器)</p>
-
-<pre><code>yum install tftp tftp-server
-</code></pre>
-
-<p>3.更改tftp配置文件 <code>/etc/xinetd.d/tftp</code></p>
-
-<!-- more -->
-
-
-<p><code>vi /etc/xinetd.d/tftp</code>,打开tftp文件，设置tftp的跟目录，开启服务。（没有安装tftp-server之前，不存在tftp文件）</p>
-
-<pre><code>service tftp
-{
-    socket_type = dgram
-    protocol = udp
-    wait = yes
-    user = root
-    server = /usr/sbin/in.tftpd
-    #tftp服务器跟目录
-    #-c 表示服务端可以创建(create)文件.
-    #更多 man tftpd
-    server_args = -c -s /home/gerry/tftpboot  
-    #disable = yes 
-    disable = no
-    per_source = 11
-    cps = 100 2
-    flags = IPv4
-}
-</code></pre>
-
-<p>在上述server_args设置tftp的工作目录<br/>
-并且注释掉disable选项或者改成no使能tftp服务。</p>
-
-<p>4.在<code>/home/gerry</code>下创建tftpboot目录，并且修改权限</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir tftpboot
-</span><span class='line'>chmod 777 tftpboot/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>5.启动tftp服务器</p>
-
-<pre><code>service xinetd restart
-</code></pre>
-
-<p>现在已经被重定向,提示:<code>Redirecting to /bin/systemctl  restart xinetd.service</code><br/>
-没什么影响,推荐按照重定向的命令执行来开启tftp服务<code>/bin/systemctl  restart xinetd.service</code></p>
-
-<p>ps:selinux 和防火墙都可能(一定)使服务生效但无法访问!
-粗暴但有效的解决办法 关闭syslinux 和防火墙</p>
-
-<h4>selinux</h4>
-
-<p>*临时关闭SELinux。如果你仅仅只是想临时关闭，可以输入</p>
-
-<pre><code>setenforce 0
-</code></pre>
-
-<p>禁用SELinux。在 /etc  下可以看到一个SELinux文件夹，进入后，里面有个config文件，在终端进入到文件夹，输入</p>
-
-<pre><code>vi config
-</code></pre>
-
-<p>更改其中的SELINUX项的值就可以关闭和启用SELinux服务了。
-修改成  SELINUX=disable     禁用SeLinux
-修改成  SELINUX=enforcing 使用SeLinux</p>
-
-<h4>精准的防火墙设置</h4>
-
-<blockquote><p>http://himme007.blog.163.com/blog/static/3466802520095742420660/</p></blockquote>
-
-<p>修改<code>/etc/sysconfig/iptables</code>文件，添加以下内容：</p>
-
-<pre><code>-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT  
-</code></pre>
-
-<p>各项参数含义暂时不甚了解,详情搜索iptables.</p>
-
-<h1>参考文献</h1>
-
-<p>tftpd设定<a href="http://std.sssh.tp.edu.tw/lesson/linux/tftp.htm">TFTP Trivial File Transfer Protocol</a><br/>
-防火墙设置 http://himme007.blog.163.com/blog/static/3466802520095742420660/</p>
 ]]></content>
   </entry>
   
