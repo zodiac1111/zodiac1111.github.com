@@ -22,6 +22,8 @@ footer: false
 <div class="github-widget" data-repo="zodiac1111/dotvim"></div>
 3
 <div class="github-widget" data-repo="zodiac1111/zodiac1111.github.com"></div>
+<!-- more -->
+
 # 代码测试
 codeblock:c
 {% codeblock lang:c %}
