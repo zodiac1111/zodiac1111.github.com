@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2012-11-22T20:23:55+08:00</updated>
+  <updated>2012-11-24T21:05:00+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -12,6 +12,135 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[为调试程序编译avr-insight]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/"/>
+    <updated>2012-11-24T18:16:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui</id>
+    <content type="html"><![CDATA[<h1>完成效果:</h1>
+
+<h1>编译avr-insight</h1>
+
+<p>构建avr-gcc<a href="http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC">http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC</a></p>
+
+<p>insight下载的地址:<a href="http://mirrors.kernel.org/sources.redhat.com/insight/releases/">http://mirrors.kernel.org/sources.redhat.com/insight/releases/</a>
+下载<code>insight-6.8-1a.tar.bz2</code></p>
+
+<p>`
+$ ./configure &#8211;target=avr &#8211;program-prefix=&#8221;avr-&#8221;
+$ make
+as root</p>
+
+<h1>make install</h1>
+
+<p>`</p>
+
+<h2>问题</h2>
+
+<h3>警告升级为错误1</h3>
+
+<p>在<code>make</code>阶段发生如下错误:</p>
+
+<p>`
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.././bfd -I. -I. -I.././bfd -I.././bfd/../include -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror -g -O2 -c elf32-avr.c -o elf32-avr.o
+elf32-avr.c: In function &#8216;elf32_avr_relocate_section&#8217;:
+elf32-avr.c:1204:34: error: variable &#8216;warned&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c:1204:16: error: variable &#8216;unresolved_reloc&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c:1183:11: error: variable &#8216;r_type&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c: In function &#8216;elf32_avr_relax_delete_bytes&#8217;:
+elf32-avr.c:1414:15: error: variable &#8216;shrinked_insn_address&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c:1382:22: error: variable &#8216;irelalign&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c: In function &#8216;elf32_avr_relax_section&#8217;:
+elf32-avr.c:1596:29: error: variable &#8216;last_reloc&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c: In function &#8216;avr_mark_stub_not_to_be_necessary&#8217;:
+elf32-avr.c:2459:37: error: variable &#8216;htab&#8217; set but not used [-Werror=unused-but-set-variable]
+cc1: all warnings being treated as errors
+make[4]: <strong><em> [elf32-avr.lo] 错误 1
+make[4]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+make[3]: </em></strong> [all-recursive] 错误 1
+make[3]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+make[2]: <strong><em> [all] 错误 2
+make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+make[1]: </em></strong> [all-bfd] 错误 2
+make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+make: *** [all] 错误 2</p>
+
+<p>`</p>
+
+<p>将文件insight-6.8-1/bfd/Makefile,修改为:</p>
+
+<p><code>201: WARN_CFLAGS = -W -Wall -Wstrict-prototypes -Wmissing-prototypes #-Werror</code>
+注销掉<code>-Werror</code></p>
+
+<h3>警告升级为错误2</h3>
+
+<p>在<code>make</code>阶段发生如下错误:</p>
+
+<p>`gcc -c -g -O2   -I. -I.././gdb -I.././gdb/config -DLOCALEDIR=&#8221;&#34;/usr/local/share/locale&#34;&#8221; -DHAVE_CONFIG_H -I.././gdb/../include/opcode -I.././gdb/../readline/.. -I../bfd -I.././gdb/../bfd -I.././gdb/../include -I../libdecnumber -I.././gdb/../libdecnumber   -DMI_OUT=1 -DGDBTK -DTUI=1  -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wno-switch -Wno-char-subscripts -Werror cp-name-parser.c
+cp-name-parser.y: 在函数‘cp_comp_to_string’中:
+cp-name-parser.y:1980:20: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+cp-name-parser.y:1985:25: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+cc1: all warnings being treated as errors
+make[2]: <strong><em> [cp-name-parser.o] 错误 1
+make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/gdb”
+make[1]: </em></strong> [all-gdb] 错误 2
+make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+make: *** [all] 错误 2</p>
+
+<p>`</p>
+
+<p>文件insight-6.8-1/gdb/Makefile修改为:
+<code>145:WERROR_CFLAGS = #-Werror</code>
+注销掉<code>-Werror</code></p>
+
+<h2>使用 insight-6.8a.tar.bz2  可能的问题</h2>
+
+<p><a href="http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223">http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223</a>
+`
+Tk_Init failed: Can&#8217;t find a usable tk.tcl in the following directories:
+/usr/local/share/tk8.4 /usr/local/lib/tk8.4 /usr/lib/tk8.4 /usr/local/library /usr/library /usr/tk8.4.1/library /tk8.4.1/library</p>
+
+<p>/usr/local/share/tk8.4/tk.tcl: no event type or button # or keysym
+no event type or button # or keysym
+while executing
+&#8220;bind Listbox <MouseWheel> {
+%W yview scroll [expr {- (%D / 120) * 4}] units
+}&#8221;
+(file &#8220;/usr/local/share/tk8.4/listbox.tcl&#8221; line 182)
+invoked from within
+&#8220;source /usr/local/share/tk8.4/listbox.tcl&#8221;
+(in namespace eval &#8220;::&#8221; script line 1)
+invoked from within
+&#8220;namespace eval ::[list source [file join $::tk_library $file.tcl]]&#8221;
+(procedure &#8220;SourceLibFile&#8221; line 2)
+invoked from within
+&#8220;SourceLibFile listbox&#8221;
+(in namespace eval &#8220;::tk&#8221; script line 4)
+invoked from within
+&#8220;namespace eval ::tk {
+SourceLibFile button
+SourceLibFile entry
+SourceLibFile listbox
+SourceLibFile menu
+SourceLibFile panedwindow
+SourceLibFile &#8230;&#8221;
+invoked from within
+&#8220;if {$::tk_library ne &#8220;&#8221;} {
+if {[string equal $tcl_platform(platform) &#8220;macintosh&#8221;]} {
+proc ::tk::SourceLibFile {file} {
+if {[catch {
+namesp&#8230;&#8221;
+(file &#8220;/usr/local/share/tk8.4/tk.tcl&#8221; line 393)
+invoked from within
+&#8220;source /usr/local/share/tk8.4/tk.tcl&#8221;
+(&#8220;uplevel&#8221; body line 1)
+invoked from within
+&#8220;uplevel #0[list source $file]&#8221;
+This probably means that tk wasn&#8217;t installed properly.
+`</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[配置gcc编译警告选项]]></title>
@@ -2578,52 +2707,6 @@ format &#8230;
 
 <p>图11
 airodump-ng -c 6  -w &lt;文件名> &#8211;ivs mon0</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[vim查找替换]]></title>
-    <link href="http://zodiac1111.github.com/blog/2012/08/21/vim-search-replace/"/>
-    <updated>2012-08-21T17:15:00+08:00</updated>
-    <id>http://zodiac1111.github.com/blog/2012/08/21/vim-search-replace</id>
-    <content type="html"><![CDATA[<p><code>#vim查找替换</code>
-参考资料:http://www.chinavim.org/vivim-%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%A4%A7%E5%85%A8.html</p>
-
-<p> 可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符</p>
-
-<p> :替换当前行第一个 vivian/ 为 sky/</p>
-
-<p> <code>:n,$s/vivian/sky/</code> 替换第 n 行开始到最后一行中每一行的<strong>第一个</strong> vivian 为 sky</p>
-
-<p> <code>:n,$s/vivian/sky/g</code> 替换第 n 行开始到最后一行中每一行<strong>所有</strong> vivian 为 sky
-<code>
-:[地址/范围]s/&lt;搜索字&gt;/&lt;替换字&gt;[/g]
-</code></p>
-
-<!-- more -->
-
-
-<ol>
-<li>地址/范围有:
-<code>
-无 :当前行
-1,10 : 1~10行
-1,$  :1~最后一行/文件结束 ps : 1,$ 等价于 %
-.,.+10 从当前行(".") 到偏置10行(".+10") "+"表示向下偏移 "-"表示向上偏移
-</code></li>
-<li>s : sed 风格的搜索</li>
-<li>/ : 分割符</li>
-<li>g : 表示继续匹配(没有 表示匹配一次)</li>
-</ol>
-
-
-<p>(n 为数字，若 n 为 .&lt;句号>，表示从当前行开始到最后一行)</p>
-
-<h2>删除</h2>
-
-<p>删除括号内的东西 不包含括号 di) =delet in )<br/>
-光标在一个word内部删除这个整个单词 diw  del in word<br/>
-删除并进入insert模式方便修改 ciw change in word</p>
 ]]></content>
   </entry>
   

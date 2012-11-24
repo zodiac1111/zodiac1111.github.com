@@ -9,7 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="在各个层次关闭或开启编译警告选项 从上到下覆盖 推荐的警告选项:-Wall -Wextra 1. 符号级:指定某个变量警告 主要使用__attribute__这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然__attribute__还能指定其他很多中属性,例如结构体变量的对齐方式, &hellip;">
+  <meta name="description" content="完成效果: 编译avr-insight 构建avr-gcchttp://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC insight下载的地址:http://mirrors.kernel.org/sources.redhat.com/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +86,166 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">为调试程序编译avr-insight</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-24T18:16:00+08:00" pubdate data-updated="true">2012-11-24 18:16</time>
+        
+         | <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>完成效果:</h1>
+
+<h1>编译avr-insight</h1>
+
+<p>构建avr-gcc<a href="http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC">http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC</a></p>
+
+<p>insight下载的地址:<a href="http://mirrors.kernel.org/sources.redhat.com/insight/releases/">http://mirrors.kernel.org/sources.redhat.com/insight/releases/</a>
+下载<code>insight-6.8-1a.tar.bz2</code></p>
+
+<p>`
+$ ./configure &#8211;target=avr &#8211;program-prefix=&#8221;avr-&#8221;
+$ make
+as root</p>
+
+<h1>make install</h1>
+
+<p>`</p>
+
+<h2>问题</h2>
+
+<h3>警告升级为错误1</h3>
+
+<p>在<code>make</code>阶段发生如下错误:</p>
+
+<p>`
+libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.././bfd -I. -I. -I.././bfd -I.././bfd/../include -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror -g -O2 -c elf32-avr.c -o elf32-avr.o
+elf32-avr.c: In function &#8216;elf32_avr_relocate_section&#8217;:
+elf32-avr.c:1204:34: error: variable &#8216;warned&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c:1204:16: error: variable &#8216;unresolved_reloc&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c:1183:11: error: variable &#8216;r_type&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c: In function &#8216;elf32_avr_relax_delete_bytes&#8217;:
+elf32-avr.c:1414:15: error: variable &#8216;shrinked_insn_address&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c:1382:22: error: variable &#8216;irelalign&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c: In function &#8216;elf32_avr_relax_section&#8217;:
+elf32-avr.c:1596:29: error: variable &#8216;last_reloc&#8217; set but not used [-Werror=unused-but-set-variable]
+elf32-avr.c: In function &#8216;avr_mark_stub_not_to_be_necessary&#8217;:
+elf32-avr.c:2459:37: error: variable &#8216;htab&#8217; set but not used [-Werror=unused-but-set-variable]
+cc1: all warnings being treated as errors
+make[4]: <strong><em> [elf32-avr.lo] 错误 1
+make[4]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+make[3]: </em></strong> [all-recursive] 错误 1
+make[3]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+make[2]: <strong><em> [all] 错误 2
+make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+make[1]: </em></strong> [all-bfd] 错误 2
+make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+make: *** [all] 错误 2</p>
+
+<p>`</p>
+
+<p>将文件insight-6.8-1/bfd/Makefile,修改为:</p>
+
+<p><code>201: WARN_CFLAGS = -W -Wall -Wstrict-prototypes -Wmissing-prototypes #-Werror</code>
+注销掉<code>-Werror</code></p>
+
+<h3>警告升级为错误2</h3>
+
+<p>在<code>make</code>阶段发生如下错误:</p>
+
+<p>`gcc -c -g -O2   -I. -I.././gdb -I.././gdb/config -DLOCALEDIR=&#8221;&#34;/usr/local/share/locale&#34;&#8221; -DHAVE_CONFIG_H -I.././gdb/../include/opcode -I.././gdb/../readline/.. -I../bfd -I.././gdb/../bfd -I.././gdb/../include -I../libdecnumber -I.././gdb/../libdecnumber   -DMI_OUT=1 -DGDBTK -DTUI=1  -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wno-switch -Wno-char-subscripts -Werror cp-name-parser.c
+cp-name-parser.y: 在函数‘cp_comp_to_string’中:
+cp-name-parser.y:1980:20: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+cp-name-parser.y:1985:25: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+cc1: all warnings being treated as errors
+make[2]: <strong><em> [cp-name-parser.o] 错误 1
+make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/gdb”
+make[1]: </em></strong> [all-gdb] 错误 2
+make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+make: *** [all] 错误 2</p>
+
+<p>`</p>
+
+<p>文件insight-6.8-1/gdb/Makefile修改为:
+<code>145:WERROR_CFLAGS = #-Werror</code>
+注销掉<code>-Werror</code></p>
+
+<h2>使用 insight-6.8a.tar.bz2  可能的问题</h2>
+
+<p><a href="http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223">http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223</a>
+`
+Tk_Init failed: Can&#8217;t find a usable tk.tcl in the following directories:
+/usr/local/share/tk8.4 /usr/local/lib/tk8.4 /usr/lib/tk8.4 /usr/local/library /usr/library /usr/tk8.4.1/library /tk8.4.1/library</p>
+
+<p>/usr/local/share/tk8.4/tk.tcl: no event type or button # or keysym
+no event type or button # or keysym
+while executing
+&#8220;bind Listbox <MouseWheel> {
+%W yview scroll [expr {- (%D / 120) * 4}] units
+}&#8221;
+(file &#8220;/usr/local/share/tk8.4/listbox.tcl&#8221; line 182)
+invoked from within
+&#8220;source /usr/local/share/tk8.4/listbox.tcl&#8221;
+(in namespace eval &#8220;::&#8221; script line 1)
+invoked from within
+&#8220;namespace eval ::[list source [file join $::tk_library $file.tcl]]&#8221;
+(procedure &#8220;SourceLibFile&#8221; line 2)
+invoked from within
+&#8220;SourceLibFile listbox&#8221;
+(in namespace eval &#8220;::tk&#8221; script line 4)
+invoked from within
+&#8220;namespace eval ::tk {
+SourceLibFile button
+SourceLibFile entry
+SourceLibFile listbox
+SourceLibFile menu
+SourceLibFile panedwindow
+SourceLibFile &#8230;&#8221;
+invoked from within
+&#8220;if {$::tk_library ne &#8220;&#8221;} {
+if {[string equal $tcl_platform(platform) &#8220;macintosh&#8221;]} {
+proc ::tk::SourceLibFile {file} {
+if {[catch {
+namesp&#8230;&#8221;
+(file &#8220;/usr/local/share/tk8.4/tk.tcl&#8221; line 393)
+invoked from within
+&#8220;source /usr/local/share/tk8.4/tk.tcl&#8221;
+(&#8220;uplevel&#8221; body line 1)
+invoked from within
+&#8220;uplevel #0[list source $file]&#8221;
+This probably means that tk wasn&#8217;t installed properly.
+`</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -426,74 +586,6 @@ Build id: M20120914-1800
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/29/build-goldendict-from-source/">编译 Goldendict 笔记</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-29T22:30:00+08:00" pubdate data-updated="true">2012-09-29 22:30</time>
-        
-         | <a href="/blog/2012/09/29/build-goldendict-from-source/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a>.</p>
-
-<p>官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a>.</p>
-
-<p>在Fedora 17上编译可能出现的一些小问题:</p>
-
-<p><strong>1.</strong><code>articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</code></p>
-
-<p>缺少qt的某个东西的头文件,安装即可:<code>yum install qtwebkit-devel</code></p>
-
-<p><strong>2.</strong><code>hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</code></p>
-
-<p>缺少X11开发用的头文件,安装:<code>yum install libXtst-devel</code></p>
-
-<p><strong>3.</strong><code>articleview.cc:37:32:致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</code></p>
-
-<p>安装:<code>yum install phonon-devel</code></p>
-
-<p><strong>4.</strong><code>decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</code></p>
-
-<p>安装:<code>yum install bzip2-devel</code></p>
-
-<p><strong>5.</strong>安装到应用程序目录</p>
-
-<p>执行完<code>make</code>之后可以执行<code>su -c 'make install'</code>将图标等复制到特定的目录中.</p>
-
-<h2>goldendict词典下载</h2>
-
-<p>星际译王词典:<a href="http://abloz.com/huzheng/stardict-dic">http://abloz.com/huzheng/stardict-dic</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -508,6 +600,10 @@ Build id: M20120914-1800
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">为调试程序编译avr-insight</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
@@ -531,10 +627,6 @@ Build id: M20120914-1800
     
       <li class="post">
         <a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用 githubRepoWidget 展示 github 项目</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/">在线分析转换标准 float 型数据</a>
       </li>
     
   </ul>

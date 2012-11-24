@@ -9,7 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content=" 使用githubRepoWidget在otcopress上展示项目的方法. 先看效果: 例子1 Linux kernel: 例子2 githubRepoWidget: ">
+  <meta name="description" content="官网:http://goldendict.org/. 官方编译介绍:http://goldendict.org/buildfromgit.php. 在Fedora 17上编译可能出现的一些小问题: 1.articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +86,74 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/09/29/build-goldendict-from-source/">编译 Goldendict 笔记</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-29T22:30:00+08:00" pubdate data-updated="true">2012-09-29 22:30</time>
+        
+         | <a href="/blog/2012/09/29/build-goldendict-from-source/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a>.</p>
+
+<p>官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a>.</p>
+
+<p>在Fedora 17上编译可能出现的一些小问题:</p>
+
+<p><strong>1.</strong><code>articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</code></p>
+
+<p>缺少qt的某个东西的头文件,安装即可:<code>yum install qtwebkit-devel</code></p>
+
+<p><strong>2.</strong><code>hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</code></p>
+
+<p>缺少X11开发用的头文件,安装:<code>yum install libXtst-devel</code></p>
+
+<p><strong>3.</strong><code>articleview.cc:37:32:致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</code></p>
+
+<p>安装:<code>yum install phonon-devel</code></p>
+
+<p><strong>4.</strong><code>decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</code></p>
+
+<p>安装:<code>yum install bzip2-devel</code></p>
+
+<p><strong>5.</strong>安装到应用程序目录</p>
+
+<p>执行完<code>make</code>之后可以执行<code>su -c 'make install'</code>将图标等复制到特定的目录中.</p>
+
+<h2>goldendict词典下载</h2>
+
+<p>星际译王词典:<a href="http://abloz.com/huzheng/stardict-dic">http://abloz.com/huzheng/stardict-dic</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -354,71 +422,6 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/17/linux-fedora-17-install-nfs-server/">Linux/Fedora 17下安装配置NFS服务</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-17T21:23:00+08:00" pubdate data-updated="true">2012-09-17 21:23</time>
-        
-         | <a href="/blog/2012/09/17/linux-fedora-17-install-nfs-server/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>NFS服务器安装和配置</h1>
-
-<p>OS:fedora17.i686 &amp; fedora17.x86_64 &amp; f17beta.i686 &amp; f17beta.x86-64 <br/>
-现在已经改成不用 imapXXXX的了
-改成 守护进程rpc.nfsd
-安装守护进程程序:</p>
-
-<ol>
-<li>搜索:<code>yum search nfs</code></li>
-<li>得到:<code>nfs-utils.i686 : NFS utilities and supporting clients and daemons for the kernel NFS server</code><br/>
- 看描述就是这货了.</li>
-<li>安装:<code>yum install nfs-utils</code></li>
-<li>使用:</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rpc.nfsd [数量]        #设置最大线程
-</span><span class='line'>man 8 rpc.nfsd        #查看 帮助</span></code></pre></td></tr></table></div></figure>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/17/linux-fedora-17-install-nfs-server/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -435,6 +438,10 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">为调试程序编译avr-insight</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
@@ -458,10 +465,6 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     
       <li class="post">
         <a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用 githubRepoWidget 展示 github 项目</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/">在线分析转换标准 float 型数据</a>
       </li>
     
   </ul>
