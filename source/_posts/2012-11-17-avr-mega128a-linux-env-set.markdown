@@ -3,7 +3,7 @@ layout: post
 title: "Linux下avr单片机开发环境"
 date: 2012-11-17 12:47
 comments: true
-categories: 
+categories: [avr,linux,eclipse]
 ---
 目前实现:
 

@@ -3,7 +3,7 @@ layout: post
 title: "配置gcc编译警告选项"
 date: 2012-11-22 19:17
 comments: true
-categories: 
+categories: [gcc,linux]
 ---
 #在各个层次关闭或开启编译警告选项
 
@@ -22,6 +22,8 @@ categories:
 ##2. 源代码级:在文件中诊断
 
 能在编译期间规定一段代码的警告属性,如某个文件中后半部分不要求输出某些类型的警告使用编译指示([6.57 Pragmas](http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas))中的诊断编译指示([6.57.10 Diagnostic Pragmas](http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas))
+
+<!-- more -->
 
 语法: 
 	#pragma GCC diagnostic <类型> <选项>

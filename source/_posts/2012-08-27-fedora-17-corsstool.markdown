@@ -3,7 +3,7 @@ layout: post
 title: "crosstool在fedora17下的编译遇到的问题和解决方法"
 date: 2012-08-27 11:15
 comments: true
-categories: corsstool
+categories: [crosstool,make]
 ---
 /*##crosstool在fedora 17下的编译一到的问题/解决*/
 

@@ -3,9 +3,9 @@ layout: post
 title: "在Linux系统下通过JTAG调试atmega128a"
 date: 2012-11-19 20:00
 comments: true
-categories: 
+categories: [avr,linux,eclipse]
 ---
-[前篇](http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/)搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.
+[前篇](/blog/2012/11/17/avr-mega128a-linux-env-set/)搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.
 
 #前言
 首先说说我对编译开发调试环境的大概认识,如下图:
@@ -13,7 +13,7 @@ categories:
 {% img /downloads/img/结构示意图.png %}
 
 
-PC(编译下载)大约就是[前篇](http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/)所涉及的部分.
+PC(编译下载)大约就是[前篇](/blog/2012/11/17/avr-mega128a-linux-env-set/)所涉及的部分.
 
 而PC(调试服务器)和PC(调试)就是本文涉及的内容.
 

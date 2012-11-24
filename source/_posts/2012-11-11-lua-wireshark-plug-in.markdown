@@ -3,7 +3,7 @@ layout: post
 title: "lua实现简单的wireshark自定义协议解析"
 date: 2012-11-11 13:27
 comments: true
-categories: 
+categories: [wireshark,lua]
 ---
 ###主要参考:
 1. 简单参考中文 <http://yoursunny.com/study/IS409/ScoreBoard.htm>
