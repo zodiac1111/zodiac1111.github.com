@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: lua | 喜乐]]></title>
+  <link href="http://zodiac1111.github.com/blog/categories/lua/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.com/"/>
+  <updated>2012-11-24T21:45:36+08:00</updated>
+  <id>http://zodiac1111.github.com/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[lua实现简单的wireshark自定义协议解析]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/11/11/lua-wireshark-plug-in/"/>
+    <updated>2012-11-11T13:27:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/11/11/lua-wireshark-plug-in</id>
+    <content type="html"><![CDATA[<h3>主要参考:</h3>
+
+<ol>
+<li>简单参考中文 <a href="http://yoursunny.com/study/IS409/ScoreBoard.htm">http://yoursunny.com/study/IS409/ScoreBoard.htm</a></li>
+<li>位操作 参考 <a href="http://blog.chinaunix.net/uid-24931444-id-3372735.html">http://blog.chinaunix.net/uid-24931444-id-3372735.html</a></li>
+<li>api定义参考 <a href="http://www.wireshark.org/docs/wsug_html_chunked/lua_module_Proto.html">http://www.wireshark.org/docs/wsug_html_chunked/lua_module_Proto.html</a></li>
+</ol>
+
+
+<h3>使用的功能:</h3>
+
+<ol>
+<li>按位解析 <code>f_vsq_num</code></li>
+<li>分类解析  <code>if bit.rshift(bit.band(buf(4,1):uint(), 0x40), 6) == 1 then</code></li>
+<li>位操作 <code>bit.rshift(bit.band(buf(4,1):uint(), 0x40), 6)</code></li>
+<li>树添加 <code>local farmehead = t:add(f_farmehead,buf(0,4))</code></li>
+<li>分成函数实现 <code>function FT_change_farme(buf,pkt,root) ... end</code></li>
+<li>按大小端解析16位整型数据,并添加进树 <code>local addr=t:add_le(f_addr,buf(2,2))</code></li>
+<li>按字节流形式添加整体和各个部分的解释 <code>ProtoField.bytes("sd102.Tb","时间(Tb)",base.HEX)</code></li>
+</ol>
+
+
+<!-- more -->
+
+
+<h3>大致摸样</h3>
+
+<p><img src="/downloads/img/lua-wireshark.png"></p>
+
+<h3>wireshark包</h3>
+
+<p><a href="https://www.dropbox.com/s/fdb1941bf7f1o8v/lua.pcap">https://www.dropbox.com/s/fdb1941bf7f1o8v/lua.pcap</a></p>
+
+<h3>代码</h3>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+<span class='line-number'>97</span>
+<span class='line-number'>98</span>
+<span class='line-number'>99</span>
+<span class='line-number'>100</span>
+<span class='line-number'>101</span>
+<span class='line-number'>102</span>
+<span class='line-number'>103</span>
+<span class='line-number'>104</span>
+<span class='line-number'>105</span>
+<span class='line-number'>106</span>
+<span class='line-number'>107</span>
+<span class='line-number'>108</span>
+<span class='line-number'>109</span>
+<span class='line-number'>110</span>
+<span class='line-number'>111</span>
+<span class='line-number'>112</span>
+<span class='line-number'>113</span>
+<span class='line-number'>114</span>
+<span class='line-number'>115</span>
+<span class='line-number'>116</span>
+<span class='line-number'>117</span>
+<span class='line-number'>118</span>
+<span class='line-number'>119</span>
+<span class='line-number'>120</span>
+<span class='line-number'>121</span>
+<span class='line-number'>122</span>
+<span class='line-number'>123</span>
+<span class='line-number'>124</span>
+<span class='line-number'>125</span>
+<span class='line-number'>126</span>
+<span class='line-number'>127</span>
+<span class='line-number'>128</span>
+<span class='line-number'>129</span>
+<span class='line-number'>130</span>
+<span class='line-number'>131</span>
+<span class='line-number'>132</span>
+<span class='line-number'>133</span>
+<span class='line-number'>134</span>
+<span class='line-number'>135</span>
+<span class='line-number'>136</span>
+<span class='line-number'>137</span>
+<span class='line-number'>138</span>
+<span class='line-number'>139</span>
+<span class='line-number'>140</span>
+<span class='line-number'>141</span>
+<span class='line-number'>142</span>
+<span class='line-number'>143</span>
+<span class='line-number'>144</span>
+<span class='line-number'>145</span>
+<span class='line-number'>146</span>
+<span class='line-number'>147</span>
+<span class='line-number'>148</span>
+<span class='line-number'>149</span>
+<span class='line-number'>150</span>
+<span class='line-number'>151</span>
+<span class='line-number'>152</span>
+<span class='line-number'>153</span>
+<span class='line-number'>154</span>
+<span class='line-number'>155</span>
+<span class='line-number'>156</span>
+<span class='line-number'>157</span>
+<span class='line-number'>158</span>
+<span class='line-number'>159</span>
+<span class='line-number'>160</span>
+<span class='line-number'>161</span>
+<span class='line-number'>162</span>
+<span class='line-number'>163</span>
+<span class='line-number'>164</span>
+<span class='line-number'>165</span>
+<span class='line-number'>166</span>
+<span class='line-number'>167</span>
+<span class='line-number'>168</span>
+<span class='line-number'>169</span>
+<span class='line-number'>170</span>
+<span class='line-number'>171</span>
+<span class='line-number'>172</span>
+<span class='line-number'>173</span>
+<span class='line-number'>174</span>
+<span class='line-number'>175</span>
+<span class='line-number'>176</span>
+<span class='line-number'>177</span>
+<span class='line-number'>178</span>
+<span class='line-number'>179</span>
+<span class='line-number'>180</span>
+<span class='line-number'>181</span>
+<span class='line-number'>182</span>
+<span class='line-number'>183</span>
+<span class='line-number'>184</span>
+<span class='line-number'>185</span>
+<span class='line-number'>186</span>
+<span class='line-number'>187</span>
+<span class='line-number'>188</span>
+<span class='line-number'>189</span>
+<span class='line-number'>190</span>
+<span class='line-number'>191</span>
+<span class='line-number'>192</span>
+<span class='line-number'>193</span>
+<span class='line-number'>194</span>
+<span class='line-number'>195</span>
+<span class='line-number'>196</span>
+<span class='line-number'>197</span>
+<span class='line-number'>198</span>
+<span class='line-number'>199</span>
+<span class='line-number'>200</span>
+<span class='line-number'>201</span>
+<span class='line-number'>202</span>
+<span class='line-number'>203</span>
+<span class='line-number'>204</span>
+<span class='line-number'>205</span>
+<span class='line-number'>206</span>
+<span class='line-number'>207</span>
+<span class='line-number'>208</span>
+<span class='line-number'>209</span>
+<span class='line-number'>210</span>
+<span class='line-number'>211</span>
+<span class='line-number'>212</span>
+<span class='line-number'>213</span>
+<span class='line-number'>214</span>
+<span class='line-number'>215</span>
+<span class='line-number'>216</span>
+<span class='line-number'>217</span>
+<span class='line-number'>218</span>
+<span class='line-number'>219</span>
+<span class='line-number'>220</span>
+<span class='line-number'>221</span>
+<span class='line-number'>222</span>
+<span class='line-number'>223</span>
+<span class='line-number'>224</span>
+<span class='line-number'>225</span>
+<span class='line-number'>226</span>
+<span class='line-number'>227</span>
+<span class='line-number'>228</span>
+<span class='line-number'>229</span>
+<span class='line-number'>230</span>
+<span class='line-number'>231</span>
+<span class='line-number'>232</span>
+<span class='line-number'>233</span>
+<span class='line-number'>234</span>
+<span class='line-number'>235</span>
+<span class='line-number'>236</span>
+<span class='line-number'>237</span>
+<span class='line-number'>238</span>
+<span class='line-number'>239</span>
+<span class='line-number'>240</span>
+<span class='line-number'>241</span>
+<span class='line-number'>242</span>
+<span class='line-number'>243</span>
+<span class='line-number'>244</span>
+<span class='line-number'>245</span>
+<span class='line-number'>246</span>
+<span class='line-number'>247</span>
+<span class='line-number'>248</span>
+<span class='line-number'>249</span>
+<span class='line-number'>250</span>
+<span class='line-number'>251</span>
+<span class='line-number'>252</span>
+<span class='line-number'>253</span>
+<span class='line-number'>254</span>
+<span class='line-number'>255</span>
+<span class='line-number'>256</span>
+<span class='line-number'>257</span>
+<span class='line-number'>258</span>
+<span class='line-number'>259</span>
+<span class='line-number'>260</span>
+<span class='line-number'>261</span>
+<span class='line-number'>262</span>
+<span class='line-number'>263</span>
+<span class='line-number'>264</span>
+<span class='line-number'>265</span>
+<span class='line-number'>266</span>
+<span class='line-number'>267</span>
+<span class='line-number'>268</span>
+<span class='line-number'>269</span>
+<span class='line-number'>270</span>
+<span class='line-number'>271</span>
+<span class='line-number'>272</span>
+<span class='line-number'>273</span>
+<span class='line-number'>274</span>
+<span class='line-number'>275</span>
+<span class='line-number'>276</span>
+<span class='line-number'>277</span>
+<span class='line-number'>278</span>
+<span class='line-number'>279</span>
+<span class='line-number'>280</span>
+<span class='line-number'>281</span>
+<span class='line-number'>282</span>
+<span class='line-number'>283</span>
+<span class='line-number'>284</span>
+<span class='line-number'>285</span>
+<span class='line-number'>286</span>
+<span class='line-number'>287</span>
+<span class='line-number'>288</span>
+<span class='line-number'>289</span>
+<span class='line-number'>290</span>
+<span class='line-number'>291</span>
+<span class='line-number'>292</span>
+<span class='line-number'>293</span>
+<span class='line-number'>294</span>
+<span class='line-number'>295</span>
+<span class='line-number'>296</span>
+<span class='line-number'>297</span>
+<span class='line-number'>298</span>
+<span class='line-number'>299</span>
+<span class='line-number'>300</span>
+<span class='line-number'>301</span>
+<span class='line-number'>302</span>
+<span class='line-number'>303</span>
+<span class='line-number'>304</span>
+<span class='line-number'>305</span>
+<span class='line-number'>306</span>
+<span class='line-number'>307</span>
+<span class='line-number'>308</span>
+<span class='line-number'>309</span>
+<span class='line-number'>310</span>
+<span class='line-number'>311</span>
+<span class='line-number'>312</span>
+<span class='line-number'>313</span>
+<span class='line-number'>314</span>
+<span class='line-number'>315</span>
+<span class='line-number'>316</span>
+<span class='line-number'>317</span>
+<span class='line-number'>318</span>
+<span class='line-number'>319</span>
+<span class='line-number'>320</span>
+<span class='line-number'>321</span>
+<span class='line-number'>322</span>
+<span class='line-number'>323</span>
+<span class='line-number'>324</span>
+<span class='line-number'>325</span>
+<span class='line-number'>326</span>
+<span class='line-number'>327</span>
+<span class='line-number'>328</span>
+<span class='line-number'>329</span>
+<span class='line-number'>330</span>
+<span class='line-number'>331</span>
+<span class='line-number'>332</span>
+<span class='line-number'>333</span>
+<span class='line-number'>334</span>
+<span class='line-number'>335</span>
+<span class='line-number'>336</span>
+<span class='line-number'>337</span>
+<span class='line-number'>338</span>
+<span class='line-number'>339</span>
+<span class='line-number'>340</span>
+<span class='line-number'>341</span>
+<span class='line-number'>342</span>
+<span class='line-number'>343</span>
+<span class='line-number'>344</span>
+<span class='line-number'>345</span>
+<span class='line-number'>346</span>
+<span class='line-number'>347</span>
+<span class='line-number'>348</span>
+<span class='line-number'>349</span>
+<span class='line-number'>350</span>
+<span class='line-number'>351</span>
+<span class='line-number'>352</span>
+<span class='line-number'>353</span>
+<span class='line-number'>354</span>
+<span class='line-number'>355</span>
+<span class='line-number'>356</span>
+<span class='line-number'>357</span>
+<span class='line-number'>358</span>
+<span class='line-number'>359</span>
+<span class='line-number'>360</span>
+<span class='line-number'>361</span>
+<span class='line-number'>362</span>
+<span class='line-number'>363</span>
+<span class='line-number'>364</span>
+<span class='line-number'>365</span>
+<span class='line-number'>366</span>
+<span class='line-number'>367</span>
+<span class='line-number'>368</span>
+<span class='line-number'>369</span>
+<span class='line-number'>370</span>
+<span class='line-number'>371</span>
+<span class='line-number'>372</span>
+<span class='line-number'>373</span>
+<span class='line-number'>374</span>
+<span class='line-number'>375</span>
+<span class='line-number'>376</span>
+<span class='line-number'>377</span>
+<span class='line-number'>378</span>
+<span class='line-number'>379</span>
+<span class='line-number'>380</span>
+<span class='line-number'>381</span>
+<span class='line-number'>382</span>
+<span class='line-number'>383</span>
+<span class='line-number'>384</span>
+<span class='line-number'>385</span>
+<span class='line-number'>386</span>
+<span class='line-number'>387</span>
+<span class='line-number'>388</span>
+<span class='line-number'>389</span>
+<span class='line-number'>390</span>
+<span class='line-number'>391</span>
+<span class='line-number'>392</span>
+<span class='line-number'>393</span>
+<span class='line-number'>394</span>
+<span class='line-number'>395</span>
+<span class='line-number'>396</span>
+<span class='line-number'>397</span>
+<span class='line-number'>398</span>
+<span class='line-number'>399</span>
+<span class='line-number'>400</span>
+<span class='line-number'>401</span>
+<span class='line-number'>402</span>
+<span class='line-number'>403</span>
+<span class='line-number'>404</span>
+<span class='line-number'>405</span>
+<span class='line-number'>406</span>
+<span class='line-number'>407</span>
+<span class='line-number'>408</span>
+<span class='line-number'>409</span>
+<span class='line-number'>410</span>
+<span class='line-number'>411</span>
+<span class='line-number'>412</span>
+<span class='line-number'>413</span>
+<span class='line-number'>414</span>
+<span class='line-number'>415</span>
+<span class='line-number'>416</span>
+<span class='line-number'>417</span>
+<span class='line-number'>418</span>
+<span class='line-number'>419</span>
+<span class='line-number'>420</span>
+<span class='line-number'>421</span>
+<span class='line-number'>422</span>
+<span class='line-number'>423</span>
+</pre></td><td class='code'><pre><code class='lua'><span class='line'><span class="c1">-- lua wireshark 协议插件. file:hello.lua</span>
+</span><span class='line'><span class="c1">--简单参考中文 http://yoursunny.com/study/IS409/ScoreBoard.htm</span>
+</span><span class='line'><span class="c1">--位操作 参考 http://blog.chinaunix.net/uid-24931444-id-3372735.html</span>
+</span><span class='line'><span class="c1">--api定义参考 http://www.wireshark.org/docs/wsug_html_chunked/lua_module_Proto.html</span>
+</span><span class='line'><span class="k">do</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="c1">--函数前向声明</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">FT_farme</span> <span class="c1">--解析单字节帧</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">FT_static_farme</span> <span class="c1">--解析固定长度帧</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">FT_change_farme</span> <span class="c1">--解析变长度帧</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">--协议名称为ScoreBoard，在Packet Details（中间可以展开的那部分）</span>
+</span><span class='line'><span class="c1">--    窗格显示为sd102主站通讯规约</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">p_ScoreBoard</span> <span class="o">=</span> <span class="n">Proto</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">sd102&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="c1">--协议的各个字段 标识符/第一字段</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_identifier</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.id&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">标识符/规约号之类&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_len</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint16</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.len&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">长度(字节)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="c1">--所有可能</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_start</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.start&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">起始字节&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mh">0x68</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">长帧/变长帧&quot;</span><span class="p">,[</span><span class="mh">0x10</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">短帧/固定帧&quot;</span><span class="p">,[</span><span class="mh">0xE5</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">应答/单字节帧&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_ctrl</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.ctrl&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">控制字节&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="c1">-- 控制端到采集终端 </span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_funcode</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.funcode&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">功能码(FC)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">复位通信单元&quot;</span><span class="p">,[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">传送数据&quot;</span><span class="p">,[</span><span class="mi">9</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">召唤链路状态&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">召唤1级用户数据&quot;</span><span class="p">,[</span><span class="mi">11</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">召唤2级用户数据&quot;</span><span class="p">},</span><span class="mh">0x0F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_fcv</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.fcv&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">帧计数有效位(FCV)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">帧计数位(FCB)的变化无效&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">帧计数位(FCB)的变化有效&quot;</span><span class="p">},</span><span class="mh">0x10</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_fcb</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.fcb&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">帧计数位(FCB)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">&quot;</span><span class="p">},</span><span class="mh">0x20</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_prm</span><span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.prm&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">启动报文位(PRM)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">采集端向控制站传输&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">控制站向采集端传输&quot;</span><span class="p">},</span><span class="mh">0x40</span><span class="p">)</span>
+</span><span class='line'><span class="c1">--非平衡传输,根据GBT18657.2-2002 5.1.2,传输方向位保留</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_dir</span><span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.dir&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">备用&quot;</span><span class="cm">--[[ 传输方向位(DIR)--]]</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">备用为0&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">备用,应为0&quot;</span><span class="p">},</span><span class="mh">0x80</span><span class="p">)</span>
+</span><span class='line'><span class="c1">-- 采集终端到控制端</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_funcode_rsp</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.funcode_rsp&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">功能码(FC)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">确认&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">链路忙,没有收到报文&quot;</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">备用&quot;</span><span class="p">,[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">备用&quot;</span><span class="p">,[</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">备用&quot;</span><span class="p">,[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">备用&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">制造厂和用户协商定义&quot;</span><span class="p">,[</span><span class="mi">7</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">制造厂和用户协商定义&quot;</span><span class="p">,[</span><span class="mi">8</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">以数据回答请求帧&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">没有所召唤的数据&quot;</span><span class="p">,[</span><span class="mi">11</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">以链路状态或访问请求回答请求帧&quot;</span><span class="p">},</span><span class="mh">0x0F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_dfc</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.dfc&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">数据流控制位(DFC)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">终端可以接收数据&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">终端的缓冲区已满&quot;</span><span class="p">},</span><span class="mh">0x10</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_acd</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.acd&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">要求访问位(ACD)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">从站没有1级用户数据要求访问&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">从站有1级用户数据要求访问&quot;</span><span class="p">},</span><span class="mh">0x20</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_addr</span><span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint16</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.addr&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">地址(uint16)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_addr1</span><span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.addr1&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">地址低字节&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_addr2</span><span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.addr2&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">地址高字节&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_p</span><span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.p&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">校验和&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_end</span><span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.end&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">结束符&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,{[</span><span class="mh">0x16</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">结束&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="c1">--变长帧 </span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_farmehead</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.farmehead&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">帧头&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_ASDU</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.ASDU&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">应用服务数据单元&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_len1</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.len1&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">长度1&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_len2</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.len2&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">长度2&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_typeID_up</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.typeID2_up&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">类型标识(TYP)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">未用&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">带时标的单点信息&quot;</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">读电量返回帧&quot;</span><span class="p">,[</span><span class="mi">70</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">初始化结束&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">72</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">电能累计量数据终端设备的当前系统时间&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">128</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">电能累计量数据终端系统时间同步确认&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">162</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">读遥测量返回帧&quot;</span><span class="p">,[</span><span class="mi">163</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">读需量返回帧&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_typeID_down</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.typeID2_down&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">类型标识(TYP)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">102</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">读一个所选定时间范围的带时标的单点信息的记录&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">103</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">读电能累计量数据终端设备的当前系统时间&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">120</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">读一个选定的时间范围和一个选定的地址范围的记帐（计费）电能累计量&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">128</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">电能累计量数据终端系统时间同步命令&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">172</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">读一个选定的时间范围和一个选定的地址范围的遥测量&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">174</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">读一个选定的时间范围和一个选定的地址范围的最大需量&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_vsq</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.vsq&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">可变结构限定词(VSQ)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_sq</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.sq&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">息体寻址方法(SQ)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">每一个单个元素或综合元素由信息体地址寻址&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">一个顺序的类似的信息元素(见IEC60870-5-3 5.1.5)&quot;</span><span class="p">},</span><span class="mh">0x80</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_vsq_num</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.vsq_num&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">可变结构数目&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x7F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_cot</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.cot&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">传送原因(Cause Of Transmission)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_cot_t</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.cot_t&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">试验(Test)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">未试验&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">试验&quot;</span><span class="p">},</span><span class="mh">0x80</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_cot_pn</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.cot_pn&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">激活确认&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">肯定确认&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">否定确认&quot;</span><span class="p">},</span><span class="mh">0x40</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_cot_cot</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.cot_cot&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">传送原因&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">未用&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">试验(专用范围定义)&quot;</span><span class="p">,[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">周期、循环(专用范围定义)&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">自发（突发）&quot;</span><span class="p">,[</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">初始化&quot;</span><span class="p">,[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">请求或被请求&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">激活(Act)&quot;</span><span class="p">,[</span><span class="mi">7</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">激活确认(actcon)&quot;</span><span class="p">,[</span><span class="mi">8</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">停止激活(deact)&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">9</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">停止激活确认(deactcon)&quot;</span><span class="p">,[</span><span class="mi">10</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">激活终止(actterm)&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">11</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">未用&quot;</span><span class="p">,[</span><span class="mi">12</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">未用&quot;</span><span class="p">,[</span><span class="mi">13</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">无所请求的数据记录&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">无所请求的应用服务数据单元――类型&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">由主站（控制站）发送的应用服务数据单元中的记录序号不可知&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">16</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">由主站（控制站）发送的应用服务数据单元中的地址说明不可知&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">17</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">无所请求的信息体&quot;</span><span class="p">,[</span><span class="mi">18</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">无所请求的累计时段&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mi">19</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">为将来兼容定义保留&quot;</span><span class="p">,</span><span class="cm">--[[[20-41]=&quot;未用&quot;,</span>
+</span><span class='line'><span class="cm">[42-47]=&quot;为将来兼容定义保留&quot;,[48-63]=&quot;为特殊应用(专用范围)&quot;,--]]</span>
+</span><span class='line'><span class="p">[</span><span class="mi">48</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">时间同步(专用范围定义)&quot;</span><span class="p">},</span><span class="mh">0x3F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_SlaveAddr</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.SlaveAddr&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">站地址(Addr)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_recordAddr</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.recordAddr&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">信息体地址(IOA)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="c1">--时间 ,其中有写位没解析 RSE</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">时间(Tb)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_ms</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint16</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_ms&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">毫秒(ms)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0xFF03</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_sec</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_sec&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">秒(sec)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0xFC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_min</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_min&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">分钟(min)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x3F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_tis</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_tis&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">费率陈述&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">断开OFF&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">合上ON&quot;</span><span class="p">},</span><span class="mh">0x40</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_iv</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_iv&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">时间陈述无效标志&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="p">{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">有效&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">无效&quot;</span><span class="p">},</span><span class="mh">0x80</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_hour</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_hour&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">小时(hour)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x1F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_day</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_day&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">日(day)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x1F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_week</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_week&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">周次(week)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0xE0</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_mon</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_mon&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">月(month)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x0F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_year</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_year&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">年(year)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x7F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_su</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_su&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">标准时间(SU)&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">标准时间&quot;</span><span class="p">,[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">夏时制&quot;</span><span class="p">},</span><span class="mh">0x80</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_pti</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_pti&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">功率费率&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">功率费率&quot;</span><span class="p">},</span><span class="mh">0xC0</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Tb_eti</span><span class="o">=</span><span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Tb_eti&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">能量费率&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,{[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">能量费率&quot;</span><span class="p">},</span><span class="mh">0x30</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_msgaddr_start</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.msgaddr&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">起始消息体地址&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_msgaddr_end</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.msgaddr&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">终止消息体地址&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_msg</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">string</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.msg&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">消息&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">--Ta</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Ta</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">bytes</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Ta&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">时间(Ta)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Ta_min</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Ta_min&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">分钟(min)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x3F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Ta_hour</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Ta_hour&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">小时(hour)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x1F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Ta_day</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Ta_day&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">日(day)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x3F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Ta_week</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Ta_week&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">周次(week)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0xE0</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Ta_mon</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Ta_mon&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">月(month)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x0F</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_Ta_year</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.Ta_year&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">年(year)&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="mh">0x7F</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- 操作,第二字段</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_operator</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.operator&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">操作&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">,</span>
+</span><span class='line'><span class="c1">--这个字段的数字值都有相应的含义，可以自动对应成字符串</span>
+</span><span class='line'><span class="p">{</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">取值&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">设定值&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">128</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">设定值,应答&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="p">[</span><span class="mh">0x10</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">取颜色&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">17</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">设定颜色&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">144</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">设定颜色,应答&quot;</span><span class="p">})</span>
+</span><span class='line'><span class="c1">--所有可能的字段都要定义，到时没有t:add就不会显示</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_left</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint32</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.left&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">左边数值&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_right</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint32</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.right&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">右边数值&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_red</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.red&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">红色&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_green</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.green&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">绿色&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_blue</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.blue&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">蓝色&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">DEC</span><span class="p">)</span>
+</span><span class='line'><span class="kd">local</span> <span class="n">f_onebyte</span> <span class="o">=</span> <span class="n">ProtoField</span><span class="p">.</span><span class="n">uint8</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">sd102.onebyte&quot;</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">单字节&quot;</span><span class="p">,</span><span class="n">base</span><span class="p">.</span><span class="n">HEX</span><span class="p">)</span>
+</span><span class='line'><span class="n">p_ScoreBoard</span><span class="p">.</span><span class="n">fields</span> <span class="o">=</span> <span class="p">{</span> <span class="n">f_identifier</span><span class="p">,</span> <span class="n">f_operator</span><span class="p">,</span> <span class="n">f_left</span><span class="p">,</span> <span class="n">f_right</span><span class="p">,</span> <span class="n">f_red</span><span class="p">,</span> <span class="n">f_green</span><span class="p">,</span>          <span class="n">f_blue</span><span class="p">,</span><span class="n">f_onebyte</span><span class="p">,</span><span class="n">f_len</span><span class="p">,</span>
+</span><span class='line'><span class="n">f_start</span><span class="p">,</span><span class="n">f_funcode</span><span class="p">,</span><span class="n">f_funcode_rsp</span><span class="p">,</span><span class="n">f_ctrl</span><span class="p">,</span>
+</span><span class='line'><span class="n">f_fcv</span><span class="p">,</span><span class="n">f_dfc</span><span class="p">,</span><span class="n">f_fcb</span><span class="p">,</span><span class="n">f_acd</span><span class="p">,</span><span class="n">f_prm</span><span class="p">,</span><span class="n">f_dir</span><span class="p">,</span><span class="n">f_addr</span><span class="p">,</span><span class="n">f_addr1</span><span class="p">,</span><span class="n">f_addr2</span><span class="p">,</span><span class="n">f_p</span><span class="p">,</span><span class="n">f_end</span><span class="p">,</span>
+</span><span class='line'><span class="n">f_farmehead</span><span class="p">,</span><span class="n">f_len1</span><span class="p">,</span><span class="n">f_len2</span><span class="p">,</span><span class="n">f_ASDU</span><span class="p">,</span><span class="n">f_typeID_up</span><span class="p">,</span><span class="n">f_typeID_down</span><span class="p">,</span><span class="n">f_vsq</span><span class="p">,</span><span class="n">f_sq</span><span class="p">,</span><span class="n">f_vsq_num</span><span class="p">,</span>
+</span><span class='line'><span class="n">f_cot</span><span class="p">,</span><span class="n">f_cot_t</span><span class="p">,</span><span class="n">f_cot_pn</span><span class="p">,</span><span class="n">f_cot_cot</span><span class="p">,</span><span class="n">f_SlaveAddr</span><span class="p">,</span><span class="n">f_recordAddr</span><span class="p">,</span>
+</span><span class='line'><span class="n">f_Tb</span><span class="p">,</span><span class="n">f_Tb_ms</span><span class="p">,</span><span class="n">f_Tb_sec</span><span class="p">,</span><span class="n">f_Tb_min</span><span class="p">,</span><span class="n">f_Tb_tis</span><span class="p">,</span><span class="n">f_Tb_iv</span><span class="p">,</span><span class="n">f_Tb_hour</span><span class="p">,</span><span class="n">f_Tb_day</span><span class="p">,</span><span class="n">f_Tb_week</span><span class="p">,</span> <span class="c1">--Tb</span>
+</span><span class='line'><span class="n">f_Tb_mon</span><span class="p">,</span><span class="n">f_Tb_year</span><span class="p">,</span><span class="n">f_Tb_su</span><span class="p">,</span><span class="n">f_Tb_pti</span><span class="p">,</span><span class="n">f_Tb_eti</span><span class="p">,</span>
+</span><span class='line'><span class="n">f_msgaddr_start</span><span class="p">,</span><span class="n">f_msgaddr_end</span><span class="p">,</span>
+</span><span class='line'><span class="n">f_Ta</span><span class="p">,</span> <span class="n">f_Ta_min</span><span class="p">,</span><span class="n">f_Ta_hour</span><span class="p">,</span><span class="n">f_Ta_day</span><span class="p">,</span><span class="n">f_Ta_week</span><span class="p">,</span><span class="n">f_Ta_mon</span><span class="p">,</span><span class="n">f_Ta_year</span><span class="p">}</span> <span class="c1">--Ta</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">local</span> <span class="n">data_dis</span> <span class="o">=</span> <span class="n">Dissector</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">data&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">-- 函数:解码</span>
+</span><span class='line'><span class="kd">local</span> <span class="k">function</span> <span class="nf">ScoreBoard_dissector</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">buf_len</span> <span class="o">=</span> <span class="n">buf</span><span class="p">:</span><span class="n">len</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf_len</span> <span class="err">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">1</span> <span class="k">then</span>  <span class="c1">--长度 &amp;lt; 1 绝对错误</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">==</span> <span class="mh">0xe5</span> <span class="k">then</span> <span class="c1">--1.单字节帧解析</span>
+</span><span class='line'>        <span class="n">FT_farme</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">==</span> <span class="mh">0x10</span> <span class="k">then</span> <span class="c1">--2.固定帧长帧解析</span>
+</span><span class='line'>        <span class="n">FT_static_farme</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">==</span> <span class="mh">0x68</span> <span class="k">then</span> <span class="c1">--3.变帧长帧解析</span>
+</span><span class='line'>        <span class="n">FT_change_farme</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">true</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf_len</span> <span class="err">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">17</span> <span class="k">then</span> <span class="k">return</span> <span class="kc">false</span> <span class="k">end</span>
+</span><span class='line'>    <span class="c1">--取得前16字节identifier字段的值</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">v_identifier</span> <span class="o">=</span> <span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1">--验证identifier是否正确</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">((</span><span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">226</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">203</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">181</span><span class="p">)</span>
+</span><span class='line'>        <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">128</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">203</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">9</span><span class="p">)</span>
+</span><span class='line'>        <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">78</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">186</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">163</span><span class="p">)</span>
+</span><span class='line'>        <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">107</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">246</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">7</span><span class="p">)</span>
+</span><span class='line'>        <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">206</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">149</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">63</span><span class="p">)</span>
+</span><span class='line'>        <span class="ow">or</span> <span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span><span class="o">~=</span><span class="mi">43</span><span class="p">))</span> <span class="k">then</span>
+</span><span class='line'>        <span class="c1">--不正确就不是我的协议  </span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="c1">--取得operator的值</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">v_operator</span> <span class="o">=</span> <span class="n">buf</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">i_operator</span> <span class="o">=</span> <span class="n">v_operator</span><span class="p">:</span><span class="n">uint</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">--现在知道是我的协议了，放心大胆添加Packet Details</span>
+</span><span class='line'>    <span class="c1">--开始添加显示的东西</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="n">root</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">p_ScoreBoard</span><span class="p">,</span><span class="n">buf</span><span class="p">)</span> <span class="c1">--添加协议</span>
+</span><span class='line'>    <span class="c1">--在Packet List窗格的Protocol列</span>
+</span><span class='line'>    <span class="n">pkt</span><span class="p">.</span><span class="n">cols</span><span class="p">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">102&quot;</span> <span class="c1">--显示在第一栏的协议名称</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_identifier</span><span class="p">,</span><span class="n">v_identifier</span><span class="p">)</span> <span class="c1">--域1 标识符</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_operator</span><span class="p">,</span><span class="n">v_operator</span><span class="p">)</span> <span class="c1">--域2 操作符</span>
+</span><span class='line'>    <span class="c1">-- 域3 操作数,分三种</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">((</span><span class="n">i_operator</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">i_operator</span> <span class="o">==</span> <span class="mi">128</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">buf_len</span> <span class="err">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span> <span class="mi">25</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>        <span class="c1">--把存在的字段逐个添加进去</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_left</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_right</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">elseif</span> <span class="p">((</span><span class="n">i_operator</span> <span class="o">==</span> <span class="mi">17</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">i_operator</span> <span class="o">==</span> <span class="mi">144</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="n">buf_len</span> <span class="err">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_red</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_green</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_blue</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">elseif</span> <span class="n">i_operator</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">then</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">取值操作 不需要操作数&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">elseif</span> <span class="n">i_operator</span> <span class="o">==</span> <span class="mh">0x10</span> <span class="k">then</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">取值颜色 不需要操作数&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">未知的操作符!&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="kc">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- **********解析单字节数据帧函数************</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">FT_farme</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1">--local p_ScoreBoard = Proto(&quot;sd102&quot;,&quot;sd102&quot;)</span>
+</span><span class='line'>    <span class="c1">--p_ScoreBoard.fields = {f_onebyte}</span>
+</span><span class='line'>    <span class="c1">--添加协议</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="n">root</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">p_ScoreBoard</span><span class="p">,</span><span class="n">buf</span><span class="p">,</span><span class="kc">nil</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">长度=&quot;</span><span class="p">,</span><span class="n">f_len</span><span class="p">,</span><span class="n">buf</span><span class="p">:</span><span class="n">len</span><span class="p">(),</span><span class="s2">&quot;</span><span class="s">字节&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">pkt</span><span class="p">.</span><span class="n">cols</span><span class="p">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">sd102-单字符&quot;</span> <span class="c1">--显示在第一栏的协议名称</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_start</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="c1">--t:add(&quot;单字节数据&quot;)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kc">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">--************短帧/固定长帧*********</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">FT_static_farme</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">len</span> <span class="o">=</span> <span class="n">buf</span><span class="p">:</span><span class="n">len</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">--添加协议</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="n">root</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">p_ScoreBoard</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">len</span><span class="p">),</span><span class="kc">nil</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">长度=&quot;</span><span class="p">,</span><span class="n">f_len</span><span class="p">,</span><span class="n">buf</span><span class="p">:</span><span class="n">len</span><span class="p">(),</span><span class="s2">&quot;</span><span class="s">字节&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">pkt</span><span class="p">.</span><span class="n">cols</span><span class="p">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">sd102-定长帧&quot;</span> <span class="c1">--显示在第一栏的协议名称</span>
+</span><span class='line'>    <span class="c1">--开始判断:</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">len</span> <span class="o">~=</span> <span class="mi">6</span> <span class="k">then</span> <span class="c1">--短帧的长度固定,长度不对,错误</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">len != 6 ,len=&quot;</span><span class="p">,</span><span class="n">len</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">~=</span> <span class="mh">0x16</span> <span class="k">then</span> <span class="c1">--结束符错误</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">结束符!=0x16,结束符=&quot;</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">())</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="c1">--校验和</span>
+</span><span class='line'>    <span class="c1">--全部判断完成:</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_start</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">ctrlbyte</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_ctrl</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">bit</span><span class="p">.</span><span class="n">rshift</span><span class="p">(</span><span class="n">bit</span><span class="p">.</span><span class="n">band</span><span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">(),</span> <span class="mh">0x40</span><span class="p">),</span> <span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span> <span class="c1">--控制站向采集端</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_funcode</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_fcv</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_fcb</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_prm</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_dir</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">else</span> <span class="c1">--采集端 向控制端</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_funcode_rsp</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_dfc</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_acd</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_prm</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_dir</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">addr</span><span class="o">=</span><span class="n">t</span><span class="p">:</span><span class="n">add_le</span><span class="p">(</span><span class="n">f_addr</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">addr</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_addr1</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">addr</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_addr2</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_p</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_end</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="c1">--t:add(&quot;单字节数据&quot;) </span>
+</span><span class='line'>    <span class="k">return</span> <span class="kc">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">--**********长帧/变长帧**************</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">FT_change_farme</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">len</span> <span class="o">=</span> <span class="n">buf</span><span class="p">:</span><span class="n">len</span><span class="p">();</span>
+</span><span class='line'>    <span class="c1">--添加协议</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">t</span> <span class="o">=</span> <span class="n">root</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">p_ScoreBoard</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">len</span><span class="p">),</span><span class="kc">nil</span><span class="p">,</span><span class="s2">&quot;</span><span class="s">长度=&quot;</span><span class="p">,</span><span class="n">f_len</span><span class="p">,</span><span class="n">buf</span><span class="p">:</span><span class="n">len</span><span class="p">(),</span><span class="s2">&quot;</span><span class="s">字节&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">pkt</span><span class="p">.</span><span class="n">cols</span><span class="p">.</span><span class="n">protocol</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">sd102-变长帧&quot;</span> <span class="c1">--显示在第一栏的协议名称</span>
+</span><span class='line'>    <span class="c1">--开始判断:</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">len</span> <span class="err">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="mi">6</span> <span class="k">then</span> <span class="c1">--长度太小错误</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">长度太小:&quot;</span><span class="p">,</span><span class="n">len</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">~=</span> <span class="mh">0x68</span> <span class="k">then</span> <span class="c1">--帧边界 两个0x68</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">边界不等于0x68&quot;</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">())</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">~=</span> <span class="n">buf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="k">then</span> <span class="c1">--两个长度必须相同</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">长度不等&quot;</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">(),</span><span class="n">buf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">())</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="n">len</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">~=</span> <span class="mh">0x16</span> <span class="k">then</span> <span class="c1">--结束符错误</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="c1">--全部判断完成:</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_start</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">farmehead</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_farmehead</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">farmehead</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_start</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">farmehead</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_len1</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">farmehead</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_len2</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">farmehead</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_start</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">ctrlbyte</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_ctrl</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">bit</span><span class="p">.</span><span class="n">rshift</span><span class="p">(</span><span class="n">bit</span><span class="p">.</span><span class="n">band</span><span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">(),</span> <span class="mh">0x40</span><span class="p">),</span> <span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span> <span class="c1">--控制站向采集端</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_funcode</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_fcv</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_fcb</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_prm</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_dir</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">else</span> <span class="c1">--采集端 向控制端</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_funcode_rsp</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_dfc</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_acd</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_prm</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="n">ctrlbyte</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_dir</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_addr1</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_addr2</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">bit</span><span class="p">.</span><span class="n">rshift</span><span class="p">(</span><span class="n">bit</span><span class="p">.</span><span class="n">band</span><span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">(),</span> <span class="mh">0x40</span><span class="p">),</span> <span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span> <span class="c1">--控制站向采集端</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_typeID_down</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">else</span> <span class="c1">--采集端 向控制端</span>
+</span><span class='line'>        <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_typeID_up</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">vsq</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_vsq</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">vsq</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_sq</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">vsq</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_vsq_num</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="kd">local</span> <span class="n">cot</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_cot</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">cot</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_cot_t</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">cot</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_cot_pn</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">cot</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_cot_cot</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_SlaveAddr</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_recordAddr</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="c1">--按上下行分类</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">bit</span><span class="p">.</span><span class="n">rshift</span><span class="p">(</span><span class="n">bit</span><span class="p">.</span><span class="n">band</span><span class="p">(</span><span class="n">buf</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">(),</span> <span class="mh">0x40</span><span class="p">),</span> <span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">then</span> <span class="c1">--下行</span>
+</span><span class='line'>        <span class="c1">--按TYP分类</span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">==</span> <span class="mi">103</span> <span class="k">then</span> <span class="c1">--读终端时间,</span>
+</span><span class='line'>            <span class="c1">--什么都不做,信息体为空</span>
+</span><span class='line'>        <span class="k">elseif</span> <span class="n">buf</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">==</span> <span class="mi">128</span> <span class="k">then</span> <span class="c1">--设置终端时间</span>
+</span><span class='line'>            <span class="kd">local</span> <span class="n">Tb</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_ms</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_sec</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_min</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_tis</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_iv</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_hour</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_su</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_day</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_week</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_mon</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_pti</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_eti</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_year</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="c1">--读一个选定的时间范围和一个选定的地址范围的记帐（计费）电能累计量</span>
+</span><span class='line'>        <span class="k">elseif</span> <span class="n">buf</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">==</span> <span class="mi">120</span> <span class="k">then</span>
+</span><span class='line'>            <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_msgaddr_start</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_msgaddr_end</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="kd">local</span> <span class="n">Ta_start</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_start</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_year</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_start</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_mon</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_start</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_day</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_start</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_hour</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_start</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_min</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_start</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_week</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="kd">local</span> <span class="n">Ta_end</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_end</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_year</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_end</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_mon</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_end</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_day</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_end</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_hour</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">21</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_end</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_min</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Ta_end</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Ta_week</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>    <span class="k">else</span> <span class="c1">--上行 </span>
+</span><span class='line'>        <span class="k">if</span> <span class="n">buf</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">==</span> <span class="mi">72</span> <span class="k">then</span> <span class="c1">--返回当前系统时间</span>
+</span><span class='line'>            <span class="kd">local</span> <span class="n">Tb</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_ms</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_sec</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_min</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_tis</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_iv</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_hour</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_su</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_day</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_week</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_mon</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_pti</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_eti</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_year</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="c1">--Tb:add(&quot;上行,72&quot;)</span>
+</span><span class='line'>        <span class="k">elseif</span> <span class="n">buf</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span><span class="n">uint</span><span class="p">()</span> <span class="o">==</span> <span class="mi">128</span> <span class="k">then</span> <span class="c1">--电能累计量数据终端系统时间同步确认</span>
+</span><span class='line'>            <span class="kd">local</span> <span class="n">Tb</span> <span class="o">=</span> <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_ms</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_sec</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_min</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_tis</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_iv</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_hour</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_su</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_day</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_week</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_mon</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_pti</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_eti</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>            <span class="n">Tb</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_Tb_year</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="mi">19</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>        <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="c1">-- 结束</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_p</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="n">len</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">t</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="n">f_end</span><span class="p">,</span><span class="n">buf</span><span class="p">(</span><span class="n">len</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kc">true</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="c1">-- 全局函数?api?</span>
+</span><span class='line'><span class="k">function</span> <span class="nc">p_ScoreBoard</span><span class="p">.</span><span class="nf">dissector</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">ScoreBoard_dissector</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span> <span class="k">then</span>
+</span><span class='line'>        <span class="c1">--valid ScoreBoard diagram</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>        <span class="c1">--data这个dissector几乎是必不可少的；当发现不是我的协议时，就应该调用data</span>
+</span><span class='line'>        <span class="n">data_dis</span><span class="p">:</span><span class="n">call</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">pkt</span><span class="p">,</span><span class="n">root</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">local</span> <span class="n">tcp_encap_table</span> <span class="o">=</span> <span class="n">DissectorTable</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;</span><span class="s">tcp.port&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="c1">--只需要处理UDP1127端口就可以了</span>
+</span><span class='line'><span class="n">tcp_encap_table</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="mi">10003</span><span class="p">,</span><span class="n">p_ScoreBoard</span><span class="p">)</span>
+</span><span class='line'><span class="n">tcp_encap_table</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="mi">10004</span><span class="p">,</span><span class="n">p_ScoreBoard</span><span class="p">)</span>
+</span><span class='line'><span class="n">tcp_encap_table</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="mi">10005</span><span class="p">,</span><span class="n">p_ScoreBoard</span><span class="p">)</span>
+</span><span class='line'><span class="n">tcp_encap_table</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="mi">35243</span><span class="p">,</span><span class="n">p_ScoreBoard</span><span class="p">)</span>
+</span><span class='line'><span class="n">tcp_encap_table</span><span class="p">:</span><span class="n">add</span><span class="p">(</span><span class="mi">50187</span><span class="p">,</span><span class="n">p_ScoreBoard</span><span class="p">)</span>
+</span><span class='line'><span class="c1">--udp_encap_table:add(10003,p_ScoreBoard)</span>
+</span><span class='line'><span class="c1">--udp_encap_table:add(10001,p_ScoreBoard)</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

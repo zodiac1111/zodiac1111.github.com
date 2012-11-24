@@ -9,7 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="完成效果: 编译avr-insight 构建avr-gcchttp://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC insight下载的地址:http://mirrors.kernel.org/sources.redhat.com/ &hellip;">
+  <meta name="description" content="上次进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序. 完成效果 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,7 +93,7 @@
   <header>
     
       <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">为调试程序编译avr-insight</a></h1>
+        <h1 class="entry-title"><a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a></h1>
       
     
     
@@ -119,129 +119,21 @@
   </header>
 
 
-  <div class="entry-content"><h1>完成效果:</h1>
+  <div class="entry-content"><p><a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">上次</a>进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序.</p>
 
-<h1>编译avr-insight</h1>
+<h1>完成效果:</h1>
 
-<p>构建avr-gcc<a href="http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC">http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC</a></p>
+<p>调试环境:
+<img src="/downloads/img/调试环境.png"></p>
 
-<p>insight下载的地址:<a href="http://mirrors.kernel.org/sources.redhat.com/insight/releases/">http://mirrors.kernel.org/sources.redhat.com/insight/releases/</a>
-下载<code>insight-6.8-1a.tar.bz2</code></p>
+<p>基本的代码,汇编代码,寄存器,堆栈等功能都可以使用了. :)</p>
 
-<p>`
-$ ./configure &#8211;target=avr &#8211;program-prefix=&#8221;avr-&#8221;
-$ make
-as root</p>
-
-<h1>make install</h1>
-
-<p>`</p>
-
-<h2>问题</h2>
-
-<h3>警告升级为错误1</h3>
-
-<p>在<code>make</code>阶段发生如下错误:</p>
-
-<p>`
-libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.././bfd -I. -I. -I.././bfd -I.././bfd/../include -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror -g -O2 -c elf32-avr.c -o elf32-avr.o
-elf32-avr.c: In function &#8216;elf32_avr_relocate_section&#8217;:
-elf32-avr.c:1204:34: error: variable &#8216;warned&#8217; set but not used [-Werror=unused-but-set-variable]
-elf32-avr.c:1204:16: error: variable &#8216;unresolved_reloc&#8217; set but not used [-Werror=unused-but-set-variable]
-elf32-avr.c:1183:11: error: variable &#8216;r_type&#8217; set but not used [-Werror=unused-but-set-variable]
-elf32-avr.c: In function &#8216;elf32_avr_relax_delete_bytes&#8217;:
-elf32-avr.c:1414:15: error: variable &#8216;shrinked_insn_address&#8217; set but not used [-Werror=unused-but-set-variable]
-elf32-avr.c:1382:22: error: variable &#8216;irelalign&#8217; set but not used [-Werror=unused-but-set-variable]
-elf32-avr.c: In function &#8216;elf32_avr_relax_section&#8217;:
-elf32-avr.c:1596:29: error: variable &#8216;last_reloc&#8217; set but not used [-Werror=unused-but-set-variable]
-elf32-avr.c: In function &#8216;avr_mark_stub_not_to_be_necessary&#8217;:
-elf32-avr.c:2459:37: error: variable &#8216;htab&#8217; set but not used [-Werror=unused-but-set-variable]
-cc1: all warnings being treated as errors
-make[4]: <strong><em> [elf32-avr.lo] 错误 1
-make[4]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
-make[3]: </em></strong> [all-recursive] 错误 1
-make[3]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
-make[2]: <strong><em> [all] 错误 2
-make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
-make[1]: </em></strong> [all-bfd] 错误 2
-make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
-make: *** [all] 错误 2</p>
-
-<p>`</p>
-
-<p>将文件insight-6.8-1/bfd/Makefile,修改为:</p>
-
-<p><code>201: WARN_CFLAGS = -W -Wall -Wstrict-prototypes -Wmissing-prototypes #-Werror</code>
-注销掉<code>-Werror</code></p>
-
-<h3>警告升级为错误2</h3>
-
-<p>在<code>make</code>阶段发生如下错误:</p>
-
-<p>`gcc -c -g -O2   -I. -I.././gdb -I.././gdb/config -DLOCALEDIR=&#8221;&#34;/usr/local/share/locale&#34;&#8221; -DHAVE_CONFIG_H -I.././gdb/../include/opcode -I.././gdb/../readline/.. -I../bfd -I.././gdb/../bfd -I.././gdb/../include -I../libdecnumber -I.././gdb/../libdecnumber   -DMI_OUT=1 -DGDBTK -DTUI=1  -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wno-switch -Wno-char-subscripts -Werror cp-name-parser.c
-cp-name-parser.y: 在函数‘cp_comp_to_string’中:
-cp-name-parser.y:1980:20: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
-cp-name-parser.y:1985:25: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
-cc1: all warnings being treated as errors
-make[2]: <strong><em> [cp-name-parser.o] 错误 1
-make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/gdb”
-make[1]: </em></strong> [all-gdb] 错误 2
-make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
-make: *** [all] 错误 2</p>
-
-<p>`</p>
-
-<p>文件insight-6.8-1/gdb/Makefile修改为:
-<code>145:WERROR_CFLAGS = #-Werror</code>
-注销掉<code>-Werror</code></p>
-
-<h2>使用 insight-6.8a.tar.bz2  可能的问题</h2>
-
-<p><a href="http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223">http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223</a>
-`
-Tk_Init failed: Can&#8217;t find a usable tk.tcl in the following directories:
-/usr/local/share/tk8.4 /usr/local/lib/tk8.4 /usr/lib/tk8.4 /usr/local/library /usr/library /usr/tk8.4.1/library /tk8.4.1/library</p>
-
-<p>/usr/local/share/tk8.4/tk.tcl: no event type or button # or keysym
-no event type or button # or keysym
-while executing
-&#8220;bind Listbox <MouseWheel> {
-%W yview scroll [expr {- (%D / 120) * 4}] units
-}&#8221;
-(file &#8220;/usr/local/share/tk8.4/listbox.tcl&#8221; line 182)
-invoked from within
-&#8220;source /usr/local/share/tk8.4/listbox.tcl&#8221;
-(in namespace eval &#8220;::&#8221; script line 1)
-invoked from within
-&#8220;namespace eval ::[list source [file join $::tk_library $file.tcl]]&#8221;
-(procedure &#8220;SourceLibFile&#8221; line 2)
-invoked from within
-&#8220;SourceLibFile listbox&#8221;
-(in namespace eval &#8220;::tk&#8221; script line 4)
-invoked from within
-&#8220;namespace eval ::tk {
-SourceLibFile button
-SourceLibFile entry
-SourceLibFile listbox
-SourceLibFile menu
-SourceLibFile panedwindow
-SourceLibFile &#8230;&#8221;
-invoked from within
-&#8220;if {$::tk_library ne &#8220;&#8221;} {
-if {[string equal $tcl_platform(platform) &#8220;macintosh&#8221;]} {
-proc ::tk::SourceLibFile {file} {
-if {[catch {
-namesp&#8230;&#8221;
-(file &#8220;/usr/local/share/tk8.4/tk.tcl&#8221; line 393)
-invoked from within
-&#8220;source /usr/local/share/tk8.4/tk.tcl&#8221;
-(&#8220;uplevel&#8221; body line 1)
-invoked from within
-&#8220;uplevel #0[list source $file]&#8221;
-This probably means that tk wasn&#8217;t installed properly.
-`</p>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">Read more &rarr;</a>
+    </footer>
   
 
 
@@ -298,76 +190,12 @@ This probably means that tk wasn&#8217;t installed properly.
 
 <p>能在编译期间规定一段代码的警告属性,如某个文件中后半部分不要求输出某些类型的警告使用编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">6.57 Pragmas</a>)中的诊断编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">6.57.10 Diagnostic Pragmas</a>)</p>
 
-<p>语法:</p>
-
-<pre><code>#pragma GCC diagnostic &lt;类型&gt; &lt;选项&gt;
-</code></pre>
-
-<p>其中类型包括:</p>
-
-<ul>
-<li><code>error</code> :诊断为错误.</li>
-<li><code>warning</code>:争端为警告.</li>
-<li><code>ignored</code>:忽略警告.</li>
-</ul>
-
-
-<p>选项则是命令行选项中的类似<code>-Wformat</code>的选项.</p>
-
-<p>例如:</p>
-
-<p>诊断-忽略:(关闭警告)</p>
-
-<pre><code>#pragma  GCC diagnostic ignored  "-Wformat"
-</code></pre>
-
-<p>诊断-警告:(开启警告)</p>
-
-<pre><code>#pragma  GCC diagnostic warning  "-Wformat"
-</code></pre>
-
-<p>诊断-错误:(开启警告-升级为错误)</p>
-
-<pre><code>#pragma  GCC diagnostic error  "-Wformat"
-</code></pre>
-
-<p>用法:<br/>
-在文件开头处关闭警告,在文件结尾出再开启警告,这样可以忽略该文件中的指定警告.</p>
-
-<h2>3 文件或工程级:命令行编译参数指定</h2>
-
-<p>警告:</p>
-
-<pre><code>gcc main.c -Wall
-</code></pre>
-
-<p>忽略:</p>
-
-<pre><code>gcc mian.c -Wall -Wno-unused-parameter  #开启all警告,但是忽略 -unused-parameter警告
-</code></pre>
-
-<p>选项格式: <code>-W[no-]&lt;警告选项&gt;</code><br/>
-如 : <code>-Wno-unused-parameter    #no- 表示诊断时忽略这个警告</code></p>
-
-<h1>参考:</h1>
-
-<ol>
-<li>通过<code>__attribute__</code>指定变量的属性(如<code>unused</code>,<code>packed</code>):<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#i386%20Variable%20Attributes">http://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#i386%20Variable%20Attributes</a></li>
-<li>通过<code>__attribute__</code>指定函数的属性(如<code>always_inline</code>):<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes">http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes</a></li>
-<li><code>__attribute__</code>的语法:<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax">http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax</a></li>
-<li>编译指示(#pragam):<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas</a></li>
-<li>编译诊断指示(Diagnostic Pragmas):<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas</a></li>
-<li>编译警告选项:<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html">http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html</a></li>
-</ol>
-
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/22/config-gcc-warning/">Read more &rarr;</a>
+    </footer>
   
 
 
@@ -405,7 +233,7 @@ This probably means that tk wasn&#8217;t installed properly.
   </header>
 
 
-  <div class="entry-content"><p><a href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.</p>
+  <div class="entry-content"><p><a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.</p>
 
 <h1>前言</h1>
 
@@ -413,7 +241,7 @@ This probably means that tk wasn&#8217;t installed properly.
 
 <p><img src="/downloads/img/结构示意图.png"></p>
 
-<p>PC(编译下载)大约就是<a href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>所涉及的部分.</p>
+<p>PC(编译下载)大约就是<a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>所涉及的部分.</p>
 
 <p>而PC(调试服务器)和PC(调试)就是本文涉及的内容.</p>
 
@@ -602,7 +430,7 @@ Build id: M20120914-1800
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">为调试程序编译avr-insight</a>
+        <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a>
       </li>
     
       <li class="post">

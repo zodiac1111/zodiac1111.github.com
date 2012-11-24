@@ -1,0 +1,515 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>编译avr-insight - 喜乐</title>
+  <meta name="author" content="zodiac1111">
+
+  
+  <meta name="description" content="上次进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序. 完成效果 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="喜乐" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34836207-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">I'm</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">喜乐</a></h1>
+  
+    <h2>我的网络记事簿</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zodiac1111.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+<li><a href="/test">Test</a></li>
+<li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">编译avr-insight</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-24T18:16:00+08:00" pubdate data-updated="true">2012-11-24 18:16</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">上次</a>进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序.</p>
+
+<h1>完成效果:</h1>
+
+<p>调试环境:
+<img src="/downloads/img/调试环境.png"></p>
+
+<p>基本的代码,汇编代码,寄存器,堆栈等功能都可以使用了. :)</p>
+
+<!-- more -->
+
+
+<p>远程调试设置:
+<img src="/downloads/img/远程调试设置.png"></p>
+
+<h1>编译avr-insight</h1>
+
+<p>构建avr-gcc: <a href="http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC">http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC</a></p>
+
+<p>insight下载的地址: <a href="http://mirrors.kernel.org/sources.redhat.com/insight/releases/">http://mirrors.kernel.org/sources.redhat.com/insight/releases/</a><br/>
+下载<code>insight-6.8-1a.tar.bz2</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ./configure --target=avr --program-prefix="avr-"
+</span><span class='line'>$ make
+</span><span class='line'>as root
+</span><span class='line'># make install</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>出现的问题</h2>
+
+<h3>警告升级为错误1</h3>
+
+<p>在<code>make</code>阶段发生如下错误:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.././bfd -I. -I. -I.././bfd -I.././bfd/../include -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror -g -O2 -c elf32-avr.c -o elf32-avr.o
+</span><span class='line'>elf32-avr.c: In function 'elf32_avr_relocate_section':
+</span><span class='line'>elf32-avr.c:1204:34: error: variable 'warned' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1204:16: error: variable 'unresolved_reloc' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1183:11: error: variable 'r_type' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function 'elf32_avr_relax_delete_bytes':
+</span><span class='line'>elf32-avr.c:1414:15: error: variable 'shrinked_insn_address' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1382:22: error: variable 'irelalign' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function 'elf32_avr_relax_section':
+</span><span class='line'>elf32-avr.c:1596:29: error: variable 'last_reloc' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function 'avr_mark_stub_not_to_be_necessary':
+</span><span class='line'>elf32-avr.c:2459:37: error: variable 'htab' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>cc1: all warnings being treated as errors
+</span><span class='line'>make[4]: *** [elf32-avr.lo] 错误 1
+</span><span class='line'>make[4]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[3]: *** [all-recursive] 错误 1
+</span><span class='line'>make[3]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[2]: *** [all] 错误 2
+</span><span class='line'>make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[1]: *** [all-bfd] 错误 2
+</span><span class='line'>make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+</span><span class='line'>make: *** [all] 错误 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将文件insight-6.8-1/bfd/Makefile,修改为:</p>
+
+<p><code>201: WARN_CFLAGS = -W -Wall -Wstrict-prototypes -Wmissing-prototypes #-Werror</code></p>
+
+<p>注销掉<code>-Werror</code></p>
+
+<h3>警告升级为错误2</h3>
+
+<p>在<code>make</code>阶段发生如下错误:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gcc -c -g -O2   -I. -I.././gdb -I.././gdb/config -DLOCALEDIR="\"/usr/local/share/locale\"" -DHAVE_CONFIG_H -I.././gdb/../include/opcode -I.././gdb/../readline/.. -I../bfd -I.././gdb/../bfd -I.././gdb/../include -I../libdecnumber -I.././gdb/../libdecnumber   -DMI_OUT=1 -DGDBTK -DTUI=1  -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wno-switch -Wno-char-subscripts -Werror cp-name-parser.c
+</span><span class='line'>cp-name-parser.y: 在函数‘cp_comp_to_string’中:
+</span><span class='line'>cp-name-parser.y:1980:20: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+</span><span class='line'>cp-name-parser.y:1985:25: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+</span><span class='line'>cc1: all warnings being treated as errors
+</span><span class='line'>make[2]: *** [cp-name-parser.o] 错误 1
+</span><span class='line'>make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/gdb”
+</span><span class='line'>make[1]: *** [all-gdb] 错误 2
+</span><span class='line'>make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+</span><span class='line'>make: *** [all] 错误 2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>文件insight-6.8-1/gdb/Makefile修改为:</p>
+
+<p><code>145:WERROR_CFLAGS = #-Werror</code></p>
+
+<p>注销掉<code>-Werror</code></p>
+
+<h2>使用 insight-6.8a.tar.bz2  可能的问题</h2>
+
+<p>开始的时候没注意,下载了6.8a版本,后来编译完运行时发现了这个问题.<br/>
+来源: <a href="http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223">http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223</a></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Tk_Init failed: Can't find a usable tk.tcl in the following directories: 
+</span><span class='line'>/usr/local/share/tk8.4 /usr/local/lib/tk8.4 /usr/lib/tk8.4 /usr/local/library /usr/library /usr/tk8.4.1/library /tk8.4.1/library
+</span><span class='line'>
+</span><span class='line'>/usr/local/share/tk8.4/tk.tcl: no event type or button # or keysym
+</span><span class='line'>no event type or button # or keysym
+</span><span class='line'>while executing
+</span><span class='line'>"bind Listbox &lt;MouseWheel> {
+</span><span class='line'>%W yview scroll [expr {- (%D / 120) * 4}] units
+</span><span class='line'>}"
+</span><span class='line'>(file "/usr/local/share/tk8.4/listbox.tcl" line 182)
+</span><span class='line'>invoked from within
+</span><span class='line'>"source /usr/local/share/tk8.4/listbox.tcl"
+</span><span class='line'>(in namespace eval "::" script line 1)
+</span><span class='line'>invoked from within
+</span><span class='line'>"namespace eval ::[list source [file join $::tk_library $file.tcl]]"
+</span><span class='line'>(procedure "SourceLibFile" line 2)
+</span><span class='line'>invoked from within
+</span><span class='line'>"SourceLibFile listbox"
+</span><span class='line'>(in namespace eval "::tk" script line 4)
+</span><span class='line'>invoked from within
+</span><span class='line'>"namespace eval ::tk {
+</span><span class='line'>SourceLibFile button
+</span><span class='line'>SourceLibFile entry
+</span><span class='line'>SourceLibFile listbox
+</span><span class='line'>SourceLibFile menu
+</span><span class='line'>SourceLibFile panedwindow
+</span><span class='line'>SourceLibFile ..."
+</span><span class='line'>invoked from within
+</span><span class='line'>"if {$::tk_library ne ""} {
+</span><span class='line'>if {[string equal $tcl_platform(platform) "macintosh"]} {
+</span><span class='line'>proc ::tk::SourceLibFile {file} {
+</span><span class='line'>if {[catch {
+</span><span class='line'>namesp..."
+</span><span class='line'>(file "/usr/local/share/tk8.4/tk.tcl" line 393)
+</span><span class='line'>invoked from within
+</span><span class='line'>"source /usr/local/share/tk8.4/tk.tcl"
+</span><span class='line'>("uplevel" body line 1)
+</span><span class='line'>invoked from within
+</span><span class='line'>"uplevel #0[list source $file]"
+</span><span class='line'>This probably means that tk wasn't installed properly.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>按照来源里说的,6.8-1已经修复了这个bug.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-24T18:16:00+08:00" pubdate data-updated="true">2012-11-24 18:16</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/avr/'>avr</a>, <a class='category' href='/blog/categories/insight/'>insight</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2012/11/22/config-gcc-warning/" title="Previous Post: 配置gcc编译警告选项">&laquo; 配置gcc编译警告选项</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/29/build-goldendict-from-source/">编译 goldendict 笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用 githubRepoWidget 展示 github 项目</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zodiac1111',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("zodiac_2012", 0, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/zodiac_2012">@zodiac_2012</a></p>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - zodiac1111 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Theme <a href="https://github.com/amelandri/darkstripes">DarkStripes</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zodiac1111blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
