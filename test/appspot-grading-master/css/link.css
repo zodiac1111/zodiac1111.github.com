@@ -1,0 +1,23 @@
+body {
+    background-color:#D8DCCE;
+    color:#321E1E
+}
+
+#editor {
+    position: absolute;
+    width: 800px;
+    height: 400px;
+    margin: 0px;
+}
+
+a:link { color: #321E1E; text-decoration: bold}
+a:visited { color: #321E1E; text-decoration: bold}
+a:active { color: #321E1E; text-decoration: bold}
+
+div.ace_gutter {
+    display:none;
+}
+
+div.ace_sb {
+    display:none;
+}

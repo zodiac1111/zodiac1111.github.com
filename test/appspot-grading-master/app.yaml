@@ -1,0 +1,23 @@
+application: xuanji
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /python/css
+  static_dir: css
+  
+- url: /static
+  static_dir: static
+  
+- url: /css
+  static_dir: css
+  
+- url: /python/ace
+  static_dir: ace
+  
+- url: /isicp
+  static_dir: isicp
+
+- url: /.*
+  script: index.py

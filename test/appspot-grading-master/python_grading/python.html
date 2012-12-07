@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/link.css" />
+    </head> 
+    <body>
+    {% for pset_name in pset_list %}
+        <a href=/python/{{pset_name}}>{{pset_name}}</a>
+        <br />
+    {% endfor %}
+    </body>
+</html>
