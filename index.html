@@ -9,9 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="描述 doxygen在 OUTPUT_LANGUAGE 选项设置成为 Chinese 后,
-生成的html页面中关于函数的参考项目.
-列出很多项的时候会超出框架,一直在一行上,没有按照框架的宽度换行. 效果如图: 如图长长的一行文字十分不方便查看. 该问题在1.8.1.1和1.8.2(目前版本) &hellip;">
+  <meta name="description" content="一般操作 HD44780LCD控制器的维基百科[1],我现在所用的应该也是基于HD44780LCD控制器 [2] 的. References 维基百科:HD44780LCD控制器 https://en.wikipedia.org/wiki/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +86,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">Atmega8使用1602字符液晶(hd44780)</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-12-16T17:18:00+08:00" pubdate data-updated="true">2012-12-16 17:18</time>
+        
+         | <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>一般操作</h1>
+
+<p>HD44780LCD控制器的维基百科<a href="#ref1">[1]</a>,我现在所用的应该也是基于HD44780LCD控制器 <a href="#ref2">[2]</a> 的.</p>
+
+<h1>References</h1>
+
+<ol>
+<li><a id="ref1"></a>维基百科:HD44780LCD控制器 <a href="https://en.wikipedia.org/wiki/Hitachi_HD44780_LCD_controller">https://en.wikipedia.org/wiki/Hitachi_HD44780_LCD_controller</a></li>
+<li><a id="ref2"></a>How to control a HD44780-based Character-LCD: <a href="http://www.ekenrooi.net/lcd/lcd.shtml">http://www.ekenrooi.net/lcd/lcd.shtml</a></li>
+<li><a id="ref3"></a>LCD Technical FAQ INDEX V (September_1996a)<a href="http://www.repairfaq.org/filipg/LINK/F_Tech_LCD.html">http://www.repairfaq.org/filipg/LINK/F_Tech_LCD.html</a></li>
+<li><a id="ref4"></a>Build your own &#8220;2-Wire LCD Interface&#8221; using the PIC16C84 microcontroller<a href="http://www.rentron.com/Myke1.htm">http://www.rentron.com/Myke1.htm</a></li>
+<li><a id="ref5"></a>HD44780 LCD User-Defined Graphics(自定义字符): <a href="http://www.quinapalus.com/hd44780udg.html">http://www.quinapalus.com/hd44780udg.html</a></li>
+<li><a id="ref6"></a>自定义字符: <a href="http://www.repairfaq.org/filipg/LINK/F_LCD_HD44780.html#LCDHD_009">http://www.repairfaq.org/filipg/LINK/F_LCD_HD44780.html#LCDHD_009</a></li>
+<li><a id="ref7"></a>Hitachi HD44780U (LCD-II) datasheet: <a href="http://lcd-linux.sourceforge.net/pdfdocs/hd44780.pdf">http://lcd-linux.sourceforge.net/pdfdocs/hd44780.pdf</a></li>
+<li><a id="ref8"></a>Hitachi HD44780U (LCD-II) datasheet: <a href="http://www.sparkfun.com/datasheets/LCD/HD44780.pdf">http://www.sparkfun.com/datasheets/LCD/HD44780.pdf</a>
+http://homepage.hispeed.ch/peterfleury/avr-lcd44780.html
+http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -371,90 +427,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-17T12:47:00+08:00" pubdate data-updated="true">2012-11-17 12:47</time>
-        
-         | <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>目前实现:</p>
-
-<p>可以用过USBasp下载器<strong>下载</strong>到ATmega128a单片机中运行(厂商例程),
-还未实现在线调试.</p>
-
-<p>引用来源:见参考一节.</p>
-
-<h1>前提:环境</h1>
-
-<h2>软件:</h2>
-
-<h3>开发平台Linux(kernel 3.6):</h3>
-
-<p>终端使用<code>uname -a</code>命令查看:</p>
-
-<pre><code>Linux localhost.localdomain 3.6.3-1.fc17.i686.PAE #1 SMP Mon Oct 22 15:48:37 UTC 2012 i686 i686 i386 GNU/Linux
-</code></pre>
-
-<h3>Linux 发行版(Fedora)</h3>
-
-<p>终端使用<code>lsb_release -a</code>命令查看:</p>
-
-<pre><code>LSB Version:    :core-4.1-ia32:core-4.1-noarch:cxx-4.1-ia32:cxx-4.1-noarch:desktop-4.1-ia32:desktop-4.1-noarch:languages-4.1-ia32:languages-4.1-noarch:printing-4.1-ia32:printing-4.1-noarch
-Distributor ID: Fedora
-Description:    Fedora release 17 (Beefy Miracle)
-Release:    17
-Codename:   BeefyMiracle
-</code></pre>
-
-<h3>IDE 平台:</h3>
-
-<pre><code>Eclipse Platform
-Version: 4.2.1
-Build id: M20120914-1800
-</code></pre>
-
-<h3>Eclipse 软件(插件)avr-eclipse:</h3>
-
-<pre><code>http://avr-eclipse.sourceforge.net
-</code></pre>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -469,6 +441,10 @@ Build id: M20120914-1800
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">atmega8使用1602字符液晶(hd44780)</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/07/doxygen-chinese-html-wrapline-bug/">修正doxygen中文显示html不换行bug</a>
@@ -492,10 +468,6 @@ Build id: M20120914-1800
     
       <li class="post">
         <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/29/build-goldendict-from-source/">编译 goldendict 笔记</a>
       </li>
     
   </ul>

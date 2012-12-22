@@ -9,9 +9,8 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="主要参考: 简单参考中文 http://yoursunny.com/study/IS409/ScoreBoard.htm
-位操作 参考 http://blog.chinaunix.net/uid-24931444-id-3372735.html
-api定义参考 http://www. &hellip;">
+  <meta name="description" content="目前实现: 可以用过USBasp下载器下载到ATmega128a单片机中运行(厂商例程),
+还未实现在线调试. 引用来源:见参考一节. 前提:环境 软件: 开发平台Linux(kernel 3.6): 终端使用uname -a命令查看: Linux localhost.localdomain 3. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +87,90 @@ api定义参考 http://www. &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-17T12:47:00+08:00" pubdate data-updated="true">2012-11-17 12:47</time>
+        
+         | <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>目前实现:</p>
+
+<p>可以用过USBasp下载器<strong>下载</strong>到ATmega128a单片机中运行(厂商例程),
+还未实现在线调试.</p>
+
+<p>引用来源:见参考一节.</p>
+
+<h1>前提:环境</h1>
+
+<h2>软件:</h2>
+
+<h3>开发平台Linux(kernel 3.6):</h3>
+
+<p>终端使用<code>uname -a</code>命令查看:</p>
+
+<pre><code>Linux localhost.localdomain 3.6.3-1.fc17.i686.PAE #1 SMP Mon Oct 22 15:48:37 UTC 2012 i686 i686 i386 GNU/Linux
+</code></pre>
+
+<h3>Linux 发行版(Fedora)</h3>
+
+<p>终端使用<code>lsb_release -a</code>命令查看:</p>
+
+<pre><code>LSB Version:    :core-4.1-ia32:core-4.1-noarch:cxx-4.1-ia32:cxx-4.1-noarch:desktop-4.1-ia32:desktop-4.1-noarch:languages-4.1-ia32:languages-4.1-noarch:printing-4.1-ia32:printing-4.1-noarch
+Distributor ID: Fedora
+Description:    Fedora release 17 (Beefy Miracle)
+Release:    17
+Codename:   BeefyMiracle
+</code></pre>
+
+<h3>IDE 平台:</h3>
+
+<pre><code>Eclipse Platform
+Version: 4.2.1
+Build id: M20120914-1800
+</code></pre>
+
+<h3>Eclipse 软件(插件)avr-eclipse:</h3>
+
+<pre><code>http://avr-eclipse.sourceforge.net
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -348,62 +431,6 @@ api定义参考 http://www. &hellip;">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/20/chromium-pdf-viewer/">Chromium 预览 Pdf 文件</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-20T19:46:00+08:00" pubdate data-updated="true">2012-09-20 19:46</time>
-        
-         | <a href="/blog/2012/09/20/chromium-pdf-viewer/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>chrome使用libpdf.so库,这个库不是自由软件,所以chromium默认没有带.
-chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code></p>
-
-<h2>复制chrome的pdf库</h2>
-
-<p>复制 <code>/opt/google/chrome/libpdf.so</code>到chrome-linux(chromium)下</p>
-
-<p>或许需要在浏览器中键入<code>chrome://plugins/</code>,使能Chrome PDF Viewer插件.</p>
-
-<h1>参考资料</h1>
-
-<ol>
-<li>简单的解决方式:<a href="http://askubuntu.com/questions/12584/why-doesnt-chromium-have-chrome-pdf-viewer-plugin">http://askubuntu.com/questions/12584/why-doesnt-chromium-have-chrome-pdf-viewer-plugin</a></li>
-<li>chromium issues:<a href="https://code.google.com/p/chromium/issues/detail?id=50852#c16">https://code.google.com/p/chromium/issues/detail?id=50852#c16</a></li>
-<li>libpdf.so</li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -420,6 +447,10 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">atmega8使用1602字符液晶(hd44780)</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/07/doxygen-chinese-html-wrapline-bug/">修正doxygen中文显示html不换行bug</a>
@@ -443,10 +474,6 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     
       <li class="post">
         <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/29/build-goldendict-from-source/">编译 goldendict 笔记</a>
       </li>
     
   </ul>
