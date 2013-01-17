@@ -9,10 +9,26 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="测试工具: modpoll(主站) diagslave(从站) 简介 支持平台: Windows
-Linux (x86 32-bit) &lt;-本文实验平台
-Solaris (SPARC)
-QNX Neutrino 6 (x86) 本文使用这两个软件进行Linux 32位平台下的Modbus/ &hellip;">
+  <meta name="description" content="生成错误 错误现象类似这样: 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+/home/use1/.gem/ruby/1.9.1/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in `&lt; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +105,95 @@ QNX Neutrino 6 (x86) 本文使用这两个软件进行Linux 32位平台下的Mod
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/09/15/some-octopress-oops/">使用 Octopress 一些错误和解决方式</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-15T19:21:00+08:00" pubdate data-updated="true">2012-09-15 19:21</time>
+        
+         | <a href="/blog/2012/09/15/some-octopress-oops/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>生成错误</h1>
+
+<p>错误现象类似这样:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/home/use1/.gem/ruby/1.9.1/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in `&lt;top (required)>': iconv will be deprecated in the future, use String#encode instead.
+</span><span class='line'>Configuration from /home/use1/blog/octopress/_config.yml
+</span><span class='line'>Building site: source -> public
+</span><span class='line'>/usr/share/ruby/psych.rb:203:in `parse': (&lt;unknown>): found unexpected end of stream while scanning a quoted scalar at line 3 column 8 (Psych::SyntaxError)
+</span><span class='line'>  from /usr/share/ruby/psych.rb:203:in `parse_stream'
+</span><span class='line'>  from /usr/share/ruby/psych.rb:151:in `parse'
+</span><span class='line'>  from /usr/share/ruby/psych.rb:127:in `load'
+</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/convertible.rb:33:in `read_yaml'
+</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/post.rb:39:in `initialize'
+</span><span class='line'>  from /home/use1/blog/octopress/plugins/preview_unpublished.rb:23:in `new'
+</span><span class='line'>  from /home/use1/blog/octopress/plugins/preview_unpublished.rb:23:in `block in read_posts'
+</span><span class='line'>  from /home/use1/blog/octopress/plugins/preview_unpublished.rb:21:in `each'
+</span><span class='line'>  from /home/use1/blog/octopress/plugins/preview_unpublished.rb:21:in `read_posts'
+</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:128:in `read_directories'
+</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:98:in `read'
+</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:38:in `process'
+</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/bin/jekyll:250:in `&lt;top (required)>'
+</span><span class='line'>  from /home/use1/bin/jekyll:23:in `load'
+</span><span class='line'>  from /home/use1/bin/jekyll:23:in `&lt;main>'</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/15/some-octopress-oops/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -353,57 +458,6 @@ RTP header:(头数据)位于udp包的base+0x33地址(内容)
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/08/22/softwave/">Softwave</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-22T20:34:00+08:00" pubdate data-updated="true">2012-08-22 20:34</time>
-        
-         | <a href="/blog/2012/08/22/softwave/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>好用的软件</h1>
-
-<h2>互联网</h2>
-
-<p>chromium    web浏览器
-elinks  A text-mode Web browser
-w3m  A pager with Web browsing abilities</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/22/softwave/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -420,6 +474,10 @@ w3m  A pager with Web browsing abilities</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/17/update-to-fedora-18/">升级到fedora18</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">atmega8使用1602字符液晶(hd44780)</a>
@@ -443,10 +501,6 @@ w3m  A pager with Web browsing abilities</p>
     
       <li class="post">
         <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
       </li>
     
   </ul>
@@ -508,7 +562,7 @@ w3m  A pager with Web browsing abilities</p>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - zodiac1111 -
+  Copyright &copy; 2013 - zodiac1111 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Theme <a href="https://github.com/amelandri/darkstripes">DarkStripes</a></span>
 </p>
 

@@ -9,7 +9,10 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="一般操作 HD44780LCD控制器的维基百科[1],我现在所用的应该也是基于HD44780LCD控制器 [2] 的. References 维基百科:HD44780LCD控制器 https://en.wikipedia.org/wiki/ &hellip;">
+  <meta name="description" content="从fedora17升级到fedora18 参考 官网:https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum 大致步骤 备份(数据无价)
+阅读已知bug和发行说明,确保自己升级到的版本对自己无害,且有升级的必要
+清理目前的系统
+升级 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +89,120 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2013/01/17/update-to-fedora-18/">升级到fedora18</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-17T18:55:00+08:00" pubdate data-updated="true">2013-01-17 18:55</time>
+        
+         | <a href="/blog/2013/01/17/update-to-fedora-18/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>从fedora17升级到fedora18</p>
+
+<h1>参考</h1>
+
+<ul>
+<li>官网:<a href="https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum">https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum</a></li>
+</ul>
+
+
+<h1>大致步骤</h1>
+
+<ol>
+<li><b>备份(数据无价)</b></li>
+<li>阅读已知bug和发行说明,确保自己升级到的版本对自己无害,且有升级的必要</li>
+<li>清理目前的系统</li>
+<li>升级</li>
+<li>安装grub引导程序
+
+<h2>升级</h2>
+
+<p>到文本界面(我没有切换到文本界面,直接在gnome3下升级的,阿门)</p>
+
+<p>  ctrl + alt + F2</p></li>
+</ol>
+
+
+<p>升级yum</p>
+
+<pre><code>yum update yum
+</code></pre>
+
+<p>清除cache</p>
+
+<pre><code>yum clean all
+</code></pre>
+
+<p>升级所有包(先删除一些自己不用的包可以加快这一步)</p>
+
+<pre><code>yum --releasever=18 distro-sync
+</code></pre>
+
+<p>验证升级</p>
+
+<pre><code>yum repolist 
+</code></pre>
+
+<p>安装所有的包都是新的版本</p>
+
+<pre><code>yum groupupdate 'Minimal Install'
+</code></pre>
+
+<p>安装/列举一些自己必要的组</p>
+
+<pre><code>yum grouplist
+</code></pre>
+
+<h2>安装grub</h2>
+
+<pre><code>/sbin/grub2-install &lt;引导设备&gt;
+</code></pre>
+
+<p>如,我是将fedora17安装在本机唯一一块硬盘上,使用了这样硬盘的所有空间.磁盘仅2搞分区,boot分区和lvm逻辑卷分区.
+我的grub是安装在boot分区上的.我使用如下命令:</p>
+
+<pre><code>/sbin/grub2-install --recheck /dev/sda
+</code></pre>
+
+<h1>其他</h1>
+
+<ul>
+<li>从 alpha, beta, preview, 或其他 Rawhide 版本升级的,参见:<a href="https://fedoraproject.org/wiki/Upgrading_from_pre-release_to_final">https://fedoraproject.org/wiki/Upgrading_from_pre-release_to_final</a></li>
+<li>升级到开发者版本:<code>yum --releasever=rawhide distro-sync --nogpgcheck</code>.</li>
+<li>升级过程中不要中途停止,那样你的系统可能会处于版本混合状态(17和18混合).那样可能会十分麻烦甚至是不可解的.</li>
+</ul>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -363,70 +480,6 @@ http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-19T20:00:00+08:00" pubdate data-updated="true">2012-11-19 20:00</time>
-        
-         | <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.</p>
-
-<h1>前言</h1>
-
-<p>首先说说我对编译开发调试环境的大概认识,如下图:</p>
-
-<p><img src="/downloads/img/结构示意图.png"></p>
-
-<p>PC(编译下载)大约就是<a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>所涉及的部分.</p>
-
-<p>而PC(调试服务器)和PC(调试)就是本文涉及的内容.</p>
-
-<p>稍微解释下我的理解:</p>
-
-<ol>
-<li>调试器:使用JTAG调试器,淘宝上几十块钱买的.看样子是兼容AVR JTAG ICE(mk1)的山寨版,能用.</li>
-<li>avarice:这里avr-gdb远程调试通过TCP服务,显然板子是不能提供这个服务的,那么avarice大致功能就是将串口(USB)(连着JTAG)转化成为TCP协议,这样通过这个TCP协议可以远程调试</li>
-<li>avr-gdb:调试器,可以是使用target remote 指定远程调试</li>
-</ol>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -441,6 +494,10 @@ http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</li>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/01/17/update-to-fedora-18/">升级到fedora18</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">atmega8使用1602字符液晶(hd44780)</a>
@@ -464,10 +521,6 @@ http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</li>
     
       <li class="post">
         <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
       </li>
     
   </ul>
@@ -529,7 +582,7 @@ http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</li>
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - zodiac1111 -
+  Copyright &copy; 2013 - zodiac1111 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Theme <a href="https://github.com/amelandri/darkstripes">DarkStripes</a></span>
 </p>
 
