@@ -1,0 +1,24 @@
+---
+layout: post
+title: "atmega8使用1602字符液晶(hd44780)"
+date: 2012-12-16 17:18
+comments: true
+categories: 
+---
+
+#一般操作
+HD44780LCD控制器的维基百科[\[1\]](#ref1),我现在所用的应该也是基于HD44780LCD控制器 [\[2\]](#ref2) 的.
+
+#References
+1. <a id="ref1"></a>维基百科:HD44780LCD控制器 <https://en.wikipedia.org/wiki/Hitachi_HD44780_LCD_controller>
+2. <a id="ref2"></a>How to control a HD44780-based Character-LCD: <http://www.ekenrooi.net/lcd/lcd.shtml>
+3. <a id="ref3"></a>LCD Technical FAQ INDEX V (September_1996a)<http://www.repairfaq.org/filipg/LINK/F_Tech_LCD.html>
+4. <a id="ref4"></a>Build your own "2-Wire LCD Interface" using the PIC16C84 microcontroller<http://www.rentron.com/Myke1.htm>
+5. <a id="ref5"></a>HD44780 LCD User-Defined Graphics(自定义字符): <http://www.quinapalus.com/hd44780udg.html>
+6. <a id="ref6"></a>自定义字符: <http://www.repairfaq.org/filipg/LINK/F_LCD_HD44780.html#LCDHD_009>
+7. <a id="ref7"></a>Hitachi HD44780U (LCD-II) datasheet: <http://lcd-linux.sourceforge.net/pdfdocs/hd44780.pdf>
+8. <a id="ref8"></a>Hitachi HD44780U (LCD-II) datasheet: <http://www.sparkfun.com/datasheets/LCD/HD44780.pdf>
+http://homepage.hispeed.ch/peterfleury/avr-lcd44780.html
+http://homepage.hispeed.ch/peterfleury/avr-software.html#libs
+
+
