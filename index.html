@@ -197,6 +197,26 @@
 <li>升级过程中不要中途停止,那样你的系统可能会处于版本混合状态(17和18混合).那样可能会十分麻烦甚至是不可解的.</li>
 </ul>
 
+
+<h1>其他小问题</h1>
+
+<h3>Chrome浏览器</h3>
+
+<p>升级到fedora18后,启动Chrome/Chromium发生以下错误:</p>
+
+<pre><code>chrome-linux/chrome: error while loading shared libraries: libudev.so.0: cannot open shared object file: No such file or directory
+</code></pre>
+
+<p>到/lib目录下,运行<code>ls -l|grep libudev</code>会发现:</p>
+
+<pre><code>lrwxrwxrwx   1 root root       16 1月  16 22:55 libudev.so.1 -&gt; libudev.so.1.1.6
+-rwxr-xr-x   1 root root    70708 1月   4 06:52 libudev.so.1.1.6
+</code></pre>
+
+<p>所以只要给<code>libudev.so.0</code>做个软连接到<code>libudev.so.1.1.6</code>即可:</p>
+
+<pre><code>ln -s libudev.so.1.1.6 libudev.so.0
+</code></pre>
 </div>
   
   
