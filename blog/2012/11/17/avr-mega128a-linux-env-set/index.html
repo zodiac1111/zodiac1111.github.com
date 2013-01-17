@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux下avr单片机开发环境 - 喜乐</title>
+  <meta name="author" content="zodiac1111">
+
+  
+  <meta name="description" content="目前实现: 可以用过USBasp下载器下载到ATmega128a单片机中运行(厂商例程),
+还未实现在线调试. 引用来源:见参考一节. 前提:环境 软件: 开发平台Linux(kernel 3.6): 终端使用uname -a命令查看: Linux localhost.localdomain 3. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="喜乐" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34836207-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">I'm</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">喜乐</a></h1>
+  
+    <h2>我的网络记事簿</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zodiac1111.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+<li><a href="/test">Test</a></li>
+<li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Linux下avr单片机开发环境</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-17T12:47:00+08:00" pubdate data-updated="true">2012-11-17 12:47</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>目前实现:</p>
+
+<p>可以用过USBasp下载器<strong>下载</strong>到ATmega128a单片机中运行(厂商例程),
+还未实现在线调试.</p>
+
+<p>引用来源:见参考一节.</p>
+
+<h1>前提:环境</h1>
+
+<h2>软件:</h2>
+
+<h3>开发平台Linux(kernel 3.6):</h3>
+
+<p>终端使用<code>uname -a</code>命令查看:</p>
+
+<pre><code>Linux localhost.localdomain 3.6.3-1.fc17.i686.PAE #1 SMP Mon Oct 22 15:48:37 UTC 2012 i686 i686 i386 GNU/Linux
+</code></pre>
+
+<h3>Linux 发行版(Fedora)</h3>
+
+<p>终端使用<code>lsb_release -a</code>命令查看:</p>
+
+<pre><code>LSB Version:    :core-4.1-ia32:core-4.1-noarch:cxx-4.1-ia32:cxx-4.1-noarch:desktop-4.1-ia32:desktop-4.1-noarch:languages-4.1-ia32:languages-4.1-noarch:printing-4.1-ia32:printing-4.1-noarch
+Distributor ID: Fedora
+Description:    Fedora release 17 (Beefy Miracle)
+Release:    17
+Codename:   BeefyMiracle
+</code></pre>
+
+<h3>IDE 平台:</h3>
+
+<pre><code>Eclipse Platform
+Version: 4.2.1
+Build id: M20120914-1800
+</code></pre>
+
+<h3>Eclipse 软件(插件)avr-eclipse:</h3>
+
+<pre><code>http://avr-eclipse.sourceforge.net
+</code></pre>
+
+<!-- more -->
+
+
+<h4>下载软件:</h4>
+
+<h5>Linux平台交叉编译avr程序交叉编译器:avr-gcc.</h5>
+
+<p>yum安装或者源代码编译</p>
+
+<h5>avr程序下载(烧写)软件:avrdude</h5>
+
+<p>网址<a href="http://savannah.nongnu.org/projects/avrdude/">http://savannah.nongnu.org/projects/avrdude/</a></p>
+
+<h2>硬件:</h2>
+
+<h3>下载器:</h3>
+
+<h4>USBasp,很早以前淘宝上买的[参考4]:</h4>
+
+<p>lsusb查看如下:</p>
+
+<pre><code>Bus 003 Device 006: ID 16c0:05dc VOTI shared ID for use with libusb
+</code></pre>
+
+<p>这个好像只能下载(ISP).</p>
+
+<h4>AVR-JTAG-USB仿真器,也是很久以前买的[参考8]:</h4>
+
+<p>lsusb识别是usb转串,应该就是这样吧 = = .</p>
+
+<pre><code>Bus 003 Device 012: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
+</code></pre>
+
+<p>除了下载功能以外,这个还能在线调试.</p>
+
+<p><strong>以上两者任意一个都可以下载程序.</strong></p>
+
+<h3>开发板:</h3>
+
+<p>一年多前淘宝买的开发板(ATmega128a)[参考5],原理图[参考6],扔那里也没怎么玩,最近来了兴致拿起来折腾折腾 :P .</p>
+
+<h1>正文:搭建开发环境:在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.</h1>
+
+<p>[参考1]</p>
+
+<h2>安装AVR-Eclipse</h2>
+
+<p>在Eclipse中单击帮助(Help)->安装新软件(Install New Sofrware),之后将打开一个对话框.在对话框的顶部 Work with 文本框中粘贴 AVR-Eclipse 更新服务器的地址 (<a href="http://avr-eclipse.sourceforge.net/updatesite/">http://avr-eclipse.sourceforge.net/updatesite/</a>).如图:
+[图:安装插件]
+<img src="/downloads/img/avr-eclipse-plug-in.png"></p>
+
+<p>安装好之后,点击窗口(Window)->首选项(Preferences)展开左边的AVR一栏.
+[图:配置窗口]
+<img src="/downloads/img/avr-eclipse-config.png"></p>
+
+<p>侧边栏 编程器配置(Programmer COnfigurations)中点击添加(Add).
+左侧选择&#8221;USBasp,http://www.fishchl.de/usbasp&#8221;(<strong>注意</strong>:需要根据实际下载器硬件选择).</p>
+
+<p>[图:下载器/编程器配置]
+<img src="/downloads/img/avr-eclipse-config-hw.png"></p>
+
+<p>同时,在项目-属性中也可以设置.
+[图:项目属性中的设置(目标硬件设置等)]
+<img src="/downloads/img/avr-eclipse-proj-hwset.png"></p>
+
+<h2>使用</h2>
+
+<p>文件(File)->新建(New)->C语言项目(C Project).项目类型(Project type)中选择AVR Cross Target Project -> Empty Project. 给项目名字.</p>
+
+<p>下一步,点击高级设置(Advanced settings),选择之前配置文件. 就可以开始在Linux下进行单片机开发了.</p>
+
+<p>编译完成后,点击avr菜单->上载项目到目标设备即可
+[图:上载到设备(开发板)]
+<img src="/downloads/img/avr-eclipse-download.png"></p>
+
+<p>环境详情参阅[参考1]</p>
+
+<h3>可能遇到的问题:</h3>
+
+<h4>下载器(硬件)</h4>
+
+<p>选择好适当的下载器.USBasp在Eclipse中工程项目的属性选项中,左侧Programmer Hardwavr编程器硬件应该选择&#8221;USBasp&#8221;.默认端口如果不是默认的<code>/dev/ttyUSB0</code>,必须填写正确的端口以覆盖配置.</p>
+
+<p>使用AVR JTAG USB仿真器时选择&#8221;Atmel JTAG ICE(mk1)&#8221;.因为默认端口(/dev/parport0)不是usb,可能会提示如下错误:</p>
+
+<pre><code>avrdude: ser_open(): can't open device "/dev/parport0": No such file or directory
+avrdude: jtagmkI_close(): unsupported baudrate -1
+</code></pre>
+
+<p>所以默认端口必须覆盖,例如<code>/dev/ttyUSB0</code>. 测试可以下载,在线调试功能还在折腾中 :)</p>
+
+<p>总之:硬件和设置一定必须向配合.</p>
+
+<h4>软件:linux设备文件权限</h4>
+
+<p>默认情况下普通用户是没有linux的设备文件的读写权限的.所以avarice可能会提示访问受限.</p>
+
+<p>这时只要给avarice增加权限位即可.
+1. 切换到root用户
+2. chmod a+s /usr/bin/avrdude #赋予权限位
+3. 切换回普通用户,继续操作即可.</p>
+
+<h4>快捷键无效</h4>
+
+<p>快捷键可能被fcitx输入法程序截获,尝试关闭输入法在试试快捷键,例如Ctrl+Shift+f 格式化(format)代码.</p>
+
+<h4>编译程序下载后没反映</h4>
+
+<p>暂时发现 项目->属性 -> C/C++ Build栏 -> Setting -> AVR Compiler(avr编译器)<br/>
+-> Optimization(优化) -> Optimization Level(优化等级) 除了选择 (-O0)没有优化外,<br/>
+其他选项生成的程序都无法执行(没效果) 暂时不知道什么原因 :(</p>
+
+<h1>参考:</h1>
+
+<ol>
+<li>avr开发环境搭建教程(EN),本文主要就是参考/翻译它的. <a href="http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/">http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/</a></li>
+<li>Linux下avr-Eclipse环境(EN):<a href="http://awawa.hariko.com/eclipse_avr_en.html">http://awawa.hariko.com/eclipse_avr_en.html</a></li>
+<li>avrdude 命令说明(CN):<a href="http://blog.21ic.com/user1/69/archives/2005/1551.html">http://blog.21ic.com/user1/69/archives/2005/1551.html</a></li>
+<li>淘宝上的USBasp下载器:<a href="http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.147.BquMN6&amp;tradeID=79509563401088">http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.147.BquMN6&amp;tradeID=79509563401088</a></li>
+<li>ATmega128a开发板淘宝:<a href="http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.184.BquMN6&amp;tradeID=79064532741088">http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.184.BquMN6&amp;tradeID=79064532741088</a></li>
+<li>开发板原理图(DropBox),包括厂商提供的学习手册:<a href="https://www.dropbox.com/sh/hyh2zcqd3px6iml/tOYBevw_Co">https://www.dropbox.com/sh/hyh2zcqd3px6iml/tOYBevw_Co</a></li>
+<li>自制USBasp下载器(CN):<a href="http://www.amobbs.com/thread-723786-1-1.html">http://www.amobbs.com/thread-723786-1-1.html</a></li>
+<li>AVR-jtag usb仿真器(也可以用来下载):<a href="http://item.taobao.com/item.htm?spm=0.0.0.46.W1V8IW&amp;id=2332186600">http://item.taobao.com/item.htm?spm=0.0.0.46.W1V8IW&amp;id=2332186600</a></li>
+</ol>
+
+
+<p>本文地址:<a href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-17T12:47:00+08:00" pubdate data-updated="true">2012-11-17 12:47</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/avr/'>avr</a>, <a class='category' href='/blog/categories/eclipse/'>eclipse</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2012/11/11/lua-wireshark-plug-in/" title="Previous Post: lua实现简单的wireshark自定义协议解析">&laquo; lua实现简单的wireshark自定义协议解析</a>
+      
+      
+        <a class="basic-alignment right articlenav" href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/" title="Next Post: 在Linux系统下通过JTAG调试atmega128a">在Linux系统下通过JTAG调试atmega128a &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">atmega8使用1602字符液晶(hd44780)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/07/doxygen-chinese-html-wrapline-bug/">修正doxygen中文显示html不换行bug</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zodiac1111',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("zodiac_2012", 0, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/zodiac_2012">@zodiac_2012</a></p>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - zodiac1111 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Theme <a href="https://github.com/amelandri/darkstripes">DarkStripes</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zodiac1111blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

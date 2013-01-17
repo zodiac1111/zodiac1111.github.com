@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: gcc | 喜乐]]></title>
+  <link href="http://zodiac1111.github.com/blog/categories/gcc/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.com/"/>
+  <updated>2012-12-22T15:57:05+08:00</updated>
+  <id>http://zodiac1111.github.com/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[配置gcc编译警告选项]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/11/22/config-gcc-warning/"/>
+    <updated>2012-11-22T19:17:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/11/22/config-gcc-warning</id>
+    <content type="html"><![CDATA[<h1>在各个层次关闭或开启编译警告选项</h1>
+
+<p>从上到下覆盖</p>
+
+<p> 推荐的警告选项:<code>-Wall -Wextra</code></p>
+
+<h2>1. 符号级:指定某个变量警告</h2>
+
+<p>主要使用<code>__attribute__</code>这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然<code>__attribute__</code>还能指定其他很多中属性,例如结构体变量的对齐方式,指定声明的函数的属性等,但这里仅关注在警告方面的变量的属性.</p>
+
+<pre><code>int a __attribute__ ((unused));
+</code></pre>
+
+<p>指定该变量为"未使用的".即使这个变量没有被使用,编译时也会忽略则个警告输出.</p>
+
+<h2>2. 源代码级:在文件中诊断</h2>
+
+<p>能在编译期间规定一段代码的警告属性,如某个文件中后半部分不要求输出某些类型的警告使用编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">6.57 Pragmas</a>)中的诊断编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">6.57.10 Diagnostic Pragmas</a>)</p>
+
+<!-- more -->
+
+
+<p>语法:</p>
+
+<pre><code>#pragma GCC diagnostic &lt;类型&gt; &lt;选项&gt;
+</code></pre>
+
+<p>其中类型包括:</p>
+
+<ul>
+<li><code>error</code> :诊断为错误.</li>
+<li><code>warning</code>:争端为警告.</li>
+<li><code>ignored</code>:忽略警告.</li>
+</ul>
+
+
+<p>选项则是命令行选项中的类似<code>-Wformat</code>的选项.</p>
+
+<p>例如:</p>
+
+<p>诊断-忽略:(关闭警告)</p>
+
+<pre><code>#pragma  GCC diagnostic ignored  "-Wformat"
+</code></pre>
+
+<p>诊断-警告:(开启警告)</p>
+
+<pre><code>#pragma  GCC diagnostic warning  "-Wformat"
+</code></pre>
+
+<p>诊断-错误:(开启警告-升级为错误)</p>
+
+<pre><code>#pragma  GCC diagnostic error  "-Wformat"
+</code></pre>
+
+<p>用法:<br/>
+在文件开头处关闭警告,在文件结尾出再开启警告,这样可以忽略该文件中的指定警告.</p>
+
+<h2>3 文件或工程级:命令行编译参数指定</h2>
+
+<p>警告:</p>
+
+<pre><code>gcc main.c -Wall
+</code></pre>
+
+<p>忽略:</p>
+
+<pre><code>gcc mian.c -Wall -Wno-unused-parameter  #开启all警告,但是忽略 -unused-parameter警告
+</code></pre>
+
+<p>选项格式: <code>-W[no-]&lt;警告选项&gt;</code><br/>
+如 : <code>-Wno-unused-parameter    #no- 表示诊断时忽略这个警告</code></p>
+
+<h1>参考:</h1>
+
+<ol>
+<li>通过<code>__attribute__</code>指定变量的属性(如<code>unused</code>,<code>packed</code>):<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#i386%20Variable%20Attributes">http://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#i386%20Variable%20Attributes</a></li>
+<li>通过<code>__attribute__</code>指定函数的属性(如<code>always_inline</code>):<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes">http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes</a></li>
+<li><code>__attribute__</code>的语法:<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax">http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax</a></li>
+<li>编译指示(#pragam):<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas</a></li>
+<li>编译诊断指示(Diagnostic Pragmas):<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas</a></li>
+<li>编译警告选项:<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html">http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

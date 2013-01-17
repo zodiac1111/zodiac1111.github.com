@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: doxygen | 喜乐]]></title>
+  <link href="http://zodiac1111.github.com/blog/categories/doxygen/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.com/"/>
+  <updated>2012-12-22T15:57:05+08:00</updated>
+  <id>http://zodiac1111.github.com/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[修正doxygen中文显示html不换行bug]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/12/07/doxygen-chinese-html-wrapline-bug/"/>
+    <updated>2012-12-07T19:31:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/12/07/doxygen-chinese-html-wrapline-bug</id>
+    <content type="html"><![CDATA[<h1>描述</h1>
+
+<p>doxygen在 <code>OUTPUT_LANGUAGE</code> 选项设置成为 Chinese 后,<br/>
+生成的html页面中关于函数的<strong>参考</strong>项目.<br/>
+列出很多项的时候会超出框架,一直在一行上,没有按照框架的宽度换行.</p>
+
+<p>效果如图:<img src="/downloads/img/bug.png"></p>
+
+<p>如图长长的一行文字十分不方便查看.</p>
+
+<p>该问题在1.8.1.1和1.8.2(目前版本)都存在,且只有以简体中文作为输出语言是存在.</p>
+
+<h1>解决</h1>
+
+<p>修改doxygen源代码.</p>
+
+<ul>
+<li><p>下载源代码包:<a href="http://sourceforge.net/projects/doxygen/files/rel-1.8.2/">http://sourceforge.net/projects/doxygen/files/rel-1.8.2/</a>    doxygen-1.8.2.src.tar.gz</p></li>
+<li><p>修改 <code>/doxygen-1.8.2/src/translator_cn.h</code> 文件 <br/>
+第546行<code>virtual QCString trWriteList(int numEntries)</code> 函数中的:</p></li>
+</ul>
+
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">!=</span><span class="n">numEntries</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">// not the last entry, so we need a separator&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">numEntries</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="c1">// not the fore last entry </span>
+</span><span class='line'>        <span class="n">result</span><span class="o">+=</span><span class="s">&quot;,&quot;</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">else</span>                <span class="c1">// the fore last entry</span>
+</span><span class='line'>        <span class="n">result</span><span class="o">+=</span><span class="n">CN_SPC</span><span class="s">&quot;, 以及&quot;</span><span class="n">CN_SPC</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+修改为:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">!=</span><span class="n">numEntries</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1">// not the last entry, so we need a separator&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span>    <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="n">i</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">numEntries</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="c1">// not the fore last entry </span>
+</span><span class='line'>        <span class="n">result</span><span class="o">+=</span><span class="s">&quot;,&quot;</span><span class="n">CN_SPC</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">else</span>                <span class="c1">// the fore last entry</span>
+</span><span class='line'>        <span class="n">result</span><span class="o">+=</span><span class="n">CN_SPC</span><span class="s">&quot;, 以及&quot;</span><span class="n">CN_SPC</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+即在<code>","</code>后面加上<code>CN_SPC</code>(其实就是一个空格)</p>
+
+<p>编译,安装之后即可.</p>
+
+<p>完成效果:<img src="/downloads/img/now-ok.png">
+这样所有的参考就都很在页面中看到了 :)</p>
+]]></content>
+  </entry>
+  
+</feed>

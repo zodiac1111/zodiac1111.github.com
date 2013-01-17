@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: avr | 喜乐]]></title>
+  <link href="http://zodiac1111.github.com/blog/categories/avr/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.com/"/>
+  <updated>2012-12-22T15:57:05+08:00</updated>
+  <id>http://zodiac1111.github.com/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[编译avr-insight]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/"/>
+    <updated>2012-11-24T18:16:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui</id>
+    <content type="html"><![CDATA[<p><a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">上次</a>进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序.</p>
+
+<h1>完成效果:</h1>
+
+<p>调试环境:
+<img src="/downloads/img/调试环境.png"></p>
+
+<p>基本的代码,汇编代码,寄存器,堆栈等功能都可以使用了. :)</p>
+
+<!-- more -->
+
+
+<p>远程调试设置:
+<img src="/downloads/img/远程调试设置.png"></p>
+
+<h1>编译avr-insight</h1>
+
+<p>构建avr-gcc: <a href="http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC">http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC</a></p>
+
+<p>insight下载的地址: <a href="http://mirrors.kernel.org/sources.redhat.com/insight/releases/">http://mirrors.kernel.org/sources.redhat.com/insight/releases/</a><br/>
+下载<code>insight-6.8-1a.tar.bz2</code></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ./configure --target=avr --program-prefix="avr-"
+</span><span class='line'>$ make
+</span><span class='line'>as root&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>make install&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>出现的问题</h2>
+
+<h3>警告升级为错误1</h3>
+
+<p>在<code>make</code>阶段发生如下错误:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.././bfd -I. -I. -I.././bfd -I.././bfd/../include -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror -g -O2 -c elf32-avr.c -o elf32-avr.o
+</span><span class='line'>elf32-avr.c: In function 'elf32_avr_relocate_section':
+</span><span class='line'>elf32-avr.c:1204:34: error: variable 'warned' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1204:16: error: variable 'unresolved_reloc' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1183:11: error: variable 'r_type' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function 'elf32_avr_relax_delete_bytes':
+</span><span class='line'>elf32-avr.c:1414:15: error: variable 'shrinked_insn_address' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1382:22: error: variable 'irelalign' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function 'elf32_avr_relax_section':
+</span><span class='line'>elf32-avr.c:1596:29: error: variable 'last_reloc' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function 'avr_mark_stub_not_to_be_necessary':
+</span><span class='line'>elf32-avr.c:2459:37: error: variable 'htab' set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>cc1: all warnings being treated as errors
+</span><span class='line'>make[4]: &lt;strong>&lt;em> [elf32-avr.lo] 错误 1
+</span><span class='line'>make[4]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[3]: &lt;/em>&lt;/strong> [all-recursive] 错误 1
+</span><span class='line'>make[3]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[2]: &lt;strong>&lt;em> [all] 错误 2
+</span><span class='line'>make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[1]: &lt;/em>&lt;/strong> [all-bfd] 错误 2
+</span><span class='line'>make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+</span><span class='line'>make: *** [all] 错误 2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>将文件insight-6.8-1/bfd/Makefile,修改为:</p>
+
+<p><code>201: WARN_CFLAGS = -W -Wall -Wstrict-prototypes -Wmissing-prototypes #-Werror</code></p>
+
+<p>注销掉<code>-Werror</code></p>
+
+<h3>警告升级为错误2</h3>
+
+<p>在<code>make</code>阶段发生如下错误:
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gcc -c -g -O2   -I. -I.././gdb -I.././gdb/config -DLOCALEDIR="\"/usr/local/share/locale\"" -DHAVE_CONFIG_H -I.././gdb/../include/opcode -I.././gdb/../readline/.. -I../bfd -I.././gdb/../bfd -I.././gdb/../include -I../libdecnumber -I.././gdb/../libdecnumber   -DMI_OUT=1 -DGDBTK -DTUI=1  -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wno-switch -Wno-char-subscripts -Werror cp-name-parser.c
+</span><span class='line'>cp-name-parser.y: 在函数‘cp_comp_to_string’中:
+</span><span class='line'>cp-name-parser.y:1980:20: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+</span><span class='line'>cp-name-parser.y:1985:25: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+</span><span class='line'>cc1: all warnings being treated as errors
+</span><span class='line'>make[2]: &lt;strong>&lt;em> [cp-name-parser.o] 错误 1
+</span><span class='line'>make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/gdb”
+</span><span class='line'>make[1]: &lt;/em>&lt;/strong> [all-gdb] 错误 2
+</span><span class='line'>make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+</span><span class='line'>make: *** [all] 错误 2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>文件insight-6.8-1/gdb/Makefile修改为:</p>
+
+<p><code>145:WERROR_CFLAGS = #-Werror</code></p>
+
+<p>注销掉<code>-Werror</code></p>
+
+<h2>使用 insight-6.8a.tar.bz2  可能的问题</h2>
+
+<p>开始的时候没注意,下载了6.8a版本,后来编译完运行时发现了这个问题.<br/>
+来源: <a href="http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223">http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223</a></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Tk_Init failed: Can't find a usable tk.tcl in the following directories:
+</span><span class='line'>/usr/local/share/tk8.4 /usr/local/lib/tk8.4 /usr/lib/tk8.4 /usr/local/library /usr/library /usr/tk8.4.1/library /tk8.4.1/library&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>/usr/local/share/tk8.4/tk.tcl: no event type or button # or keysym
+</span><span class='line'>no event type or button # or keysym
+</span><span class='line'>while executing
+</span><span class='line'>"bind Listbox &lt;MouseWheel> {
+</span><span class='line'>%W yview scroll [expr {- (%D / 120) * 4}] units
+</span><span class='line'>}"
+</span><span class='line'>(file "/usr/local/share/tk8.4/listbox.tcl" line 182)
+</span><span class='line'>invoked from within
+</span><span class='line'>"source /usr/local/share/tk8.4/listbox.tcl"
+</span><span class='line'>(in namespace eval "::" script line 1)
+</span><span class='line'>invoked from within
+</span><span class='line'>"namespace eval ::[list source [file join $::tk_library $file.tcl]]"
+</span><span class='line'>(procedure "SourceLibFile" line 2)
+</span><span class='line'>invoked from within
+</span><span class='line'>"SourceLibFile listbox"
+</span><span class='line'>(in namespace eval "::tk" script line 4)
+</span><span class='line'>invoked from within
+</span><span class='line'>"namespace eval ::tk {
+</span><span class='line'>SourceLibFile button
+</span><span class='line'>SourceLibFile entry
+</span><span class='line'>SourceLibFile listbox
+</span><span class='line'>SourceLibFile menu
+</span><span class='line'>SourceLibFile panedwindow
+</span><span class='line'>SourceLibFile ..."
+</span><span class='line'>invoked from within
+</span><span class='line'>"if {$::tk_library ne ""} {
+</span><span class='line'>if {[string equal $tcl_platform(platform) "macintosh"]} {
+</span><span class='line'>proc ::tk::SourceLibFile {file} {
+</span><span class='line'>if {[catch {
+</span><span class='line'>namesp..."
+</span><span class='line'>(file "/usr/local/share/tk8.4/tk.tcl" line 393)
+</span><span class='line'>invoked from within
+</span><span class='line'>"source /usr/local/share/tk8.4/tk.tcl"
+</span><span class='line'>("uplevel" body line 1)
+</span><span class='line'>invoked from within
+</span><span class='line'>"uplevel #0[list source $file]"
+</span><span class='line'>This probably means that tk wasn't installed properly.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>按照来源里说的,6.8-1已经修复了这个bug.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在Linux系统下通过JTAG调试atmega128a]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/"/>
+    <updated>2012-11-19T20:00:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux</id>
+    <content type="html"><![CDATA[<p><a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.</p>
+
+<h1>前言</h1>
+
+<p>首先说说我对编译开发调试环境的大概认识,如下图:</p>
+
+<p><img src="/downloads/img/结构示意图.png"></p>
+
+<p>PC(编译下载)大约就是<a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>所涉及的部分.</p>
+
+<p>而PC(调试服务器)和PC(调试)就是本文涉及的内容.</p>
+
+<p>稍微解释下我的理解:</p>
+
+<ol>
+<li>调试器:使用JTAG调试器,淘宝上几十块钱买的.看样子是兼容AVR JTAG ICE(mk1)的山寨版,能用.</li>
+<li>avarice:这里avr-gdb远程调试通过TCP服务,显然板子是不能提供这个服务的,那么avarice大致功能就是将串口(USB)(连着JTAG)转化成为TCP协议,这样通过这个TCP协议可以远程调试</li>
+<li>avr-gdb:调试器,可以是使用target remote 指定远程调试</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h1>效果</h1>
+
+<p>如图:</p>
+
+<p><img src="/downloads/img/avr-debug.png"></p>
+
+<h1>配置</h1>
+
+<h2>调试器(eclipse)</h2>
+
+<p>主要参考 参考[1]和参考[2],对于Linux和win几乎没什么区别.</p>
+
+<p>对于调试配置,找着参考[1]的设置:</p>
+
+<p><img src="/downloads/img/调试配置1.png"></p>
+
+<ol>
+<li>确保使用GDB Hardware Debugging,也有说(参考[2])C/C++ Application也行,反正我没弄成</li>
+<li>执行 调试器命令.就是在命令行中输入 avr-gdb能启动调试器就可以.</li>
+<li>调试目标 等同于命令行中进入avr-gdb后 敲的 <code>target remote localhost:4242</code></li>
+<li>确保是 “Standard GDB Hardware Debugging 启动程序”</li>
+</ol>
+
+
+<p>以上是调试器的设置.光设置完调试器并不能调试,还要配置好调试服务器,这样调试器才能连接上调试服务器进行调试.这时就需要上面说的 avarice 了.</p>
+
+<h2>调试服务器</h2>
+
+<p>avarice在终端运行,并且只有他运行着才能在eclipse上正确进行调试;</p>
+
+<p>指令:</p>
+
+<pre><code>avarice -P atmega128 -j /dev/ttyUSB0 :4242
+</code></pre>
+
+<p>参数意义是</p>
+
+<ol>
+<li>-P &lt;型号> :指定型号 ,atmega128a使用 atmega128</li>
+<li>-j &lt;JTAG端口> : 指定使用JTAG的端口,我使用的是 /dev/ttyUSB0 <strong>注意设备文件的权限</strong></li>
+<li>:4242 指定开放本机TCP4242端口,之后其他程序(调试器)就可以连接到这个端口进行调试了.<strong>注意和前面参数空格空开</strong></li>
+</ol>
+
+
+<p>然后看到类似下面的提示:</p>
+
+<pre><code>AVaRICE version 2.12, Jan 12 2012 23:36:05
+
+Defaulting JTAG bitrate to 250 kHz.
+
+JTAG config starting.
+Hardware Version: 0xc3
+Software Version: 0x80
+Reported JTAG device ID: 0x9702
+Configured for device ID: 0x9702 atmega128 -- Matched with atmega128
+JTAG config complete.
+Preparing the target device for On Chip Debugging.
+Waiting for connection on port 4242.
+</code></pre>
+
+<p>JTAG已经能正确识别,单片机型号也读出来了,这时光标闪烁提示等待别的程序连接到4242端口.</p>
+
+<p>这时如果使用avr-gdb命令行指定<code>target remote localhost:4242</code>或者IDE中运行调试,则可以看到如下如是有程序从本机(127.0.0.1)的56443端口连接上来了.</p>
+
+<pre><code>....
+Preparing the target device for On Chip Debugging.
+Waiting for connection on port 4242.
+Connection opened by host 127.0.0.1, port 56443.
+</code></pre>
+
+<p>这时就可以调试了.</p>
+
+<h2>其他</h2>
+
+<p>小技巧:在eclipse调试配置的Startup启动选项卡中Runtime Options选择在"mian函数设置断点"和"Resume"则可以开始调试时直接让程序停在主函数,不然可能需要按"继续"开继续运行,或者开始执行初始化代码.
+<img src="/downloads/img/调试配置main.png"></p>
+
+<h1>遗留问题</h1>
+
+<ol>
+<li>反汇编还不能正确运行,无法一步一步执行(查看)汇编代码</li>
+</ol>
+
+
+<h1>参考:</h1>
+
+<ol>
+<li>使用eclipse调试avr(EN) <a href="http://tobias.schroepf.de/doku/doku.php?id=garage:atmel_avr_debugging_with_eclipse">http://tobias.schroepf.de/doku/doku.php?id=garage:atmel_avr_debugging_with_eclipse</a></li>
+<li>avr-eclipse 调试wiki(EN) <a href="http://avr-eclipse.sourceforge.net/wiki/index.php/Debugging">http://avr-eclipse.sourceforge.net/wiki/index.php/Debugging</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Linux下avr单片机开发环境]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/"/>
+    <updated>2012-11-17T12:47:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set</id>
+    <content type="html"><![CDATA[<p>目前实现:</p>
+
+<p>可以用过USBasp下载器<strong>下载</strong>到ATmega128a单片机中运行(厂商例程),
+还未实现在线调试.</p>
+
+<p>引用来源:见参考一节.</p>
+
+<h1>前提:环境</h1>
+
+<h2>软件:</h2>
+
+<h3>开发平台Linux(kernel 3.6):</h3>
+
+<p>终端使用<code>uname -a</code>命令查看:</p>
+
+<pre><code>Linux localhost.localdomain 3.6.3-1.fc17.i686.PAE #1 SMP Mon Oct 22 15:48:37 UTC 2012 i686 i686 i386 GNU/Linux
+</code></pre>
+
+<h3>Linux 发行版(Fedora)</h3>
+
+<p>终端使用<code>lsb_release -a</code>命令查看:</p>
+
+<pre><code>LSB Version:    :core-4.1-ia32:core-4.1-noarch:cxx-4.1-ia32:cxx-4.1-noarch:desktop-4.1-ia32:desktop-4.1-noarch:languages-4.1-ia32:languages-4.1-noarch:printing-4.1-ia32:printing-4.1-noarch
+Distributor ID: Fedora
+Description:    Fedora release 17 (Beefy Miracle)
+Release:    17
+Codename:   BeefyMiracle
+</code></pre>
+
+<h3>IDE 平台:</h3>
+
+<pre><code>Eclipse Platform
+Version: 4.2.1
+Build id: M20120914-1800
+</code></pre>
+
+<h3>Eclipse 软件(插件)avr-eclipse:</h3>
+
+<pre><code>http://avr-eclipse.sourceforge.net
+</code></pre>
+
+<!-- more -->
+
+
+<h4>下载软件:</h4>
+
+<h5>Linux平台交叉编译avr程序交叉编译器:avr-gcc.</h5>
+
+<p>yum安装或者源代码编译</p>
+
+<h5>avr程序下载(烧写)软件:avrdude</h5>
+
+<p>网址<a href="http://savannah.nongnu.org/projects/avrdude/">http://savannah.nongnu.org/projects/avrdude/</a></p>
+
+<h2>硬件:</h2>
+
+<h3>下载器:</h3>
+
+<h4>USBasp,很早以前淘宝上买的[参考4]:</h4>
+
+<p>lsusb查看如下:</p>
+
+<pre><code>Bus 003 Device 006: ID 16c0:05dc VOTI shared ID for use with libusb
+</code></pre>
+
+<p>这个好像只能下载(ISP).</p>
+
+<h4>AVR-JTAG-USB仿真器,也是很久以前买的[参考8]:</h4>
+
+<p>lsusb识别是usb转串,应该就是这样吧 = = .</p>
+
+<pre><code>Bus 003 Device 012: ID 067b:2303 Prolific Technology, Inc. PL2303 Serial Port
+</code></pre>
+
+<p>除了下载功能以外,这个还能在线调试.</p>
+
+<p><strong>以上两者任意一个都可以下载程序.</strong></p>
+
+<h3>开发板:</h3>
+
+<p>一年多前淘宝买的开发板(ATmega128a)[参考5],原理图[参考6],扔那里也没怎么玩,最近来了兴致拿起来折腾折腾 :P .</p>
+
+<h1>正文:搭建开发环境:在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.</h1>
+
+<p>[参考1]</p>
+
+<h2>安装AVR-Eclipse</h2>
+
+<p>在Eclipse中单击帮助(Help)->安装新软件(Install New Sofrware),之后将打开一个对话框.在对话框的顶部 Work with 文本框中粘贴 AVR-Eclipse 更新服务器的地址 (<a href="http://avr-eclipse.sourceforge.net/updatesite/">http://avr-eclipse.sourceforge.net/updatesite/</a>).如图:
+[图:安装插件]
+<img src="/downloads/img/avr-eclipse-plug-in.png"></p>
+
+<p>安装好之后,点击窗口(Window)->首选项(Preferences)展开左边的AVR一栏.
+[图:配置窗口]
+<img src="/downloads/img/avr-eclipse-config.png"></p>
+
+<p>侧边栏 编程器配置(Programmer COnfigurations)中点击添加(Add).
+左侧选择"USBasp,http://www.fishchl.de/usbasp"(<strong>注意</strong>:需要根据实际下载器硬件选择).</p>
+
+<p>[图:下载器/编程器配置]
+<img src="/downloads/img/avr-eclipse-config-hw.png"></p>
+
+<p>同时,在项目-属性中也可以设置.
+[图:项目属性中的设置(目标硬件设置等)]
+<img src="/downloads/img/avr-eclipse-proj-hwset.png"></p>
+
+<h2>使用</h2>
+
+<p>文件(File)->新建(New)->C语言项目(C Project).项目类型(Project type)中选择AVR Cross Target Project -> Empty Project. 给项目名字.</p>
+
+<p>下一步,点击高级设置(Advanced settings),选择之前配置文件. 就可以开始在Linux下进行单片机开发了.</p>
+
+<p>编译完成后,点击avr菜单->上载项目到目标设备即可
+[图:上载到设备(开发板)]
+<img src="/downloads/img/avr-eclipse-download.png"></p>
+
+<p>环境详情参阅[参考1]</p>
+
+<h3>可能遇到的问题:</h3>
+
+<h4>下载器(硬件)</h4>
+
+<p>选择好适当的下载器.USBasp在Eclipse中工程项目的属性选项中,左侧Programmer Hardwavr编程器硬件应该选择"USBasp".默认端口如果不是默认的<code>/dev/ttyUSB0</code>,必须填写正确的端口以覆盖配置.</p>
+
+<p>使用AVR JTAG USB仿真器时选择"Atmel JTAG ICE(mk1)".因为默认端口(/dev/parport0)不是usb,可能会提示如下错误:</p>
+
+<pre><code>avrdude: ser_open(): can't open device "/dev/parport0": No such file or directory
+avrdude: jtagmkI_close(): unsupported baudrate -1
+</code></pre>
+
+<p>所以默认端口必须覆盖,例如<code>/dev/ttyUSB0</code>. 测试可以下载,在线调试功能还在折腾中 :)</p>
+
+<p>总之:硬件和设置一定必须向配合.</p>
+
+<h4>软件:linux设备文件权限</h4>
+
+<p>默认情况下普通用户是没有linux的设备文件的读写权限的.所以avarice可能会提示访问受限.</p>
+
+<p>这时只要给avarice增加权限位即可.
+1. 切换到root用户
+2. chmod a+s /usr/bin/avrdude #赋予权限位
+3. 切换回普通用户,继续操作即可.</p>
+
+<h4>快捷键无效</h4>
+
+<p>快捷键可能被fcitx输入法程序截获,尝试关闭输入法在试试快捷键,例如Ctrl+Shift+f 格式化(format)代码.</p>
+
+<h4>编译程序下载后没反映</h4>
+
+<p>暂时发现 项目->属性 -> C/C++ Build栏 -> Setting -> AVR Compiler(avr编译器)<br/>
+-> Optimization(优化) -> Optimization Level(优化等级) 除了选择 (-O0)没有优化外,<br/>
+其他选项生成的程序都无法执行(没效果) 暂时不知道什么原因 :(</p>
+
+<h1>参考:</h1>
+
+<ol>
+<li>avr开发环境搭建教程(EN),本文主要就是参考/翻译它的. <a href="http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/">http://www.timteatro.net/2012/03/22/beginning-atmel-avr-development-in-linux-using-avr-eclipse-avr-gcc-and-avrdude/</a></li>
+<li>Linux下avr-Eclipse环境(EN):<a href="http://awawa.hariko.com/eclipse_avr_en.html">http://awawa.hariko.com/eclipse_avr_en.html</a></li>
+<li>avrdude 命令说明(CN):<a href="http://blog.21ic.com/user1/69/archives/2005/1551.html">http://blog.21ic.com/user1/69/archives/2005/1551.html</a></li>
+<li>淘宝上的USBasp下载器:<a href="http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.147.BquMN6&amp;tradeID=79509563401088">http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.147.BquMN6&amp;tradeID=79509563401088</a></li>
+<li>ATmega128a开发板淘宝:<a href="http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.184.BquMN6&amp;tradeID=79064532741088">http://tradearchive.taobao.com/trade/detail/tradeSnap.htm?spm=a1z09.2.9.184.BquMN6&amp;tradeID=79064532741088</a></li>
+<li>开发板原理图(DropBox),包括厂商提供的学习手册:<a href="https://www.dropbox.com/sh/hyh2zcqd3px6iml/tOYBevw_Co">https://www.dropbox.com/sh/hyh2zcqd3px6iml/tOYBevw_Co</a></li>
+<li>自制USBasp下载器(CN):<a href="http://www.amobbs.com/thread-723786-1-1.html">http://www.amobbs.com/thread-723786-1-1.html</a></li>
+<li>AVR-jtag usb仿真器(也可以用来下载):<a href="http://item.taobao.com/item.htm?spm=0.0.0.46.W1V8IW&amp;id=2332186600">http://item.taobao.com/item.htm?spm=0.0.0.46.W1V8IW&amp;id=2332186600</a></li>
+</ol>
+
+
+<p>本文地址:<a href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/</a></p>
+]]></content>
+  </entry>
+  
+</feed>

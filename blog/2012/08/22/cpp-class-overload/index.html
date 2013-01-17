@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>cpp运算符重载笔记 - 喜乐</title>
+  <meta name="author" content="zodiac1111">
+
+  
+  <meta name="description" content="//# 运算符重载
+函数重载 参数列表必须不同
+运算符重载,所有运算符都能.
+C++一种面向对象的语言/面向应用.(放大软件的规模) 问题由来:例如两个类的相加,怎么实现? 例:人民币类 元/角 RMB m1,m2,m3;
+m3=m1+m2;//两个对象相加
+m3.display();
+m3 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/08/22/cpp-class-overload/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="喜乐" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34836207-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">I'm</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">喜乐</a></h1>
+  
+    <h2>我的网络记事簿</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zodiac1111.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+<li><a href="/test">Test</a></li>
+<li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Cpp运算符重载笔记</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-22T20:37:00+08:00" pubdate data-updated="true">2012-08-22 20:37</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>//# 运算符重载
+函数重载 参数列表必须不同<br>
+运算符重载,所有运算符都能.<br>
+C++一种面向对象的语言/面向应用.(放大软件的规模)</p>
+
+<p><strong>问题由来:例如两个类的相加,怎么实现?</strong></p>
+
+<p>例:人民币类 元/角</p>
+
+<pre><code>RMB m1,m2,m3;
+m3=m1+m2;//两个对象相加
+m3.display();
+m3++;//单目运算.
+</code></pre>
+
+<!-- more -->
+
+
+<hr />
+
+<p>站在编译器角度,把&#8217;+&#8217;视为一个特殊的函数.类似lisp中(+ 1 2).即运算符是一类特殊的函数,所以可以<strong>函数的重载</strong><br>
+声明中:</p>
+
+<pre><code>RMB operator +(RMB&amp; ,RMB&amp; ); //双目运算基本返回给别的值,对象调用拷贝构造函数
+RMB&amp; operator ++(RMB&amp; ) //单目运算结果返回本身
+</code></pre>
+
+<p>RMB:返回值<br>
+operator + :特殊的函数名 <br>
+(RMB&amp; ,RMB&amp;) :参数列表<br></p>
+
+<p>一般定义为类的成员函数,即例如加法一定是<strong>当前对象</strong>本身 加上另外一个对象.</p>
+
+<pre><code>RMB RMB::operator + (RMB&amp; s) //双目加法 一个参数是对象本身.
+RMB RMB::operator ++() //自加 
+</code></pre>
+
+<p>注意:运算符结合性.</p>
+
+<p>单目运算结合性? ++() ++(int)?</p>
+
+<p>赋值 =重载:</p>
+
+<pre><code>//代码
+name &amp; operator = (name &amp;s)
+{
+    //在返回前做自己需要的操作,即重载=.
+    delname();
+    copyname();
+    //返回
+return *this;
+}
+</code></pre>
+
+<hr />
+
+<p><strong>重载操作符必须具有一个类类型操作数</strong>
+除了函数调用操作符之外，重载操作符的形参数目（包括成员函数的隐式 this 指针）与操作符的操作数数目相同。函数调用操作符可以接受任意数目的操作数。
+1.  可重载的操作符(42个)</p>
+
+<pre><code>+ - * / % ^ &amp; | ~ ! , = &lt; &gt; &lt;= &gt;= ++ --
+&lt;&lt; &gt;&gt; == != &amp;&amp; || += -= /= %= ^= &amp;= |= 
+*= &lt;&lt;= &gt;&gt;= [] () -&gt; -&gt;* new new [] delete delete [] 
+</code></pre>
+
+<ol>
+<li><p>不能重载(4个)</p>
+
+<p> ::    .*   .    ?:
+通过连接其他合法符号可以创建新的操作符。例如，定义一个 operator** 以提供求幂运算是合法的。</p></li>
+</ol>
+
+
+<h3>优先级和结合性是固定的</h3>
+
+<h3>不再具备短路求值特性</h3>
+
+<h3>不要重载具有内置含义的操作符</h3>
+
+<p> 重载逗号、取地址、逻辑与、逻辑或等等操作符通常不是好做法。这些操作符具有有用的内置含义，如果我们定义了自己的版本，就不能再使用这些内置含义。</p>
+
+<h4>选择成员或非成员实现</h4>
+
+<p>为类设计重载操作符的时候，必须选择是将操作符设置为类成员还是普通非成员函数。在某些情况下，程序员没有选择，操作符必须是成员；在另一些情况下，有些经验原则可指导我们做出决定。下面是一些指导原则，有助于决定将操作符设置为类成员还是普通非成员函数：</p>
+
+<ul>
+<li>赋值（=）、下标（[]）、调用（()）和成员访问箭头（->）等操作符必须定义为成员，将这些操作符定义为非成员函数将在编译时标记为错误。</li>
+<li>像赋值一样，复合赋值操作符通常应定义为类的成员，与赋值不同的是，不一定非得这样做，如果定义非成员复合赋值操作符，不会出现编译错误。</li>
+<li>改变对象状态或与给定类型紧密联系的其他一些操作符，如自增、自减和解引用，通常就定义为类成员。</li>
+<li>对称的操作符，如算术操作符、相等操作符、关系操作符和位操作符，最好定义为普通非成员函数。</li>
+<li>作为类成员的重载函数，其形参看起来比操作数数目少 1。作为成员函数的操作符有一个隐含的 this 形参，限定为第一个操作数。</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-22T20:37:00+08:00" pubdate data-updated="true">2012-08-22 20:37</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/c-/'>c++</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2012/08/22/rtpheader/" title="Previous Post: rtp传输协议头浅析">&laquo; rtp传输协议头浅析</a>
+      
+      
+        <a class="basic-alignment right articlenav" href="/blog/2012/08/27/fedora-17-corsstool/" title="Next Post: crosstool在fedora17下的编译遇到的问题和解决方法">crosstool在fedora17下的编译遇到的问题和解决方法 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">atmega8使用1602字符液晶(hd44780)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/12/07/doxygen-chinese-html-wrapline-bug/">修正doxygen中文显示html不换行bug</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zodiac1111',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("zodiac_2012", 0, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <p>Follow <a href="http://twitter.com/zodiac_2012">@zodiac_2012</a></p>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - zodiac1111 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Theme <a href="https://github.com/amelandri/darkstripes">DarkStripes</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zodiac1111blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/08/22/cpp-class-overload/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2012/08/22/cpp-class-overload/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

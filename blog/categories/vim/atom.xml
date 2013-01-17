@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vim | 喜乐]]></title>
+  <link href="http://zodiac1111.github.com/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.com/"/>
+  <updated>2012-12-22T15:57:05+08:00</updated>
+  <id>http://zodiac1111.github.com/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[vim查找替换]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/08/21/vim-search-replace/"/>
+    <updated>2012-08-21T17:15:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/08/21/vim-search-replace</id>
+    <content type="html"><![CDATA[<p><code>#vim查找替换</code>
+参考资料:http://www.chinavim.org/vivim-%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%A4%A7%E5%85%A8.html</p>
+
+<p> 可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符</p>
+
+<p> :替换当前行第一个 vivian/ 为 sky/</p>
+
+<p> <code>:n,$s/vivian/sky/</code> 替换第 n 行开始到最后一行中每一行的<strong>第一个</strong> vivian 为 sky</p>
+
+<p> <code>:n,$s/vivian/sky/g</code> 替换第 n 行开始到最后一行中每一行<strong>所有</strong> vivian 为 sky
+<code>
+:[地址/范围]s/&lt;搜索字&gt;/&lt;替换字&gt;[/g]
+</code></p>
+
+<!-- more -->
+
+
+<ol>
+<li>地址/范围有:
+<code>
+无 :当前行
+1,10 : 1~10行
+1,$  :1~最后一行/文件结束 ps : 1,$ 等价于 %
+.,.+10 从当前行(".") 到偏置10行(".+10") "+"表示向下偏移 "-"表示向上偏移
+</code></li>
+<li>s : sed 风格的搜索</li>
+<li>/ : 分割符</li>
+<li>g : 表示继续匹配(没有 表示匹配一次)</li>
+</ol>
+
+
+<p>(n 为数字，若 n 为 .&lt;句号>，表示从当前行开始到最后一行)</p>
+
+<h2>删除</h2>
+
+<p>删除括号内的东西 不包含括号 di) =delet in )<br/>
+光标在一个word内部删除这个整个单词 diw  del in word<br/>
+删除并进入insert模式方便修改 ciw change in word</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[set]]></title>
+    <link href="http://zodiac1111.github.com/blog/2012/08/21/set/"/>
+    <updated>2012-08-21T17:15:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2012/08/21/set</id>
+    <content type="html"><![CDATA[<h1>查看和设定vi的选项</h1>
+
+<p>:set
+:set all
+查看设定选项</p>
+]]></content>
+  </entry>
+  
+</feed>
