@@ -60,6 +60,21 @@ categories:
 * 升级到开发者版本:`yum --releasever=rawhide distro-sync --nogpgcheck`.
 * 升级过程中不要中途停止,那样你的系统可能会处于版本混合状态(17和18混合).那样可能会十分麻烦甚至是不可解的.
 
+#其他小问题
+###Chrome浏览器
+
+升级到fedora18后,启动Chrome/Chromium发生以下错误:
+
+	chrome-linux/chrome: error while loading shared libraries: libudev.so.0: cannot open shared object file: No such file or directory
+
+到/lib目录下,运行`ls -l|grep libudev`会发现:
+
+	lrwxrwxrwx   1 root root       16 1月  16 22:55 libudev.so.1 -> libudev.so.1.1.6
+	-rwxr-xr-x   1 root root    70708 1月   4 06:52 libudev.so.1.1.6
+
+所以只要给`libudev.so.0`做个软连接到`libudev.so.1.1.6`即可:
+
+	ln -s libudev.so.1.1.6 libudev.so.0
 
 
 
