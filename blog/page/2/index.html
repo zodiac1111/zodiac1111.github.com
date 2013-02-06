@@ -9,7 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="前篇搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试. 前言 首先说说我对编译开发调试环境的大概认识,如下图: PC(编译下载)大约就是前篇所涉及的部分. 而PC(调试服务器)和PC(调试)就是本文涉及的内容. 稍微解释下我的理解: 调试器:使用JTAG调试器, &hellip;">
+  <meta name="description" content="在各个层次关闭或开启编译警告选项 从上到下覆盖 推荐的警告选项:-Wall -Wextra 1. 符号级:指定某个变量警告 主要使用__attribute__这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然__attribute__还能指定其他很多中属性,例如结构体变量的对齐方式, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +86,68 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-22T19:17:00+08:00" pubdate data-updated="true">2012-11-22 19:17</time>
+        
+         | <a href="/blog/2012/11/22/config-gcc-warning/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>在各个层次关闭或开启编译警告选项</h1>
+
+<p>从上到下覆盖</p>
+
+<p> 推荐的警告选项:<code>-Wall -Wextra</code></p>
+
+<h2>1. 符号级:指定某个变量警告</h2>
+
+<p>主要使用<code>__attribute__</code>这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然<code>__attribute__</code>还能指定其他很多中属性,例如结构体变量的对齐方式,指定声明的函数的属性等,但这里仅关注在警告方面的变量的属性.</p>
+
+<pre><code>int a __attribute__ ((unused));
+</code></pre>
+
+<p>指定该变量为&#8221;未使用的&#8221;.即使这个变量没有被使用,编译时也会忽略则个警告输出.</p>
+
+<h2>2. 源代码级:在文件中诊断</h2>
+
+<p>能在编译期间规定一段代码的警告属性,如某个文件中后半部分不要求输出某些类型的警告使用编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">6.57 Pragmas</a>)中的诊断编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">6.57.10 Diagnostic Pragmas</a>)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/22/config-gcc-warning/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -368,69 +430,6 @@ Build id: M20120914-1800
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用 githubRepoWidget 展示 Github 项目</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-20T22:55:00+08:00" pubdate data-updated="true">2012-09-20 22:55</time>
-        
-         | <a href="/blog/2012/09/20/otcopress-githubrepowidget/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><script src="/javascripts/libs/jquery.min.js"></script>
-
-
-<script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"></script>
-
-
-<p>使用githubRepoWidget在otcopress上展示项目的方法.</p>
-
-<h1>先看效果:</h1>
-
-<p>例子1 Linux kernel:</p>
-
-<div class="github-widget" data-repo="torvalds/linux"></div>
-
-
-<p>例子2 githubRepoWidget:</p>
-
-<div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"></div>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/20/otcopress-githubrepowidget/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -447,6 +446,10 @@ Build id: M20120914-1800
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/05/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/01/17/update-to-fedora-18/">升级到fedora18</a>
@@ -470,10 +473,6 @@ Build id: M20120914-1800
     
       <li class="post">
         <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
       </li>
     
   </ul>

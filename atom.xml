@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2013-01-17T19:32:26+08:00</updated>
+  <updated>2013-02-06T22:46:01+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -12,6 +12,394 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kindle Paperwhite越狱]]></title>
+    <link href="http://zodiac1111.github.com/blog/2013/02/05/jailbreak-kindle-paperwhite/"/>
+    <updated>2013-02-05T14:52:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2013/02/05/jailbreak-kindle-paperwhite</id>
+    <content type="html"><![CDATA[<p>kindle是linux系统,arm处理器.关于系统架构可以参考<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Architecture">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Architecture</a></p>
+
+<p>这次主要目的是将Kindle Paperwhite越狱,在PC(Fedora18 Linux)上.
+实现通用的ssh访问.其实PW入手才不到24小时.果然我就是喜欢拆呵 :)</p>
+
+<!-- more -->
+
+
+<h2>越狱</h2>
+
+<h3>降级(非必须)</h3>
+
+<p>因为不小心升级到5.3.3需要降级才可以使用,如降级到5.3.1</p>
+
+<p>5.3.1文件 <a href="http://kindle.s3.amazonaws.com/update_kindle_5.3.1.bin">http://kindle.s3.amazonaws.com/update_kindle_5.3.1.bin</a></p>
+
+<p>复制到Kindle&#8221;根目录&#8221;.</p>
+
+<p>在Kindle上 设置图标->设置选项->更新.</p>
+
+<h3>越狱</h3>
+
+<p>参考:Kindle Paperwhite Jailbreak (5.2.0 - 5.3.1):</p>
+
+<p><a href="http://www.mobileread.com/forums/showthread.php?t=198446">http://www.mobileread.com/forums/showthread.php?t=198446</a></p>
+
+<p>如果又什么不同的地方,请以参考文档为准.</p>
+
+<p>解压附件,按照README.txt指示.(RTFM!)</p>
+
+<ol>
+<li>把Kindle插到PC机上,会有一个磁盘Kindle.把三个文件如下放置到Kindle根目录</li>
+</ol>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> .
+</span><span class='line'>  |-- documents
+</span><span class='line'>  |   <span class="sb">`</span>-- jailbreak.mobi
+</span><span class='line'>  |-- jailbreak.sh
+</span><span class='line'>  <span class="sb">`</span>-- MOBI8_DEBUG
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li><p>在PC上&#8221;弹出&#8221;磁盘.</p></li>
+<li><p>Kindle上有一本书,打开,按照其指示操作.</p></li>
+<li><p>按住左上角.</p></li>
+<li><p>等待</p></li>
+</ol>
+
+
+<h3>SSH,嵌入式系统</h3>
+
+<p>USB_网络登陆,参考:</p>
+
+<p><a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking</a></p>
+
+<p>根据README_FIRST文件指引:</p>
+
+<ol>
+<li>复制 update_usbnet_0.7.N_install.bin到Kindle根目录</li>
+<li>弹出.</li>
+<li><p>更新您的Kindle:在Kindle上 设置图标->设置选项->更新.</p></li>
+<li><p>诊断模式.</p></li>
+<li><p>PC上启动USBnet.</p>
+
+<p> host ifconfig usb0 192.168.15.201
+可能需要在网络连接中设置网关.</p></li>
+</ol>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>IP 192.168.15.201
+</span><span class='line'>Subnet 255.255.255.0
+</span><span class='line'>网关192.168.15.1
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>ping下看看:)</li>
+</ol>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> <span class="o">[</span>zodiac1111@localhost octopress<span class="o">]</span><span class="nv">$ </span>ping 192.168.15.244
+</span><span class='line'>  PING 192.168.15.244 <span class="o">(</span>192.168.15.244<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
+</span><span class='line'>  64 bytes from 192.168.15.244: <span class="nv">icmp_seq</span><span class="o">=</span>1 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>1.23 ms
+</span><span class='line'>  64 bytes from 192.168.15.244: <span class="nv">icmp_seq</span><span class="o">=</span>2 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>0.189 ms
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>登陆</li>
+</ol>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> <span class="o">[</span>zodiac1111@localhost octopress<span class="o">]</span><span class="nv">$ </span>ssh root@192.168.15.244
+</span><span class='line'>  The authenticity of host <span class="s1">&#39;192.168.15.244 (192.168.15.244)&#39;</span> can<span class="s1">&#39;t be established.</span>
+</span><span class='line'><span class="s1"> RSA key fingerprint is 78:80:25:41:49:59:52:9c:30:89:b3:3f:c8:b6:e2:e3.</span>
+</span><span class='line'><span class="s1"> Are you sure you want to continue connecting (yes/no)? yes</span>
+</span><span class='line'><span class="s1"> Warning: Permanently added &#39;</span>192.168.15.244<span class="s1">&#39; (RSA) to the list of known hosts.</span>
+</span><span class='line'><span class="s1"> root@192.168.15.244&#39;</span>s password:
+</span><span class='line'>  <span class="c">#################################################</span>
+</span><span class='line'>  <span class="c">#  N O T I C E  *  N O T I C E  *  N O T I C E  # </span>
+</span><span class='line'>  <span class="c">#################################################</span>
+</span><span class='line'>  Rootfs is mounted <span class="nb">read</span>-only. Invoke mntroot rw to
+</span><span class='line'>  switch back to a writable rootfs.
+</span><span class='line'>  <span class="c">#################################################</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>到处看看</li>
+</ol>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@<span class="o">[</span>192_168_15_244<span class="o">]</span> etc<span class="o">]</span><span class="c"># df</span>
+</span><span class='line'>Filesystem           1K-blocks      Used Available Use% Mounted on
+</span><span class='line'>/dev/root                63703     26170     34333  43% /
+</span><span class='line'>tmpfs                   128096         4    128092   0% /dev
+</span><span class='line'>tmpfs                   128096         0    128096   0% /dev/shm
+</span><span class='line'>/dev/mmcblk0p3           63461     14573     45612  24% /var/local
+</span><span class='line'>fsp                    1392632     11824   1380808   1% /mnt/us
+</span><span class='line'>/dev/loop/0            1392632     11824   1380808   1% /mnt/base-us
+</span><span class='line'><span class="o">[</span>root@<span class="o">[</span>192_168_15_244<span class="o">]</span> /<span class="o">]</span><span class="c"># ls -l</span>
+</span><span class='line'>drwxrwxr-x    2 root     root          2048 Sep 26  2012 bin
+</span><span class='line'>drwxr-xr-x    2 root     root          1024 Jan  1  1970 cust
+</span><span class='line'>drwxr-xr-x   12 root     root          1000 Jan  1 00:01 dev
+</span><span class='line'>drwxrwxr-x   16 root     root          1024 Jan  1 00:02 etc
+</span><span class='line'>drwxrwxr-x    5 root     root          2048 Sep 26  2012 lib
+</span><span class='line'>drwxrwxr-x    8 root     root          1024 Sep 26  2012 mnt
+</span><span class='line'>drwxrwxr-x    5 root     root          1024 Jan  1  1970 opt
+</span><span class='line'>dr-xr-xr-x   70 root     root             0 Jan  1 00:00 proc
+</span><span class='line'>drwxrwxr-x    2 root     root          2048 Sep 26  2012 sbin
+</span><span class='line'>drwxr-xr-x   12 root     root             0 Jan  1 00:00 sys
+</span><span class='line'>lrwxrwxrwx    1 root     root             8 Jan  1 00:00 tmp -&gt; /var/tmp
+</span><span class='line'>drwxrwxr-x    8 root     root          1024 Sep 26  2012 usr
+</span><span class='line'>drwxrwxr-x    9 root     root           180 Jan  1 00:01 var
+</span><span class='line'><span class="o">[</span>root@kindle etc<span class="o">]</span><span class="c"># uname -a</span>
+</span><span class='line'>Linux kindle 2.6.31-rt11-lab126 <span class="c">#1 Thu Nov 29 23:37:38 PST 2012 armv7l GNU/Linux</span>
+</span><span class='line'><span class="o">[</span>root@<span class="o">[</span>192_168_15_244<span class="o">]</span> /<span class="o">]</span><span class="c"># ifconfig </span>
+</span><span class='line'>lo        Link encap:Local Loopback
+</span><span class='line'>          inet addr:127.0.0.1  Mask:255.0.0.0
+</span><span class='line'>          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+</span><span class='line'>          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:0
+</span><span class='line'>          RX bytes:0 <span class="o">(</span>0.0 B<span class="o">)</span>  TX bytes:0 <span class="o">(</span>0.0 B<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>usb0      Link encap:Ethernet  HWaddr EE:59:00:00:00:15
+</span><span class='line'>          inet addr:192.168.15.244  Bcast:192.168.15.255  Mask:255.255.255.0
+</span><span class='line'>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>          RX packets:1318 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:459 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:1000
+</span><span class='line'>          RX bytes:85456 <span class="o">(</span>83.4 KiB<span class="o">)</span>  TX bytes:64533 <span class="o">(</span>63.0 KiB<span class="o">)</span>
+</span><span class='line'><span class="c">#只有usb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>通过Wi-Fi登陆</h2>
+
+<p>老是接着usb线太不方便了,无绳论的我当然要追求利用无线咯.参考:<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#SSH_access_over_Wifi">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#SSH_access_over_Wifi</a></p>
+
+<ol>
+<li>改个密码.方便使用,谁没事记序列号或者在线猜测密码,关键是那密码不一定对:(</li>
+</ol>
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#文件系统本来是只读的,先让它可以读写.   </span>
+</span><span class='line'>mntroot rw
+</span><span class='line'><span class="c">#修改root用户密码</span>
+</span><span class='line'>passwd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>编辑配置文件</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd mnt/us/usbnet/etc
+</span><span class='line'>#有一种信仰叫做vi &gt;_&lt; 
+</span><span class='line'>vi config</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'><span class="c"># $Id: config 8742 2012-10-21 20:04:06Z NiLuJe $</span>
+</span><span class='line'><span class="c">#</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># WARNING: Take note that we&#39;re essentially a shell script, se we absolutely *MUST* use UNIX line endings!</span>
+</span><span class='line'><span class="c"># WARNING: To avoid leaving your system in an undefined state,</span>
+</span><span class='line'><span class="c">#          do *NOT* modify this file while usb over ethernet is enabled!</span>
+</span><span class='line'><span class="c">#          (That means when the the auto enable feature is in use, too!)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Tweak this to your liking (IPv4 only, no hostname aliases)</span>
+</span><span class='line'><span class="nv">KINDLE_IP</span><span class="o">=</span>192.168.15.244
+</span><span class='line'>
+</span><span class='line'><span class="c"># Allow SSH over WiFi</span>
+</span><span class='line'><span class="c"># NOTE: If you set this to true, the SSHD *WILL* check your passwords!</span>
+</span><span class='line'><span class="c"># Make sure you know your root password, or auth via shared keys!</span>
+</span><span class='line'><span class="nv">USE_WIFI</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Don&#39;t switch to Ethernet over USB, and only launch SSHD</span>
+</span><span class='line'><span class="c"># NOTE: Make sure you&#39;re able to properly login over SSH before enabling this...</span>
+</span><span class='line'><span class="c"># It&#39;s obviously only useful with WiFi devices, so leave to false on non-WiFi devices</span>
+</span><span class='line'><span class="nv">USE_WIFI_SSHD_ONLY</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Use OpenSSH instead of dropbear (somewhat faster login)</span>
+</span><span class='line'><span class="c"># NOTE: OpenSSH *WILL* check your passwords!</span>
+</span><span class='line'><span class="c"># Make sure you know your root password, or auth via shared keys!</span>
+</span><span class='line'><span class="nv">USE_OPENSSH</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
+</span><span class='line'>- config 1/27 3%
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>忘了要不要重启.</p>
+
+<p>我是没有设置开机启动USBnet.而是通过<code>;un</code>来手动启动.一些指令:<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Search_Bar_Shortcuts">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Search_Bar_Shortcuts</a></p>
+
+<p>再登陆,这时就不需要USB电缆了.连上Wi-Fi.Kindle的IP是192.168.0.101(我家的路由D-link的),IP就根据实际情况好了.</p>
+
+<pre><code>ssh root@192.168.0.101
+</code></pre>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@kindle etc<span class="o">]</span><span class="c"># ifconfig </span>
+</span><span class='line'>lo        Link encap:Local Loopback
+</span><span class='line'>          inet addr:127.0.0.1  Mask:255.0.0.0
+</span><span class='line'>          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+</span><span class='line'>          RX packets:476 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:476 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:0
+</span><span class='line'>          RX bytes:112343 <span class="o">(</span>109.7 KiB<span class="o">)</span>  TX bytes:112343 <span class="o">(</span>109.7 KiB<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>usb0      Link encap:Ethernet  HWaddr EE:19:00:00:00:00
+</span><span class='line'>          inet addr:192.168.15.244  Bcast:192.168.15.255  Mask:255.255.255.0
+</span><span class='line'>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>          RX packets:2878 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:1291 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:1000
+</span><span class='line'>          RX bytes:151737 <span class="o">(</span>148.1 KiB<span class="o">)</span>  TX bytes:227383 <span class="o">(</span>222.0 KiB<span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>wlan0     Link encap:Ethernet  HWaddr F0:4F:7C:F8:0A:75
+</span><span class='line'>          inet addr:192.168.0.101  Bcast:192.168.0.255  Mask:255.255.255.0
+</span><span class='line'>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>          RX packets:2021 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>          TX packets:1434 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>          collisions:0 txqueuelen:1000
+</span><span class='line'>          RX bytes:535079 <span class="o">(</span>522.5 KiB<span class="o">)</span>  TX bytes:280214 <span class="o">(</span>273.6 KiB<span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>无法取消诊断模式:<a href="http://www.mobileread.com/forums/showthread.php?p=2041719">http://www.mobileread.com/forums/showthread.php?p=2041719</a></p>
+
+<p>启动USBnet ;un</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[升级到fedora18]]></title>
@@ -2531,173 +2919,6 @@ return *this;
 <li>作为类成员的重载函数，其形参看起来比操作数数目少 1。作为成员函数的操作符有一个隐含的 this 形参，限定为第一个操作数。</li>
 </ul>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[rtp传输协议头浅析]]></title>
-    <link href="http://zodiac1111.github.com/blog/2012/08/22/rtpheader/"/>
-    <updated>2012-08-22T20:35:00+08:00</updated>
-    <id>http://zodiac1111.github.com/blog/2012/08/22/rtpheader</id>
-    <content type="html"><![CDATA[<p>//#rtp头浅析
-参考:   <br/>
-1. <a href="http://hi.baidu.com/studyarea/item/898d995845b610cfd3e10c32">hi.baidu.com</a>
-2. <a href="http://topic.csdn.net/u/20071219/12/9ee213e7-aff6-4c81-b3d9-21d6438904b1.html">topic.csdn.net</a>
-下面是一个例子</p>
-
-<p>RFC文档为RFC3550（RFC1889为其过期版本）
-base+0(暂略)此处省略0x33字节
-UDP数据区(base+0x33):
-RTP header:(头数据)位于udp包的base+0x33地址(内容)
-80 e0 69 37 3c 2e 6b 4e 6c 77 83 bf (大尾端[大端])网络字节序</p>
-
-<!-- more -->
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>详解(地址都+0x33)
-</span><span class='line'>地址    值 意义(不明...
-</span><span class='line'>0Byte     80  [1 Byte] 
-</span><span class='line'>  `10b        2bit 版本号:RFC1889 Version 2[过期版本!我去~]
-</span><span class='line'>  `0b     1bit 填充(Padding)? 否
-</span><span class='line'>  `0b     1bit 扩展? 否
-</span><span class='line'>  `0000b      4bit 特约来源识别码数：0
-</span><span class='line'>1 e0  [1 Byte]
-</span><span class='line'>  `1b     1bit 1重要事件,通常表示一帧结束.MARK
-</span><span class='line'>  `110-0000b  7bit 负载类型(Payload type):DynamicRTP-Type-96 (96)
-</span><span class='line'>2 69  [2 Byte]序列号(Sequence):
-</span><span class='line'>3 37      0x6937=26935(十进制) 
-</span><span class='line'>4 3c  [4 Byte]时间戳
-</span><span class='line'>5 2e      0x3c2e6b4e=1009675086
-</span><span class='line'>6 6b      ^^
-</span><span class='line'>7 4e      ^^
-</span><span class='line'>8 6c  [4 Byte]同步源标识符(SSRC)
-</span><span class='line'>9 77      Synchronization Source identifier: 
-</span><span class='line'>10    83      0x6c7783bf (1819771839)
-</span><span class='line'>11    bf      ^^
-</span><span class='line'>12~?? ??  [&gt;=0 Byte]可选的数据</span></code></pre></td></tr></table></div></figure>
-
-
-<p>时间戳 差值=3750 = 900000(视频)/24(帧间隔)
-一帧最大MUT? 1500Byte =14(EthernetII)+20(ip头) +8UDP+12(RTP头)+1442(RTP数据体)??
-参见RFC 3984 p.13:NAL Unit Octet Usage 1字节
-例如:01011100 =0x5a
-0禁止位-不禁止
-10优先级:2   Coded slice data partition A    00最低 11最高</p>
-
-<pre><code>     Type   Packet    Single NAL    Non-Interleaved    Interleaved
-                           Unit Mode           Mode             Mode  
-</code></pre>
-
-<p>11100  28     FU-A          no              yes              yes
-FU-a格式:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>   0                   1                   2                   3
-</span><span class='line'>   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>  | FU indicator  |   FU header   |                               |
-</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
-</span><span class='line'>  |                                                               |
-</span><span class='line'>  |                         FU payload                            |
-</span><span class='line'>  |                                                               |
-</span><span class='line'>  |                               +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>  |                               :...OPTIONAL RTP padding        |
-</span><span class='line'>  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-</span><span class='line'>
-</span><span class='line'>  Figure 14.  RTP payload format for FU-A</span></code></pre></td></tr></table></div></figure>
-
-
-<p>FU indicator : 1Byte</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  +---------------+
-</span><span class='line'>  |0|1|2|3|4|5|6|7|
-</span><span class='line'>  +-+-+-+-+-+-+-+-+
-</span><span class='line'>  |F|NRI|  Type   |
-</span><span class='line'>  +---------------+</span></code></pre></td></tr></table></div></figure>
-
-
-<p>FU则与RTP定义头一样
-FU header :1Byte</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>  +---------------+
-</span><span class='line'>  |0|1|2|3|4|5|6|7|
-</span><span class='line'>  +-+-+-+-+-+-+-+-+
-</span><span class='line'>  |S|E|R|  Type   |
-</span><span class='line'>  +---------------+</span></code></pre></td></tr></table></div></figure>
-
-
-<p>S=start E=end  of a fragmented NAL unit
-   R: 1 bit</p>
-
-<pre><code>  The Reserved bit MUST be equal to 0 and MUST be ignored by the
-  receiver.
-</code></pre>
-
-<p>81=1<code>0</code>0`0-0001
-这是一个帧的开始的NALU 单元</p>
-
-<p>Type: 5 bits
-   NAL单元荷载类型定义见下表</p>
-
-<p>表1.  单元类型以及荷载结构总结</p>
-
-<pre><code>  Type   Packet      Type name                       
-  ---------------------------------------------------------
-  0      undefined                                    -
-  1-23   NAL unit    Single NAL unit packet per H.264  
-  24     STAP-A     Single-time aggregation packet    
-  25     STAP-B     Single-time aggregation packet    
-  26     MTAP16    Multi-time aggregation packet     
-  27     MTAP24    Multi-time aggregation packet     
-  28     FU-A      Fragmentation unit                
-  29     FU-B      Fragmentation unit                 
-  30-31  undefined    
-</code></pre>
-
-<p>0-0001 即单个</p>
 ]]></content>
   </entry>
   
