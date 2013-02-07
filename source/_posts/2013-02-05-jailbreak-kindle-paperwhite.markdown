@@ -29,9 +29,9 @@ kindle是linux系统,arm处理器.关于系统架构可以参考<http://wiki.mob
 
 如果又什么不同的地方,请以参考文档为准.
 
-解压附件,按照README.txt指示.(RTFM!)
+解压附件,按照`README.txt`指示.(RTFM!)
 
-1. 把Kindle插到PC机上,会有一个磁盘Kindle.把三个文件如下放置到Kindle根目录
+* 把Kindle插到PC机上,会有一个磁盘Kindle.把三个文件如下放置到Kindle根目录
 {% codeblock lang:bash %}
 	.
 	|-- documents
@@ -39,43 +39,46 @@ kindle是linux系统,arm处理器.关于系统架构可以参考<http://wiki.mob
 	|-- jailbreak.sh
 	`-- MOBI8_DEBUG
 {% endcodeblock %}
-2. 在PC上"弹出"磁盘.
+* 在PC上"弹出"磁盘.  
 
-3. Kindle上有一本书,打开,按照其指示操作.
+* Kindle上有一本书,打开,按照其指示操作.  
 
-4. 按住左上角.
+{% img  /downloads/img/一本书.png 300 %}
+{% img  /downloads/img/点击.png 300 %}
 
-5. 等待
+* 按住左上角  
 
-###SSH,嵌入式系统
+{% img  /downloads/img/按住.png 300 %}
 
-USB_网络登陆,参考:
+* 等待  
+
+{% img  /downloads/img/等待.png 300 %}
+
+###SSH登陆
+
+USBnet 网络登陆,参考:
 
 <http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking>
 
-根据README_FIRST文件指引:
+根据`README_FIRST`文件指引:
 
 1. 复制 update_usbnet_0.7.N_install.bin到Kindle根目录
 2. 弹出.
 3. 更新您的Kindle:在Kindle上 设置图标->设置选项->更新.
 
 4. 诊断模式.
-5. PC上启动USBnet.
-
-	host ifconfig usb0 192.168.15.201
-可能需要在网络连接中设置网关.
-{% codeblock lang:bash %}
-IP 192.168.15.201
-Subnet 255.255.255.0
-网关192.168.15.1
-{% endcodeblock%}
-6. ping下看看:)
-{% codeblock lang:bash %}
-	[zodiac1111@localhost octopress]$ ping 192.168.15.244
-	PING 192.168.15.244 (192.168.15.244) 56(84) bytes of data.
-	64 bytes from 192.168.15.244: icmp_seq=1 ttl=64 time=1.23 ms
-	64 bytes from 192.168.15.244: icmp_seq=2 ttl=64 time=0.189 ms{% endcodeblock%}
-7. 登陆
+5. PC上启动USBnet.  
+		host ifconfig usb0 192.168.15.201
+可能需要在网络连接中设置网关.  
+		IP 192.168.15.201
+		Subnet 255.255.255.0
+		网关192.168.15.1
+6. ping下看看:)  
+		[zodiac1111@localhost octopress]$ ping 192.168.15.244
+		PING 192.168.15.244 (192.168.15.244) 56(84) bytes of data.
+		64 bytes from 192.168.15.244: icmp_seq=1 ttl=64 time=1.23 ms
+		64 bytes from 192.168.15.244: icmp_seq=2 ttl=64 time=0.189 ms
+7. 登陆  
 {% codeblock lang:bash %}
 	[zodiac1111@localhost octopress]$ ssh root@192.168.15.244
 	The authenticity of host '192.168.15.244 (192.168.15.244)' can't be established.
@@ -89,8 +92,8 @@ Subnet 255.255.255.0
 	Rootfs is mounted read-only. Invoke mntroot rw to
 	switch back to a writable rootfs.
 	#################################################
-{% endcodeblock%}
-8. 到处看看
+{% endcodeblock %}
+8. 到处看看  
 {% codeblock lang:bash %}
 [root@[192_168_15_244] etc]# df
 Filesystem           1K-blocks      Used Available Use% Mounted on
@@ -132,26 +135,25 @@ usb0      Link encap:Ethernet  HWaddr EE:59:00:00:00:15
           TX packets:459 errors:0 dropped:0 overruns:0 carrier:0
           collisions:0 txqueuelen:1000 
           RX bytes:85456 (83.4 KiB)  TX bytes:64533 (63.0 KiB)
-#只有usb
-{% endcodeblock%}
+#这个时候只有usb
+{% endcodeblock %}
 
 ##通过Wi-Fi登陆
 老是接着usb线太不方便了,无绳论的我当然要追求利用无线咯.参考:<http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#SSH_access_over_Wifi>
 
 1. 改个密码.方便使用,谁没事记序列号或者在线猜测密码,关键是那密码不一定对:(
-{% codeblock lang:bash %}
+```
 #文件系统本来是只读的,先让它可以读写.	
 mntroot rw
 #修改root用户密码
 passwd
-{% endcodeblock%}
+```
 2. 编辑配置文件
 ```
 cd mnt/us/usbnet/etc
 #有一种信仰叫做vi >_< 
 vi config
-```
-{% codeblock lang:bash %}
+
 #!/bin/sh
 #
 # $Id: config 8742 2012-10-21 20:04:06Z NiLuJe $
@@ -180,14 +182,15 @@ USE_WIFI_SSHD_ONLY="false"
 # Make sure you know your root password, or auth via shared keys!
 USE_OPENSSH="false"
 - config 1/27 3%
-{% endcodeblock%}
+```
 忘了要不要重启.
 
 我是没有设置开机启动USBnet.而是通过`;un`来手动启动.一些指令:<http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Search_Bar_Shortcuts>
 
 再登陆,这时就不需要USB电缆了.连上Wi-Fi.Kindle的IP是192.168.0.101(我家的路由D-link的),IP就根据实际情况好了.
-
+{% codeblock lang:bash %}
 	ssh root@192.168.0.101
+{% endcodeblock %}
 {% codeblock lang:bash %}
 [root@kindle etc]# ifconfig 
 lo        Link encap:Local Loopback  
@@ -214,9 +217,20 @@ wlan0     Link encap:Ethernet  HWaddr F0:4F:7C:F8:0A:75
           collisions:0 txqueuelen:1000 
           RX bytes:535079 (522.5 KiB)  TX bytes:280214 (273.6 KiB)
 {% endcodeblock%}
-无法取消诊断模式:<http://www.mobileread.com/forums/showthread.php?p=2041719>
+
+取消诊断模式时出现错误?参考:<http://www.mobileread.com/forums/showthread.php?p=2041719>
 
 启动USBnet ;un
+
+##定制字体
+参考1:<http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Custom_Fonts>
+
+参考2:<http://www.mobileread.com/forums/showthread.php?t=168765> 5.3.1版本
+
+各种字体,文泉驿等宽正黑效果图:
+
+{% img /downloads/img/各种字体.png 300 %}
+{% img /downloads/img/文泉驿等宽正黑.png  300 %}
 
 
 
