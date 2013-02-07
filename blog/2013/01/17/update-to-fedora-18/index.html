@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: tftp - 喜乐</title>
+  <title>升级到fedora18 - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="Category: tftp">
+  <meta name="description" content="从fedora17升级到fedora18 参考 官网:https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum 大致步骤 备份(数据无价)
+阅读已知bug和发行说明,确保自己升级到的版本对自己无害,且有升级的必要
+清理目前的系统
+升级 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.comblog/categories/tftp/">
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2013/01/17/update-to-fedora-18/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -85,36 +88,183 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Tftp</h1>
+    
+      
+        <h1 class="entry-title">升级到fedora18</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-17T18:55:00+08:00" pubdate data-updated="true">2013-01-17 18:55</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>从fedora17升级到fedora18</p>
 
-  
-  <h2>2012</h2>
+<h1>参考</h1>
 
-<article>
-  
-<h1><a href="/blog/2012/07/03/Fedora-17-x86_64-tftp/">Fedora 17 x86_64安装配置TFTP服务器</a></h1>
-<time datetime="2012-07-03T10:58:00+08:00" pubdate><span class='month'>07</span> <span class='day'>03</span> <span class='year'>2012</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/fedora/'>Fedora</a>, <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/tftp/'>tftp</a></span>
-</footer>
+<ul>
+<li>官网:<a href="https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum">https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum</a></li>
+</ul>
 
 
-</article>
+<h1>大致步骤</h1>
 
+<ol>
+<li><b>备份(数据无价)</b></li>
+<li>阅读已知bug和发行说明,确保自己升级到的版本对自己无害,且有升级的必要</li>
+<li>清理目前的系统</li>
+<li>升级</li>
+<li>安装grub引导程序
+
+<h2>升级</h2>
+
+<p>到文本界面(我没有切换到文本界面,直接在gnome3下升级的,阿门)</p>
+
+<p>  ctrl + alt + F2</p></li>
+</ol>
+
+
+<p>升级yum</p>
+
+<pre><code>yum update yum
+</code></pre>
+
+<p>清除cache</p>
+
+<pre><code>yum clean all
+</code></pre>
+
+<p>升级所有包(先删除一些自己不用的包可以加快这一步)</p>
+
+<pre><code>yum --releasever=18 distro-sync
+</code></pre>
+
+<p>验证升级</p>
+
+<pre><code>yum repolist 
+</code></pre>
+
+<p>安装所有的包都是新的版本</p>
+
+<pre><code>yum groupupdate 'Minimal Install'
+</code></pre>
+
+<p>安装/列举一些自己必要的组</p>
+
+<pre><code>yum grouplist
+</code></pre>
+
+<h2>安装grub</h2>
+
+<pre><code>/sbin/grub2-install &lt;引导设备&gt;
+</code></pre>
+
+<p>如,我是将fedora17安装在本机唯一一块硬盘上,使用了这样硬盘的所有空间.磁盘仅2搞分区,boot分区和lvm逻辑卷分区.
+我的grub是安装在boot分区上的.我使用如下命令:</p>
+
+<pre><code>/sbin/grub2-install --recheck /dev/sda
+</code></pre>
+
+<h1>其他</h1>
+
+<ul>
+<li>从 alpha, beta, preview, 或其他 Rawhide 版本升级的,参见:<a href="https://fedoraproject.org/wiki/Upgrading_from_pre-release_to_final">https://fedoraproject.org/wiki/Upgrading_from_pre-release_to_final</a></li>
+<li>升级到开发者版本:<code>yum --releasever=rawhide distro-sync --nogpgcheck</code>.</li>
+<li>升级过程中不要中途停止,那样你的系统可能会处于版本混合状态(17和18混合).那样可能会十分麻烦甚至是不可解的.</li>
+</ul>
+
+
+<h1>其他小问题</h1>
+
+<h3>Chrome浏览器</h3>
+
+<p>升级到fedora18后,启动Chrome/Chromium发生以下错误:</p>
+
+<pre><code>chrome-linux/chrome: error while loading shared libraries: libudev.so.0: cannot open shared object file: No such file or directory
+</code></pre>
+
+<p>到/lib目录下,运行<code>ls -l|grep libudev</code>会发现:</p>
+
+<pre><code>lrwxrwxrwx   1 root root       16 1月  16 22:55 libudev.so.1 -&gt; libudev.so.1.1.6
+-rwxr-xr-x   1 root root    70708 1月   4 06:52 libudev.so.1.1.6
+</code></pre>
+
+<p>所以只要给<code>libudev.so.0</code>做个软连接到<code>libudev.so.1.1.6</code>即可:</p>
+
+<pre><code>ln -s libudev.so.1.1.6 libudev.so.0
+</code></pre>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-17T18:55:00+08:00" pubdate data-updated="true">2013-01-17 18:55</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2012/12/16/atmega8-hd44780-lcd1602/" title="Previous Post: atmega8使用1602字符液晶(hd44780)">&laquo; atmega8使用1602字符液晶(hd44780)</a>
+      
+      
+        <a class="basic-alignment right articlenav" href="/blog/2013/02/05/jailbreak-kindle-paperwhite/" title="Next Post: Kindle Paperwhite越狱">Kindle Paperwhite越狱 &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -223,7 +373,10 @@
       var disqus_shortname = 'zodiac1111blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2013/01/17/update-to-fedora-18/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2013/01/17/update-to-fedora-18/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -9,8 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="chrome使用libpdf.so库,这个库不是自由软件,所以chromium默认没有带.
-chrome默认自带的库默认路径为:/opt/google/chrome/libpdf.so 复制chrome的pdf库 复制 /opt/google/chrome/libpdf.so到chrome- &hellip;">
+  <meta name="description" content=" 使用githubRepoWidget在otcopress上展示项目的方法. 先看效果: 例子1 Linux kernel: 例子2 githubRepoWidget: ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +86,132 @@ chrome默认自带的库默认路径为:/opt/google/chrome/libpdf.so 复制chrom
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用 githubRepoWidget 展示 Github 项目</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-20T22:55:00+08:00" pubdate data-updated="true">2012-09-20 22:55</time>
+        
+         | <a href="/blog/2012/09/20/otcopress-githubrepowidget/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><script src="/javascripts/libs/jquery.min.js"></script>
+
+
+<script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"></script>
+
+
+<p>使用githubRepoWidget在otcopress上展示项目的方法.</p>
+
+<h1>先看效果:</h1>
+
+<p>例子1 Linux kernel:</p>
+
+<div class="github-widget" data-repo="torvalds/linux"></div>
+
+
+<p>例子2 githubRepoWidget:</p>
+
+<div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"></div>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/09/20/otcopress-githubrepowidget/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/">在线分析转换标准 Float 型数据</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-20T19:54:00+08:00" pubdate data-updated="true">2012-09-20 19:54</time>
+        
+         | <a href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>计算机中float型数据以IEEE-754标准存储,例如<code>1234.5678</code>存储为<code>0x449A522B</code>(32位).</p>
+
+<p>使用二进制表示即:</p>
+
+<pre><code>01000100 10011010 01010010 00101011
+</code></pre>
+
+<p>根据IEEE754 Single precision 32-bit标准的定义:</p>
+
+<p><img src="/downloads/img/IEEE-754-float.png">
+通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>
+
+<p>一些特殊的值,如正无穷等,参见维基百科.</p>
+
+<p>更多的分析和在线转换参见参考资料.</p>
+
+<h2>参考资料</h2>
+
+<ol>
+<li>维基百科:<a href="https://zh.wikipedia.org/zh/IEEE_754">https://zh.wikipedia.org/zh/IEEE_754</a></li>
+<li>在线分析:<a href="http://babbage.cs.qc.cuny.edu/IEEE-754/">http://babbage.cs.qc.cuny.edu/IEEE-754/</a></li>
+<li>在线转换:<a href="http://www.binaryconvert.com/">http://www.binaryconvert.com/</a></li>
+</ol>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -294,136 +419,6 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/17/linux-fedora-17-install-man/">Linux/Fedora 17 安装man手册</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-17T21:18:00+08:00" pubdate data-updated="true">2012-09-17 21:18</time>
-        
-         | <a href="/blog/2012/09/17/linux-fedora-17-install-man/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre><code>yum install man-pages
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/15/some-octopress-oops/">使用 Octopress 一些错误和解决方式</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-15T19:21:00+08:00" pubdate data-updated="true">2012-09-15 19:21</time>
-        
-         | <a href="/blog/2012/09/15/some-octopress-oops/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>生成错误</h1>
-
-<p>错误现象类似这样:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/home/use1/.gem/ruby/1.9.1/gems/maruku-0.6.0/lib/maruku/input/parse_doc.rb:22:in `&lt;top (required)>': iconv will be deprecated in the future, use String#encode instead.
-</span><span class='line'>Configuration from /home/use1/blog/octopress/_config.yml
-</span><span class='line'>Building site: source -> public
-</span><span class='line'>/usr/share/ruby/psych.rb:203:in `parse': (&lt;unknown>): found unexpected end of stream while scanning a quoted scalar at line 3 column 8 (Psych::SyntaxError)
-</span><span class='line'>  from /usr/share/ruby/psych.rb:203:in `parse_stream'
-</span><span class='line'>  from /usr/share/ruby/psych.rb:151:in `parse'
-</span><span class='line'>  from /usr/share/ruby/psych.rb:127:in `load'
-</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/convertible.rb:33:in `read_yaml'
-</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/post.rb:39:in `initialize'
-</span><span class='line'>  from /home/use1/blog/octopress/plugins/preview_unpublished.rb:23:in `new'
-</span><span class='line'>  from /home/use1/blog/octopress/plugins/preview_unpublished.rb:23:in `block in read_posts'
-</span><span class='line'>  from /home/use1/blog/octopress/plugins/preview_unpublished.rb:21:in `each'
-</span><span class='line'>  from /home/use1/blog/octopress/plugins/preview_unpublished.rb:21:in `read_posts'
-</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:128:in `read_directories'
-</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:98:in `read'
-</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/lib/jekyll/site.rb:38:in `process'
-</span><span class='line'>  from /home/use1/.gem/ruby/1.9.1/gems/jekyll-0.11.2/bin/jekyll:250:in `&lt;top (required)>'
-</span><span class='line'>  from /home/use1/bin/jekyll:23:in `load'
-</span><span class='line'>  from /home/use1/bin/jekyll:23:in `&lt;main>'</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/15/some-octopress-oops/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -440,6 +435,14 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/05/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/17/update-to-fedora-18/">升级到fedora18</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">atmega8使用1602字符液晶(hd44780)</a>
@@ -459,14 +462,6 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     
       <li class="post">
         <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
       </li>
     
   </ul>
@@ -528,7 +523,7 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - zodiac1111 -
+  Copyright &copy; 2013 - zodiac1111 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Theme <a href="https://github.com/amelandri/darkstripes">DarkStripes</a></span>
 </p>
 

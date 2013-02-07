@@ -9,8 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="目前实现: 可以用过USBasp下载器下载到ATmega128a单片机中运行(厂商例程),
-还未实现在线调试. 引用来源:见参考一节. 前提:环境 软件: 开发平台Linux(kernel 3.6): 终端使用uname -a命令查看: Linux localhost.localdomain 3. &hellip;">
+  <meta name="description" content="在各个层次关闭或开启编译警告选项 从上到下覆盖 推荐的警告选项:-Wall -Wextra 1. 符号级:指定某个变量警告 主要使用__attribute__这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然__attribute__还能指定其他很多中属性,例如结构体变量的对齐方式, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +86,132 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-22T19:17:00+08:00" pubdate data-updated="true">2012-11-22 19:17</time>
+        
+         | <a href="/blog/2012/11/22/config-gcc-warning/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>在各个层次关闭或开启编译警告选项</h1>
+
+<p>从上到下覆盖</p>
+
+<p> 推荐的警告选项:<code>-Wall -Wextra</code></p>
+
+<h2>1. 符号级:指定某个变量警告</h2>
+
+<p>主要使用<code>__attribute__</code>这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然<code>__attribute__</code>还能指定其他很多中属性,例如结构体变量的对齐方式,指定声明的函数的属性等,但这里仅关注在警告方面的变量的属性.</p>
+
+<pre><code>int a __attribute__ ((unused));
+</code></pre>
+
+<p>指定该变量为&#8221;未使用的&#8221;.即使这个变量没有被使用,编译时也会忽略则个警告输出.</p>
+
+<h2>2. 源代码级:在文件中诊断</h2>
+
+<p>能在编译期间规定一段代码的警告属性,如某个文件中后半部分不要求输出某些类型的警告使用编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">6.57 Pragmas</a>)中的诊断编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">6.57.10 Diagnostic Pragmas</a>)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/22/config-gcc-warning/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-19T20:00:00+08:00" pubdate data-updated="true">2012-11-19 20:00</time>
+        
+         | <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.</p>
+
+<h1>前言</h1>
+
+<p>首先说说我对编译开发调试环境的大概认识,如下图:</p>
+
+<p><img src="/downloads/img/结构示意图.png"></p>
+
+<p>PC(编译下载)大约就是<a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>所涉及的部分.</p>
+
+<p>而PC(调试服务器)和PC(调试)就是本文涉及的内容.</p>
+
+<p>稍微解释下我的理解:</p>
+
+<ol>
+<li>调试器:使用JTAG调试器,淘宝上几十块钱买的.看样子是兼容AVR JTAG ICE(mk1)的山寨版,能用.</li>
+<li>avarice:这里avr-gdb远程调试通过TCP服务,显然板子是不能提供这个服务的,那么avarice大致功能就是将串口(USB)(连着JTAG)转化成为TCP协议,这样通过这个TCP协议可以远程调试</li>
+<li>avr-gdb:调试器,可以是使用target remote 指定远程调试</li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -305,132 +430,6 @@ Build id: M20120914-1800
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/20/otcopress-githubrepowidget/">使用 githubRepoWidget 展示 Github 项目</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-20T22:55:00+08:00" pubdate data-updated="true">2012-09-20 22:55</time>
-        
-         | <a href="/blog/2012/09/20/otcopress-githubrepowidget/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><script src="/javascripts/libs/jquery.min.js"></script>
-
-
-<script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"></script>
-
-
-<p>使用githubRepoWidget在otcopress上展示项目的方法.</p>
-
-<h1>先看效果:</h1>
-
-<p>例子1 Linux kernel:</p>
-
-<div class="github-widget" data-repo="torvalds/linux"></div>
-
-
-<p>例子2 githubRepoWidget:</p>
-
-<div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"></div>
-
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/09/20/otcopress-githubrepowidget/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/">在线分析转换标准 Float 型数据</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-20T19:54:00+08:00" pubdate data-updated="true">2012-09-20 19:54</time>
-        
-         | <a href="/blog/2012/09/20/online-ieee-754-analysis-binary-decimal-converter/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>计算机中float型数据以IEEE-754标准存储,例如<code>1234.5678</code>存储为<code>0x449A522B</code>(32位).</p>
-
-<p>使用二进制表示即:</p>
-
-<pre><code>01000100 10011010 01010010 00101011
-</code></pre>
-
-<p>根据IEEE754 Single precision 32-bit标准的定义:</p>
-
-<p><img src="/downloads/img/IEEE-754-float.png">
-通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>
-
-<p>一些特殊的值,如正无穷等,参见维基百科.</p>
-
-<p>更多的分析和在线转换参见参考资料.</p>
-
-<h2>参考资料</h2>
-
-<ol>
-<li>维基百科:<a href="https://zh.wikipedia.org/zh/IEEE_754">https://zh.wikipedia.org/zh/IEEE_754</a></li>
-<li>在线分析:<a href="http://babbage.cs.qc.cuny.edu/IEEE-754/">http://babbage.cs.qc.cuny.edu/IEEE-754/</a></li>
-<li>在线转换:<a href="http://www.binaryconvert.com/">http://www.binaryconvert.com/</a></li>
-</ol>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -447,6 +446,14 @@ Build id: M20120914-1800
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/05/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/01/17/update-to-fedora-18/">升级到fedora18</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/12/16/atmega8-hd44780-lcd1602/">atmega8使用1602字符液晶(hd44780)</a>
@@ -466,14 +473,6 @@ Build id: M20120914-1800
     
       <li class="post">
         <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">Linux下avr单片机开发环境</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/11/lua-wireshark-plug-in/">lua实现简单的wireshark自定义协议解析</a>
       </li>
     
   </ul>
@@ -535,7 +534,7 @@ Build id: M20120914-1800
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2012 - zodiac1111 -
+  Copyright &copy; 2013 - zodiac1111 -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a> | Theme <a href="https://github.com/amelandri/darkstripes">DarkStripes</a></span>
 </p>
 
