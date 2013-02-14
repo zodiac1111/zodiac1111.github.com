@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>about - 喜乐</title>
+  <title>利用calibre推送RSS源到Kindle - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="About 2012-07-24 03:16 轻量级博客框架. 这里是我的分享. Recent Posts 利用calibre推送RSS源到Kindle Kindle Paperwhite越狱 升级到fedora18 atmega8使用1602字符液晶(hd44780) &hellip;">
+  <meta name="description" content="抓取RSS fatch news 安装calibre calibre是一款强大的软件,可以下载/转换/编辑/管理kindle上的电子书. 编辑.recipeRSS源 抓取RSS(转换格式) 都在命令行在操作,方便部署到远程主机.
+文档 ebook-convert &lt;RSS源文件&gt;. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.com/about/">
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2013/02/12/rss2kindle-use-calibre/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -85,11 +86,17 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">About</h1>
-    <p class="meta">
+    
+      
+        <h1 class="entry-title">利用calibre推送RSS源到Kindle</h1>
+      
+    
+    
+      <p class="meta">
+        
 
 
 
@@ -101,15 +108,96 @@
   
 
 
-<time datetime="2012-07-24T03:16:00+08:00" pubdate data-updated="true">2012-07-24 03:16</time></p>
+<time datetime="2013-02-12T10:36:00+08:00" pubdate data-updated="true">2013-02-12 10:36</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
   </header>
-  
-  <p>轻量级博客框架.</p>
 
-<p>这里是我的分享.</p>
+
+<div class="entry-content"><h1>抓取RSS fatch news</h1>
+
+<h2>安装calibre</h2>
+
+<p><a href="http://calibre-ebook.com/">calibre</a>是一款强大的软件,可以下载/转换/编辑/管理kindle上的电子书.</p>
+
+<h2>编辑.recipeRSS源</h2>
+
+<h2>抓取RSS(转换格式)</h2>
+
+<p>都在命令行在操作,方便部署到远程主机.
+<a href="http://manual.calibre-ebook.com/cli/ebook-convert.html">文档</a></p>
+
+<pre><code>ebook-convert  &lt;RSS源文件&gt;.recipe   &lt;转换后文件名&gt;.pobi  --test --username &lt;谷歌账号&gt;@gmail.com --password "&lt;谷歌密码&gt;" &gt;&gt; converrt.log
+</code></pre>
+
+<h1>编辑修改(可选)</h1>
+
+<h1>推送到Kindle</h1>
+
+<p><a href="http://manual.calibre-ebook.com/cli/calibre-smtp.html">calibre-smtp使用文档</a></p>
+
+<pre><code>calibre-smtp --attachment news.mobi --relay smtp.gmail.com --port 587 --username &lt;谷歌账号&gt;@gmail.com --passwor
+</code></pre>
+
+<p>d &#8220;&lt;谷歌密码>&#8221; &#8211;encryption-method TLS &lt;账号>@gmail.com &lt;kindle推送地址>@kindle.com &#8220;&lt;邮件正文>&#8221; -v -s &#8220;&lt;邮件主题>&#8221; >> stmp.log</p>
+
+<h1>定时推送</h1>
+
+<pre><code>crontab -e
+0 0 * * * 
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
 
   
+
+
+<time datetime="2013-02-12T10:36:00+08:00" pubdate data-updated="true">2013-02-12 10:36</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/2013/02/05/jailbreak-kindle-paperwhite/" title="Previous Post: Kindle Paperwhite越狱">&laquo; Kindle Paperwhite越狱</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -213,6 +301,22 @@
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'zodiac1111blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2013/02/12/rss2kindle-use-calibre/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2013/02/12/rss2kindle-use-calibre/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 

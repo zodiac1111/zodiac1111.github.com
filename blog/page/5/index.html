@@ -9,13 +9,13 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="//#rtp头浅析
-参考: 1. hi.baidu.com
-2. topic.csdn.net
-下面是一个例子 RFC文档为RFC3550（RFC1889为其过期版本）
-base+0(暂略)此处省略0x33字节
-UDP数据区(base+0x33):
-RTP header:(头数据) &hellip;">
+  <meta name="description" content="//# 运算符重载
+函数重载 参数列表必须不同
+运算符重载,所有运算符都能.
+C++一种面向对象的语言/面向应用.(放大软件的规模) 问题由来:例如两个类的相加,怎么实现? 例:人民币类 元/角 RMB m1,m2,m3;
+m3=m1+m2;//两个对象相加
+m3.display();
+m3 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,6 +92,64 @@ RTP header:(头数据) &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/08/22/cpp-class-overload/">Cpp运算符重载笔记</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-08-22T20:37:00+08:00" pubdate data-updated="true">2012-08-22 20:37</time>
+        
+         | <a href="/blog/2012/08/22/cpp-class-overload/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>//# 运算符重载
+函数重载 参数列表必须不同<br>
+运算符重载,所有运算符都能.<br>
+C++一种面向对象的语言/面向应用.(放大软件的规模)</p>
+
+<p><strong>问题由来:例如两个类的相加,怎么实现?</strong></p>
+
+<p>例:人民币类 元/角</p>
+
+<pre><code>RMB m1,m2,m3;
+m3=m1+m2;//两个对象相加
+m3.display();
+m3++;//单目运算.
+</code></pre>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/08/22/cpp-class-overload/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -305,63 +363,6 @@ ps:&#8211;db-command=<command> 选项可以指定调试器</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/08/21/vim-search-replace/">Vim查找替换</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-08-21T17:15:00+08:00" pubdate data-updated="true">2012-08-21 17:15</time>
-        
-         | <a href="/blog/2012/08/21/vim-search-replace/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><code>#vim查找替换</code>
-参考资料:http://www.chinavim.org/vivim-%E6%9F%A5%E6%89%BE%E6%9B%BF%E6%8D%A2%E5%A4%A7%E5%85%A8.html</p>
-
-<p> 可以使用 # 作为分隔符，此时中间出现的 / 不会作为分隔符</p>
-
-<p> :替换当前行第一个 vivian/ 为 sky/</p>
-
-<p> <code>:n,$s/vivian/sky/</code> 替换第 n 行开始到最后一行中每一行的<strong>第一个</strong> vivian 为 sky</p>
-
-<p> <code>:n,$s/vivian/sky/g</code> 替换第 n 行开始到最后一行中每一行<strong>所有</strong> vivian 为 sky
-<code>
-:[地址/范围]s/&lt;搜索字&gt;/&lt;替换字&gt;[/g]
-</code></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/08/21/vim-search-replace/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -378,6 +379,10 @@ ps:&#8211;db-command=<command> 选项可以指定调试器</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/12/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/02/05/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
@@ -401,10 +406,6 @@ ps:&#8211;db-command=<command> 选项可以指定调试器</p>
     
       <li class="post">
         <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
       </li>
     
   </ul>

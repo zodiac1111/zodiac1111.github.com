@@ -9,7 +9,8 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="kindle是linux系统,arm处理器.关于系统架构可以参考http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Architecture 这次主要目的是将Kindle Paperwhite越狱,在PC(Fedora18 Linux)上. &hellip;">
+  <meta name="description" content="抓取RSS fatch news 安装calibre calibre是一款强大的软件,可以下载/转换/编辑/管理kindle上的电子书. 编辑.recipeRSS源 抓取RSS(转换格式) 都在命令行在操作,方便部署到远程主机.
+文档 ebook-convert &lt;RSS源文件&gt;. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +87,77 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2013/02/12/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-02-12T10:36:00+08:00" pubdate data-updated="true">2013-02-12 10:36</time>
+        
+         | <a href="/blog/2013/02/12/rss2kindle-use-calibre/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>抓取RSS fatch news</h1>
+
+<h2>安装calibre</h2>
+
+<p><a href="http://calibre-ebook.com/">calibre</a>是一款强大的软件,可以下载/转换/编辑/管理kindle上的电子书.</p>
+
+<h2>编辑.recipeRSS源</h2>
+
+<h2>抓取RSS(转换格式)</h2>
+
+<p>都在命令行在操作,方便部署到远程主机.
+<a href="http://manual.calibre-ebook.com/cli/ebook-convert.html">文档</a></p>
+
+<pre><code>ebook-convert  &lt;RSS源文件&gt;.recipe   &lt;转换后文件名&gt;.pobi  --test --username &lt;谷歌账号&gt;@gmail.com --password "&lt;谷歌密码&gt;" &gt;&gt; converrt.log
+</code></pre>
+
+<h1>编辑修改(可选)</h1>
+
+<h1>推送到Kindle</h1>
+
+<p><a href="http://manual.calibre-ebook.com/cli/calibre-smtp.html">calibre-smtp使用文档</a></p>
+
+<pre><code>calibre-smtp --attachment news.mobi --relay smtp.gmail.com --port 587 --username &lt;谷歌账号&gt;@gmail.com --passwor
+</code></pre>
+
+<p>d &#8220;&lt;谷歌密码>&#8221; &#8211;encryption-method TLS &lt;账号>@gmail.com &lt;kindle推送地址>@kindle.com &#8220;&lt;邮件正文>&#8221; -v -s &#8220;&lt;邮件主题>&#8221; >> stmp.log</p>
+
+<h1>定时推送</h1>
+
+<pre><code>crontab -e
+0 0 * * * 
+</code></pre>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -431,58 +503,6 @@ http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</li>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-11-24T18:16:00+08:00" pubdate data-updated="true">2012-11-24 18:16</time>
-        
-         | <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">上次</a>进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序.</p>
-
-<h1>完成效果:</h1>
-
-<p>调试环境:
-<img src="/downloads/img/调试环境.png"></p>
-
-<p>基本的代码,汇编代码,寄存器,堆栈等功能都可以使用了. :)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -497,6 +517,10 @@ http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</li>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/12/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/02/05/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
@@ -520,10 +544,6 @@ http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</li>
     
       <li class="post">
         <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
       </li>
     
   </ul>
