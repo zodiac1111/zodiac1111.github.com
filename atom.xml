@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.com/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2013-02-16T12:56:10+08:00</updated>
+  <updated>2013-02-16T12:59:33+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -40,10 +40,8 @@
 
 <p><a href="http://manual.calibre-ebook.com/cli/calibre-smtp.html">calibre-smtp使用文档</a></p>
 
-<pre><code>calibre-smtp --attachment news.mobi --relay smtp.gmail.com --port 587 --username &lt;谷歌账号&gt;@gmail.com --passwor
+<pre><code>calibre-smtp --attachment news.mobi --relay smtp.gmail.com --port 587 --username &lt;谷歌账号&gt;@gmail.com --password "&lt;谷歌密码&gt;" --encryption-method TLS &lt;账号&gt;@gmail.com &lt;kindle推送地址&gt;@kindle.com "&lt;邮件正文&gt;" -v -s "&lt;邮件主题&gt;" &gt;&gt; stmp.log
 </code></pre>
-
-<p>d &#8220;&lt;谷歌密码>&#8221; &#8211;encryption-method TLS &lt;账号>@gmail.com &lt;kindle推送地址>@kindle.com &#8220;&lt;邮件正文>&#8221; -v -s &#8220;&lt;邮件主题>&#8221; >> stmp.log</p>
 
 <h1>定时推送</h1>
 
