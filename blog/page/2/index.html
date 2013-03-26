@@ -9,7 +9,7 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="在各个层次关闭或开启编译警告选项 从上到下覆盖 推荐的警告选项:-Wall -Wextra 1. 符号级:指定某个变量警告 主要使用__attribute__这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然__attribute__还能指定其他很多中属性,例如结构体变量的对齐方式, &hellip;">
+  <meta name="description" content="上次进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序. 完成效果 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +86,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-24T18:16:00+08:00" pubdate data-updated="true">2012-11-24 18:16</time>
+        
+         | <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">上次</a>进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序.</p>
+
+<h1>完成效果:</h1>
+
+<p>调试环境:
+<img src="/downloads/img/调试环境.png"></p>
+
+<p>基本的代码,汇编代码,寄存器,堆栈等功能都可以使用了. :)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -362,74 +414,6 @@ Build id: M20120914-1800
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/29/build-goldendict-from-source/">编译 Goldendict 笔记</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-29T22:30:00+08:00" pubdate data-updated="true">2012-09-29 22:30</time>
-        
-         | <a href="/blog/2012/09/29/build-goldendict-from-source/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>官网:<a href="http://goldendict.org/">http://goldendict.org/</a>.</p>
-
-<p>官方编译介绍:<a href="http://goldendict.org/buildfromgit.php">http://goldendict.org/buildfromgit.php</a>.</p>
-
-<p>在Fedora 17上编译可能出现的一些小问题:</p>
-
-<p><strong>1.</strong><code>articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录</code></p>
-
-<p>缺少qt的某个东西的头文件,安装即可:<code>yum install qtwebkit-devel</code></p>
-
-<p><strong>2.</strong><code>hotkeywrapper.hh:11:35: 致命错误：X11/extensions/record.h：没有那个文件或目录</code></p>
-
-<p>缺少X11开发用的头文件,安装:<code>yum install libXtst-devel</code></p>
-
-<p><strong>3.</strong><code>articleview.cc:37:32:致命错误：phonon/audiooutput.h：没有那个文件或phonon-devel.i686目录</code></p>
-
-<p>安装:<code>yum install phonon-devel</code></p>
-
-<p><strong>4.</strong><code>decompress.cc:5:19: 致命错误：bzlib.h：没有那个文件或目录</code></p>
-
-<p>安装:<code>yum install bzip2-devel</code></p>
-
-<p><strong>5.</strong>安装到应用程序目录</p>
-
-<p>执行完<code>make</code>之后可以执行<code>su -c 'make install'</code>将图标等复制到特定的目录中.</p>
-
-<h2>goldendict词典下载</h2>
-
-<p>星际译王词典:<a href="http://abloz.com/huzheng/stardict-dic">http://abloz.com/huzheng/stardict-dic</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -446,6 +430,10 @@ Build id: M20120914-1800
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/12/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/02/05/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
@@ -469,10 +457,6 @@ Build id: M20120914-1800
     
       <li class="post">
         <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
       </li>
     
   </ul>

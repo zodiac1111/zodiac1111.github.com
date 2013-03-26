@@ -144,11 +144,11 @@
 
 <p>如果又什么不同的地方,请以参考文档为准.</p>
 
-<p>解压附件,按照README.txt指示.(RTFM!)</p>
+<p>解压附件,按照<code>README.txt</code>指示.(RTFM!)</p>
 
-<ol>
+<ul>
 <li>把Kindle插到PC机上,会有一个磁盘Kindle.把三个文件如下放置到Kindle根目录</li>
-</ol>
+</ul>
 
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -164,60 +164,60 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<ol>
+<ul>
 <li><p>在PC上&#8221;弹出&#8221;磁盘.</p></li>
 <li><p>Kindle上有一本书,打开,按照其指示操作.</p></li>
-<li><p>按住左上角.</p></li>
-<li><p>等待</p></li>
-</ol>
+</ul>
 
 
-<h3>SSH,嵌入式系统</h3>
+<p><img src="/downloads/img/一本书.png" width="300">
+<img src="/downloads/img/点击.png" width="300"></p>
 
-<p>USB_网络登陆,参考:</p>
+<ul>
+<li>按住左上角</li>
+</ul>
+
+
+<p><img src="/downloads/img/按住.png" width="300"></p>
+
+<ul>
+<li>等待</li>
+</ul>
+
+
+<p><img src="/downloads/img/等待.png" width="300"></p>
+
+<h3>SSH登陆</h3>
+
+<p>USBnet 网络登陆,参考:</p>
 
 <p><a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking</a></p>
 
-<p>根据README_FIRST文件指引:</p>
+<p>根据<code>README_FIRST</code>文件指引:</p>
 
 <ol>
 <li>复制 update_usbnet_0.7.N_install.bin到Kindle根目录</li>
 <li>弹出.</li>
 <li><p>更新您的Kindle:在Kindle上 设置图标->设置选项->更新.</p></li>
 <li><p>诊断模式.</p></li>
-<li><p>PC上启动USBnet.</p>
+<li>PC上启动USBnet.
 
-<p> host ifconfig usb0 192.168.15.201
-可能需要在网络连接中设置网关.</p></li>
-</ol>
+<pre><code> host ifconfig usb0 192.168.15.201
+</code></pre>
 
+可能需要在网络连接中设置网关.
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>IP 192.168.15.201
-</span><span class='line'>Subnet 255.255.255.0
-</span><span class='line'>网关192.168.15.1
-</span></code></pre></td></tr></table></div></figure>
+<pre><code> IP 192.168.15.201
+ Subnet 255.255.255.0
+ 网关192.168.15.1
+</code></pre></li>
+<li>ping下看看:)
 
-
-<ol>
-<li>ping下看看:)</li>
-</ol>
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'> <span class="o">[</span>zodiac1111@localhost octopress<span class="o">]</span><span class="nv">$ </span>ping 192.168.15.244
-</span><span class='line'>  PING 192.168.15.244 <span class="o">(</span>192.168.15.244<span class="o">)</span> 56<span class="o">(</span>84<span class="o">)</span> bytes of data.
-</span><span class='line'>  64 bytes from 192.168.15.244: <span class="nv">icmp_seq</span><span class="o">=</span>1 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>1.23 ms
-</span><span class='line'>  64 bytes from 192.168.15.244: <span class="nv">icmp_seq</span><span class="o">=</span>2 <span class="nv">ttl</span><span class="o">=</span>64 <span class="nb">time</span><span class="o">=</span>0.189 ms
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ol>
+<pre><code> [zodiac1111@localhost octopress]$ ping 192.168.15.244
+ PING 192.168.15.244 (192.168.15.244) 56(84) bytes of data.
+ 64 bytes from 192.168.15.244: icmp_seq=1 ttl=64 time=1.23 ms
+ 64 bytes from 192.168.15.244: icmp_seq=2 ttl=64 time=0.189 ms
+</code></pre></li>
 <li>登陆</li>
 </ol>
 
@@ -335,7 +335,7 @@
 </span><span class='line'>          TX packets:459 errors:0 dropped:0 overruns:0 carrier:0
 </span><span class='line'>          collisions:0 txqueuelen:1000
 </span><span class='line'>          RX bytes:85456 <span class="o">(</span>83.4 KiB<span class="o">)</span>  TX bytes:64533 <span class="o">(</span>63.0 KiB<span class="o">)</span>
-</span><span class='line'><span class="c">#只有usb</span>
+</span><span class='line'><span class="c">#这个时候只有usb</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
@@ -348,15 +348,14 @@
 </ol>
 
 
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#文件系统本来是只读的,先让它可以读写.   </span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#文件系统本来是只读的,先让它可以读写.   
 </span><span class='line'>mntroot rw
-</span><span class='line'><span class="c">#修改root用户密码</span>
-</span><span class='line'>passwd
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>#修改root用户密码
+</span><span class='line'>passwd</span></code></pre></td></tr></table></div></figure>
 
 
 <ol>
@@ -365,16 +364,6 @@
 
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd mnt/us/usbnet/etc
-</span><span class='line'>#有一种信仰叫做vi &gt;_&lt; 
-</span><span class='line'>vi config</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -402,35 +391,42 @@
 <span class='line-number'>26</span>
 <span class='line-number'>27</span>
 <span class='line-number'>28</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/bin/sh</span>
-</span><span class='line'><span class="c">#</span>
-</span><span class='line'><span class="c"># $Id: config 8742 2012-10-21 20:04:06Z NiLuJe $</span>
-</span><span class='line'><span class="c">#</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd mnt/us/usbnet/etc
+</span><span class='line'>#有一种信仰叫做vi &gt;_&lt; 
+</span><span class='line'>vi config
 </span><span class='line'>
-</span><span class='line'><span class="c"># WARNING: Take note that we&#39;re essentially a shell script, se we absolutely *MUST* use UNIX line endings!</span>
-</span><span class='line'><span class="c"># WARNING: To avoid leaving your system in an undefined state,</span>
-</span><span class='line'><span class="c">#          do *NOT* modify this file while usb over ethernet is enabled!</span>
-</span><span class='line'><span class="c">#          (That means when the the auto enable feature is in use, too!)</span>
+</span><span class='line'>#!/bin/sh
+</span><span class='line'>#
+</span><span class='line'># $Id: config 8742 2012-10-21 20:04:06Z NiLuJe $
+</span><span class='line'>#
 </span><span class='line'>
-</span><span class='line'><span class="c"># Tweak this to your liking (IPv4 only, no hostname aliases)</span>
-</span><span class='line'><span class="nv">KINDLE_IP</span><span class="o">=</span>192.168.15.244
+</span><span class='line'># WARNING: Take note that we're essentially a shell script, se we absolutely *MUST* use UNIX line endings!
+</span><span class='line'># WARNING: To avoid leaving your system in an undefined state,
+</span><span class='line'>#          do *NOT* modify this file while usb over ethernet is enabled!
+</span><span class='line'>#          (That means when the the auto enable feature is in use, too!)
 </span><span class='line'>
-</span><span class='line'><span class="c"># Allow SSH over WiFi</span>
-</span><span class='line'><span class="c"># NOTE: If you set this to true, the SSHD *WILL* check your passwords!</span>
-</span><span class='line'><span class="c"># Make sure you know your root password, or auth via shared keys!</span>
-</span><span class='line'><span class="nv">USE_WIFI</span><span class="o">=</span><span class="s2">&quot;true&quot;</span>
+</span><span class='line'># Tweak this to your liking (IPv4 only, no hostname aliases)
+</span><span class='line'>KINDLE_IP=192.168.15.244
 </span><span class='line'>
-</span><span class='line'><span class="c"># Don&#39;t switch to Ethernet over USB, and only launch SSHD</span>
-</span><span class='line'><span class="c"># NOTE: Make sure you&#39;re able to properly login over SSH before enabling this...</span>
-</span><span class='line'><span class="c"># It&#39;s obviously only useful with WiFi devices, so leave to false on non-WiFi devices</span>
-</span><span class='line'><span class="nv">USE_WIFI_SSHD_ONLY</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
+</span><span class='line'># Allow SSH over WiFi
+</span><span class='line'># NOTE: If you set this to true, the SSHD *WILL* check your passwords!
+</span><span class='line'># Make sure you know your root password, or auth via shared keys!
+</span><span class='line'>USE_WIFI="true"
 </span><span class='line'>
-</span><span class='line'><span class="c"># Use OpenSSH instead of dropbear (somewhat faster login)</span>
-</span><span class='line'><span class="c"># NOTE: OpenSSH *WILL* check your passwords!</span>
-</span><span class='line'><span class="c"># Make sure you know your root password, or auth via shared keys!</span>
-</span><span class='line'><span class="nv">USE_OPENSSH</span><span class="o">=</span><span class="s2">&quot;false&quot;</span>
-</span><span class='line'>- config 1/27 3%
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'># Don't switch to Ethernet over USB, and only launch SSHD
+</span><span class='line'># NOTE: Make sure you're able to properly login over SSH before enabling this...
+</span><span class='line'># It's obviously only useful with WiFi devices, so leave to false on non-WiFi devices
+</span><span class='line'>USE_WIFI_SSHD_ONLY="false"
+</span><span class='line'>
+</span><span class='line'># Use OpenSSH instead of dropbear (somewhat faster login)
+</span><span class='line'># NOTE: OpenSSH *WILL* check your passwords!
+</span><span class='line'># Make sure you know your root password, or auth via shared keys!
+</span><span class='line'>USE_OPENSSH="false"
+</span><span class='line'>- config 1/27 3%</span></code></pre></td></tr></table></div></figure>
 
 
 <p>忘了要不要重启.</p>
@@ -439,8 +435,12 @@
 
 <p>再登陆,这时就不需要USB电缆了.连上Wi-Fi.Kindle的IP是192.168.0.101(我家的路由D-link的),IP就根据实际情况好了.</p>
 
-<pre><code>ssh root@192.168.0.101
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> ssh root@192.168.0.101
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 
 <figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -493,9 +493,20 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>无法取消诊断模式:<a href="http://www.mobileread.com/forums/showthread.php?p=2041719">http://www.mobileread.com/forums/showthread.php?p=2041719</a></p>
+<p>取消诊断模式时出现错误?参考:<a href="http://www.mobileread.com/forums/showthread.php?p=2041719">http://www.mobileread.com/forums/showthread.php?p=2041719</a></p>
 
 <p>启动USBnet ;un</p>
+
+<h2>定制字体</h2>
+
+<p>参考1:<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Custom_Fonts">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Custom_Fonts</a></p>
+
+<p>参考2:<a href="http://www.mobileread.com/forums/showthread.php?t=168765">http://www.mobileread.com/forums/showthread.php?t=168765</a> 5.3.1版本</p>
+
+<p>各种字体,文泉驿等宽正黑效果图:</p>
+
+<p><img src="/downloads/img/各种字体.png" width="300">
+<img src="/downloads/img/文泉驿等宽正黑.png" width="300"></p>
 </div>
 
 
@@ -536,6 +547,8 @@
         <a class="basic-alignment left articlenav" href="/blog/2013/01/17/update-to-fedora-18/" title="Previous Post: 升级到fedora18">&laquo; 升级到fedora18</a>
       
       
+        <a class="basic-alignment right articlenav" href="/blog/2013/02/12/rss2kindle-use-calibre/" title="Next Post: 利用calibre推送RSS源到Kindle">利用calibre推送RSS源到Kindle &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -553,6 +566,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/02/12/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/02/05/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
@@ -576,10 +593,6 @@
     
       <li class="post">
         <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">在Linux系统下通过JTAG调试atmega128a</a>
       </li>
     
   </ul>
