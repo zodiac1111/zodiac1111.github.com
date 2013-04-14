@@ -9,7 +9,9 @@
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="官网:http://goldendict.org/. 官方编译介绍:http://goldendict.org/buildfromgit.php. 在Fedora 17上编译可能出现的一些小问题: 1.articleview.hh:7:20: 致命错误：QWebView：没有那个文件或目录 &hellip;">
+  <meta name="description" content="主要参考: 简单参考中文 http://yoursunny.com/study/IS409/ScoreBoard.htm
+位操作 参考 http://blog.chinaunix.net/uid-24931444-id-3372735.html
+api定义参考 http://www. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -86,6 +88,71 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
+        <h1 class="entry-title"><a href="/blog/2012/11/11/lua-wireshark-plug-in/">Lua实现简单的wireshark自定义协议解析</a></h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-11T13:27:00+08:00" pubdate data-updated="true">2012-11-11 13:27</time>
+        
+         | <a href="/blog/2012/11/11/lua-wireshark-plug-in/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>主要参考:</h3>
+
+<ol>
+<li>简单参考中文 <a href="http://yoursunny.com/study/IS409/ScoreBoard.htm">http://yoursunny.com/study/IS409/ScoreBoard.htm</a></li>
+<li>位操作 参考 <a href="http://blog.chinaunix.net/uid-24931444-id-3372735.html">http://blog.chinaunix.net/uid-24931444-id-3372735.html</a></li>
+<li>api定义参考 <a href="http://www.wireshark.org/docs/wsug_html_chunked/lua_module_Proto.html">http://www.wireshark.org/docs/wsug_html_chunked/lua_module_Proto.html</a></li>
+</ol>
+
+
+<h3>使用的功能:</h3>
+
+<ol>
+<li>按位解析 <code>f_vsq_num</code></li>
+<li>分类解析  <code>if bit.rshift(bit.band(buf(4,1):uint(), 0x40), 6) == 1 then</code></li>
+<li>位操作 <code>bit.rshift(bit.band(buf(4,1):uint(), 0x40), 6)</code></li>
+<li>树添加 <code>local farmehead = t:add(f_farmehead,buf(0,4))</code></li>
+<li>分成函数实现 <code>function FT_change_farme(buf,pkt,root) ... end</code></li>
+<li>按大小端解析16位整型数据,并添加进树 <code>local addr=t:add_le(f_addr,buf(2,2))</code></li>
+<li>按字节流形式添加整体和各个部分的解释 <code>ProtoField.bytes("sd102.Tb","时间(Tb)",base.HEX)</code></li>
+</ol>
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/11/11/lua-wireshark-plug-in/">Read more &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -337,91 +404,6 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/2012/09/19/rake-completion-in-bash/">Rake 自动补全 Task</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-09-19T21:07:00+08:00" pubdate data-updated="true">2012-09-19 21:07</time>
-        
-         | <a href="/blog/2012/09/19/rake-completion-in-bash/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.</p>
-
-<p>那么想到既然bash中make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.<br/>
-于是在git找到了 rake-completion 这个项目:</p>
-
-<script src="/javascripts/libs/jquery.min.js"></script>
-
-
-<div class="github-widget" data-repo="ai/rake-completion"></div>
-
-
-<p>网址:<a href="https://github.com/ai/rake-completion">https://github.com/ai/rake-completion</a></p>
-
-<h2>安装</h2>
-
-<p>安装也很简单,如<code>README</code>文件中<code>other unix-like</code>一节指示:</p>
-
-<p>复制<code>rake</code>文件到<code>/etc/bash_completion.d/</code>目录下(需要root权限):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>su -c 'cp ./rake /etc/bash_completion.d/'</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>使用</h2>
-
-<p>需要补全的时候按<code>Tab</code>键就好啦~,效果如下:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[user1@localhost octopress]$ rake &lt;Tab>
-</span><span class='line'>clean                     isolate[filename]         set_root_dir[dir]
-</span><span class='line'>copydot[source,dest]      list                      setup_github_pages[repo]
-</span><span class='line'>deploy                    new_page[filename]        update_source[theme]
-</span><span class='line'>gen_deploy                new_post[title]           update_style[theme]
-</span><span class='line'>generate                  preview                   watch
-</span><span class='line'>install[theme]            push
-</span><span class='line'>integrate                 rsync</span></code></pre></td></tr></table></div></figure>
-
-
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -438,6 +420,10 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/14/set-fedora-hostname/">为feodra18设置主机名</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/02/12/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a>
@@ -461,10 +447,6 @@ chrome默认自带的库默认路径为:<code>/opt/google/chrome/libpdf.so</code
     
       <li class="post">
         <a href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/11/22/config-gcc-warning/">配置gcc编译警告选项</a>
       </li>
     
   </ul>
