@@ -10,6 +10,8 @@ footer: false
 
 以下就是测试咯
 ---
+#no baidu
+{% img http://img3.douban.com/lpic/o83797.jpg %}
 # github widget 测试 
 
 1
