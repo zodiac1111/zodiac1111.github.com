@@ -3,7 +3,7 @@ layout: post
 title: "为feodra18设置主机名"
 date: 2013-04-14 15:53
 comments: true
-categories: 
+categories: [linux]
 ---
 参考:<http://zurlinux.com/?p=1396> .
  

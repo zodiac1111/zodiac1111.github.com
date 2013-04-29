@@ -3,7 +3,7 @@ layout: post
 title: "利用calibre推送RSS源到Kindle"
 date: 2013-02-12 10:36
 comments: true
-categories: 
+categories: [kindle]
 ---
 #抓取RSS fatch news
 

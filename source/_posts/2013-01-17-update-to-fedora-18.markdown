@@ -3,7 +3,7 @@ layout: post
 title: "升级到fedora18"
 date: 2013-01-17 18:55
 comments: true
-categories: 
+categories: [linux]
 ---
 
 从fedora17升级到fedora18

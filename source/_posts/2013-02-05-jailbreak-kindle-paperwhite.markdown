@@ -3,7 +3,7 @@ layout: post
 title: "Kindle Paperwhite越狱"
 date: 2013-02-05 14:52
 comments: true
-categories: 
+categories: [kindle]
 ---
 kindle是linux系统,arm处理器.关于系统架构可以参考<http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Architecture>
 

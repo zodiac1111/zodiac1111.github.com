@@ -3,7 +3,7 @@ layout: post
 title: "atmega8使用1602字符液晶(hd44780)"
 date: 2012-12-16 17:18
 comments: true
-categories: 
+categories: [avr]
 ---
 
 #一般操作
