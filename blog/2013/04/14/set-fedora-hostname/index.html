@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>配置gcc编译警告选项 - 喜乐</title>
+  <title>为feodra18设置主机名 - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="在各个层次关闭或开启编译警告选项 从上到下覆盖 推荐的警告选项:-Wall -Wextra 1. 符号级:指定某个变量警告 主要使用__attribute__这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然__attribute__还能指定其他很多中属性,例如结构体变量的对齐方式, &hellip;">
+  <meta name="description" content="参考:http://zurlinux.com/?p=1396 . 在Fedora 18中主机名已经保存在/etc/hostname文件中,而不是保存在/etc/sysconfig/network文件的HOSTNAME=XXX一行中. There are now three &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.com/blog/2012/11/22/config-gcc-warning/">
+  <link rel="canonical" href="http://zodiac1111.github.com/blog/2013/04/14/set-fedora-hostname/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -90,7 +90,7 @@
   <header>
     
       
-        <h1 class="entry-title">配置gcc编译警告选项</h1>
+        <h1 class="entry-title">为feodra18设置主机名</h1>
       
     
     
@@ -107,7 +107,7 @@
   
 
 
-<time datetime="2012-11-22T19:17:00+08:00" pubdate data-updated="true">2012-11-22 19:17</time>
+<time datetime="2013-04-14T15:53:00+08:00" pubdate data-updated="true">2013-04-14 15:53</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -116,96 +116,26 @@
   </header>
 
 
-<div class="entry-content"><h1>在各个层次关闭或开启编译警告选项</h1>
+<div class="entry-content"><p>参考:<a href="http://zurlinux.com/?p=1396">http://zurlinux.com/?p=1396</a> .</p>
 
-<p>从上到下覆盖</p>
+<p>在<code>Fedora 18</code>中主机名已经保存在<code>/etc/hostname</code>文件中,而不是保存在<code>/etc/sysconfig/network</code>文件的<code>HOSTNAME=XXX</code>一行中.</p>
 
-<p> 推荐的警告选项:<code>-Wall -Wextra</code></p>
-
-<h2>1. 符号级:指定某个变量警告</h2>
-
-<p>主要使用<code>__attribute__</code>这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然<code>__attribute__</code>还能指定其他很多中属性,例如结构体变量的对齐方式,指定声明的函数的属性等,但这里仅关注在警告方面的变量的属性.</p>
-
-<pre><code>int a __attribute__ ((unused));
-</code></pre>
-
-<p>指定该变量为&#8221;未使用的&#8221;.即使这个变量没有被使用,编译时也会忽略则个警告输出.</p>
-
-<h2>2. 源代码级:在文件中诊断</h2>
-
-<p>能在编译期间规定一段代码的警告属性,如某个文件中后半部分不要求输出某些类型的警告使用编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">6.57 Pragmas</a>)中的诊断编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">6.57.10 Diagnostic Pragmas</a>)</p>
-
-<!-- more -->
-
-
-<p>语法:</p>
-
-<pre><code>#pragma GCC diagnostic &lt;类型&gt; &lt;选项&gt;
-</code></pre>
-
-<p>其中类型包括:</p>
+<p>There are now three distinguished hostnames in use with Fedora 18.</p>
 
 <ul>
-<li><code>error</code> :诊断为错误.</li>
-<li><code>warning</code>:争端为警告.</li>
-<li><code>ignored</code>:忽略警告.</li>
+<li>A high-level pretty free-form hostname</li>
+<li>The static hostname, i.e. the kernel hostname</li>
+<li>Possibly a transient temporary hostname</li>
 </ul>
 
 
-<p>选项则是命令行选项中的类似<code>-Wformat</code>的选项.</p>
+<p><code>hostnamectl</code>命令/程序可以用户设定hostname.</p>
 
-<p>例如:</p>
+<p><code>hostnamectl --help</code>查看具体用法.</p>
 
-<p>诊断-忽略:(关闭警告)</p>
+<p><code>hostnamectl status</code>查看当前设置.</p>
 
-<pre><code>#pragma  GCC diagnostic ignored  "-Wformat"
-</code></pre>
-
-<p>诊断-警告:(开启警告)</p>
-
-<pre><code>#pragma  GCC diagnostic warning  "-Wformat"
-</code></pre>
-
-<p>诊断-错误:(开启警告-升级为错误)</p>
-
-<pre><code>#pragma  GCC diagnostic error  "-Wformat"
-</code></pre>
-
-<p>用法:<br/>
-在文件开头处关闭警告,在文件结尾出再开启警告,这样可以忽略该文件中的指定警告.</p>
-
-<h2>3 文件或工程级:命令行编译参数指定</h2>
-
-<p>警告:</p>
-
-<pre><code>gcc main.c -Wall
-</code></pre>
-
-<p>忽略:</p>
-
-<pre><code>gcc mian.c -Wall -Wno-unused-parameter  #开启all警告,但是忽略 -unused-parameter警告
-</code></pre>
-
-<p>选项格式: <code>-W[no-]&lt;警告选项&gt;</code><br/>
-如 : <code>-Wno-unused-parameter    #no- 表示诊断时忽略这个警告</code></p>
-
-<h1>参考:</h1>
-
-<ol>
-<li>通过<code>__attribute__</code>指定变量的属性(如<code>unused</code>,<code>packed</code>):<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#i386%20Variable%20Attributes">http://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#i386%20Variable%20Attributes</a></li>
-<li>通过<code>__attribute__</code>指定函数的属性(如<code>always_inline</code>):<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes">http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes</a></li>
-<li><code>__attribute__</code>的语法:<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax">http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax</a></li>
-<li>编译指示(#pragam):<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas</a></li>
-<li>编译诊断指示(Diagnostic Pragmas):<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas</a></li>
-<li>编译警告选项:<br/>
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html">http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html</a></li>
-</ol>
-
+<p>更多请参考来源.</p>
 </div>
 
 
@@ -228,12 +158,12 @@
   
 
 
-<time datetime="2012-11-22T19:17:00+08:00" pubdate data-updated="true">2012-11-22 19:17</time>
+<time datetime="2013-04-14T15:53:00+08:00" pubdate data-updated="true">2013-04-14 15:53</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/gcc/'>gcc</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+    <a class='category' href='/blog/categories/linux/'>linux</a>
   
 </span>
 
@@ -249,10 +179,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left articlenav" href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/" title="Previous Post: 在Linux系统下通过JTAG调试atmega128a">&laquo; 在Linux系统下通过JTAG调试atmega128a</a>
+        <a class="basic-alignment left articlenav" href="/blog/2013/02/12/rss2kindle-use-calibre/" title="Previous Post: 利用calibre推送RSS源到Kindle">&laquo; 利用calibre推送RSS源到Kindle</a>
       
-      
-        <a class="basic-alignment right articlenav" href="/blog/2012/11/24/debug-avr-with-insight-avr-gdb-gui/" title="Next Post: 编译avr-insight">编译avr-insight &raquo;</a>
       
     </p>
   </footer>
@@ -372,8 +300,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://zodiac1111.github.com/blog/2012/11/22/config-gcc-warning/';
-        var disqus_url = 'http://zodiac1111.github.com/blog/2012/11/22/config-gcc-warning/';
+        var disqus_identifier = 'http://zodiac1111.github.com/blog/2013/04/14/set-fedora-hostname/';
+        var disqus_url = 'http://zodiac1111.github.com/blog/2013/04/14/set-fedora-hostname/';
         var disqus_script = 'embed.js';
       
     (function () {
