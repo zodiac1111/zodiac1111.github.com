@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: kindle | 喜乐]]></title>
+  <link href="http://zodiac1111.github.com/blog/categories/kindle/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.com/"/>
+  <updated>2013-04-29T14:33:06+08:00</updated>
+  <id>http://zodiac1111.github.com/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[利用calibre推送RSS源到Kindle]]></title>
+    <link href="http://zodiac1111.github.com/blog/2013/02/12/rss2kindle-use-calibre/"/>
+    <updated>2013-02-12T10:36:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2013/02/12/rss2kindle-use-calibre</id>
+    <content type="html"><![CDATA[<h1>抓取RSS fatch news</h1>
+
+<h2>安装calibre</h2>
+
+<p><a href="http://calibre-ebook.com/">calibre</a>是一款强大的软件,可以下载/转换/编辑/管理kindle上的电子书.</p>
+
+<h2>编辑.recipeRSS源</h2>
+
+<h2>抓取RSS(转换格式)</h2>
+
+<p>都在命令行在操作,方便部署到远程主机.
+<a href="http://manual.calibre-ebook.com/cli/ebook-convert.html">文档</a></p>
+
+<pre><code>ebook-convert  &lt;RSS源文件&gt;.recipe   &lt;转换后文件名&gt;.pobi  --test --username &lt;谷歌账号&gt;@gmail.com --password "&lt;谷歌密码&gt;" &gt;&gt; converrt.log
+</code></pre>
+
+<h1>编辑修改(可选)</h1>
+
+<h1>推送到Kindle</h1>
+
+<p><a href="http://manual.calibre-ebook.com/cli/calibre-smtp.html">calibre-smtp使用文档</a></p>
+
+<pre><code>calibre-smtp --attachment news.mobi --relay smtp.gmail.com --port 587 --username &lt;谷歌账号&gt;@gmail.com --password "&lt;谷歌密码&gt;" --encryption-method TLS &lt;账号&gt;@gmail.com &lt;kindle推送地址&gt;@kindle.com "&lt;邮件正文&gt;" -v -s "&lt;邮件主题&gt;" &gt;&gt; stmp.log
+</code></pre>
+
+<h1>定时推送</h1>
+
+<pre><code>crontab -e
+0 0 * * * 
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kindle Paperwhite越狱]]></title>
+    <link href="http://zodiac1111.github.com/blog/2013/02/05/jailbreak-kindle-paperwhite/"/>
+    <updated>2013-02-05T14:52:00+08:00</updated>
+    <id>http://zodiac1111.github.com/blog/2013/02/05/jailbreak-kindle-paperwhite</id>
+    <content type="html"><![CDATA[<p>kindle是linux系统,arm处理器.关于系统架构可以参考<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Architecture">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Architecture</a></p>
+
+<p>这次主要目的是将Kindle Paperwhite越狱,在PC(Fedora18 Linux)上.
+实现通用的ssh访问.其实PW入手才不到24小时.果然我就是喜欢拆呵 :)</p>
+
+<!-- more -->
+
+
+<h2>越狱</h2>
+
+<h3>降级(非必须)</h3>
+
+<p>因为不小心升级到5.3.3需要降级才可以使用,如降级到5.3.1</p>
+
+<p>5.3.1文件 <a href="http://kindle.s3.amazonaws.com/update_kindle_5.3.1.bin">http://kindle.s3.amazonaws.com/update_kindle_5.3.1.bin</a></p>
+
+<p>复制到Kindle"根目录".</p>
+
+<p>在Kindle上 设置图标->设置选项->更新.</p>
+
+<h3>越狱</h3>
+
+<p>参考:Kindle Paperwhite Jailbreak (5.2.0 - 5.3.1):</p>
+
+<p><a href="http://www.mobileread.com/forums/showthread.php?t=198446">http://www.mobileread.com/forums/showthread.php?t=198446</a></p>
+
+<p>如果又什么不同的地方,请以参考文档为准.</p>
+
+<p>解压附件,按照<code>README.txt</code>指示.(RTFM!)</p>
+
+<ul>
+<li>把Kindle插到PC机上,会有一个磁盘Kindle.把三个文件如下放置到Kindle根目录
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>  .
+</span><span class='line'>  |-- documents
+</span><span class='line'>  |   &lt;code&gt;-- jailbreak.mobi
+</span><span class='line'>  |-- jailbreak.sh
+</span><span class='line'> &lt;/code&gt;-- MOBI8_DEBUG
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li><p>在PC上"弹出"磁盘.</p></li>
+<li><p>Kindle上有一本书,打开,按照其指示操作.</p></li>
+</ul>
+
+
+<p><img src="/downloads/img/一本书.png" width="300">
+<img src="/downloads/img/点击.png" width="300"></p>
+
+<ul>
+<li>按住左上角</li>
+</ul>
+
+
+<p><img src="/downloads/img/按住.png" width="300"></p>
+
+<ul>
+<li>等待</li>
+</ul>
+
+
+<p><img src="/downloads/img/等待.png" width="300"></p>
+
+<h3>SSH登陆</h3>
+
+<p>USBnet 网络登陆,参考:</p>
+
+<p><a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#USB_Networking</a></p>
+
+<p>根据<code>README_FIRST</code>文件指引:</p>
+
+<ol>
+<li>复制 update_usbnet_0.7.N_install.bin到Kindle根目录</li>
+<li>弹出.</li>
+<li><p>更新您的Kindle:在Kindle上 设置图标->设置选项->更新.</p></li>
+<li><p>诊断模式.</p></li>
+<li>PC上启动USBnet.
+
+<pre><code> host ifconfig usb0 192.168.15.201
+</code></pre>
+
+可能需要在网络连接中设置网关.
+
+<pre><code> IP 192.168.15.201
+ Subnet 255.255.255.0
+ 网关192.168.15.1
+</code></pre></li>
+<li>ping下看看:)
+
+<pre><code> [zodiac1111@localhost octopress]$ ping 192.168.15.244
+ PING 192.168.15.244 (192.168.15.244) 56(84) bytes of data.
+ 64 bytes from 192.168.15.244: icmp_seq=1 ttl=64 time=1.23 ms
+ 64 bytes from 192.168.15.244: icmp_seq=2 ttl=64 time=0.189 ms
+</code></pre></li>
+<li>登陆<br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'> <span class="o">[</span>zodiac1111@localhost octopress<span class="o">]</span><span class="nv">$ </span>ssh root@192.168.15.244
+</span><span class='line'> The authenticity of host <span class="s1">&#39;192.168.15.244 (192.168.15.244)&#39;</span> can<span class="s1">&#39;t be established.</span>
+</span><span class='line'><span class="s1"> RSA key fingerprint is 78:80:25:41:49:59:52:9c:30:89:b3:3f:c8:b6:e2:e3.</span>
+</span><span class='line'><span class="s1"> Are you sure you want to continue connecting (yes/no)? yes</span>
+</span><span class='line'><span class="s1"> Warning: Permanently added &#39;</span>192.168.15.244<span class="s1">&#39; (RSA) to the list of known hosts.</span>
+</span><span class='line'><span class="s1"> root@192.168.15.244&#39;</span>s password:
+</span><span class='line'> <span class="c">#################################################</span>
+</span><span class='line'> <span class="c">#  N O T I C E  *  N O T I C E  *  N O T I C E  #</span>
+</span><span class='line'> <span class="c">#################################################</span>
+</span><span class='line'> Rootfs is mounted <span class="nb">read</span>-only. Invoke mntroot rw to
+</span><span class='line'> switch back to a writable rootfs.
+</span><span class='line'> <span class="c">#################################################</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></li>
+<li>到处看看<br/>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@<span class="o">[</span>192_168_15_244<span class="o">]</span> etc<span class="o">]</span><span class="c"># df</span>
+</span><span class='line'>Filesystem           1K-blocks      Used Available Use% Mounted on
+</span><span class='line'>/dev/root                63703     26170     34333  43% /
+</span><span class='line'>tmpfs                   128096         4    128092   0% /dev
+</span><span class='line'>tmpfs                   128096         0    128096   0% /dev/shm
+</span><span class='line'>/dev/mmcblk0p3           63461     14573     45612  24% /var/local
+</span><span class='line'>fsp                    1392632     11824   1380808   1% /mnt/us
+</span><span class='line'>/dev/loop/0            1392632     11824   1380808   1% /mnt/base-us
+</span><span class='line'><span class="o">[</span>root@<span class="o">[</span>192_168_15_244<span class="o">]</span> /<span class="o">]</span><span class="c"># ls -l</span>
+</span><span class='line'>drwxrwxr-x    2 root     root          2048 Sep 26  2012 bin
+</span><span class='line'>drwxr-xr-x    2 root     root          1024 Jan  1  1970 cust
+</span><span class='line'>drwxr-xr-x   12 root     root          1000 Jan  1 00:01 dev
+</span><span class='line'>drwxrwxr-x   16 root     root          1024 Jan  1 00:02 etc
+</span><span class='line'>drwxrwxr-x    5 root     root          2048 Sep 26  2012 lib
+</span><span class='line'>drwxrwxr-x    8 root     root          1024 Sep 26  2012 mnt
+</span><span class='line'>drwxrwxr-x    5 root     root          1024 Jan  1  1970 opt
+</span><span class='line'>dr-xr-xr-x   70 root     root             0 Jan  1 00:00 proc
+</span><span class='line'>drwxrwxr-x    2 root     root          2048 Sep 26  2012 sbin
+</span><span class='line'>drwxr-xr-x   12 root     root             0 Jan  1 00:00 sys
+</span><span class='line'>lrwxrwxrwx    1 root     root             8 Jan  1 00:00 tmp -&gt; /var/tmp
+</span><span class='line'>drwxrwxr-x    8 root     root          1024 Sep 26  2012 usr
+</span><span class='line'>drwxrwxr-x    9 root     root           180 Jan  1 00:01 var
+</span><span class='line'><span class="o">[</span>root@kindle etc<span class="o">]</span><span class="c"># uname -a</span>
+</span><span class='line'>Linux kindle 2.6.31-rt11-lab126 <span class="c">#1 Thu Nov 29 23:37:38 PST 2012 armv7l GNU/Linux</span>
+</span><span class='line'><span class="o">[</span>root@<span class="o">[</span>192_168_15_244<span class="o">]</span> /<span class="o">]</span><span class="c"># ifconfig</span>
+</span><span class='line'>lo        Link encap:Local Loopback
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;   inet addr:127.0.0.1  Mask:255.0.0.0
+</span><span class='line'>   UP LOOPBACK RUNNING  MTU:16436  Metric:1
+</span><span class='line'>   RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>   TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>   collisions:0 txqueuelen:0
+</span><span class='line'>   RX bytes:0 <span class="o">(</span>0.0 B<span class="o">)</span>  TX bytes:0 <span class="o">(</span>0.0 B<span class="o">)</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+</span><span class='line'>&lt;/ol&gt;
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;usb0      Link encap:Ethernet  HWaddr EE:59:00:00:00:15&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;      inet addr:192.168.15.244  Bcast:192.168.15.255  Mask:255.255.255.0
+</span><span class='line'>      UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>      RX packets:1318 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>      TX packets:459 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>      collisions:0 txqueuelen:1000
+</span><span class='line'>      RX bytes:85456 <span class="o">(</span>83.4 KiB<span class="o">)</span>  TX bytes:64533 <span class="o">(</span>63.0 KiB<span class="o">)</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;h1&gt;这个时候只有usb&lt;/h1&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>通过Wi-Fi登陆</h2>
+
+<p>老是接着usb线太不方便了,无绳论的我当然要追求利用无线咯.参考:<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#SSH_access_over_Wifi">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#SSH_access_over_Wifi</a></p>
+
+<ol>
+<li>改个密码.方便使用,谁没事记序列号或者在线猜测密码,关键是那密码不一定对:(
+```
+
+<h1>文件系统本来是只读的,先让它可以读写.</h1>
+
+mntroot rw
+
+<h1>修改root用户密码</h1>
+
+<p>passwd
+```</p></li>
+<li>编辑配置文件
+```
+cd mnt/us/usbnet/etc
+
+<h1>有一种信仰叫做vi >_&lt;</h1>
+
+<p>vi config</p></li>
+</ol>
+
+
+<h1>!/bin/sh</h1>
+
+<p>#</p>
+
+<h1>$Id: config 8742 2012-10-21 20:04:06Z NiLuJe $</h1>
+
+<p>#</p>
+
+<h1>WARNING: Take note that we're essentially a shell script, se we absolutely <em>MUST</em> use UNIX line endings!</h1>
+
+<h1>WARNING: To avoid leaving your system in an undefined state,</h1>
+
+<h1>do <em>NOT</em> modify this file while usb over ethernet is enabled!</h1>
+
+<h1>(That means when the the auto enable feature is in use, too!)</h1>
+
+<h1>Tweak this to your liking (IPv4 only, no hostname aliases)</h1>
+
+<p>KINDLE_IP=192.168.15.244</p>
+
+<h1>Allow SSH over WiFi</h1>
+
+<h1>NOTE: If you set this to true, the SSHD <em>WILL</em> check your passwords!</h1>
+
+<h1>Make sure you know your root password, or auth via shared keys!</h1>
+
+<p>USE_WIFI="true"</p>
+
+<h1>Don't switch to Ethernet over USB, and only launch SSHD</h1>
+
+<h1>NOTE: Make sure you're able to properly login over SSH before enabling this...</h1>
+
+<h1>It's obviously only useful with WiFi devices, so leave to false on non-WiFi devices</h1>
+
+<p>USE_WIFI_SSHD_ONLY="false"</p>
+
+<h1>Use OpenSSH instead of dropbear (somewhat faster login)</h1>
+
+<h1>NOTE: OpenSSH <em>WILL</em> check your passwords!</h1>
+
+<h1>Make sure you know your root password, or auth via shared keys!</h1>
+
+<p>USE_OPENSSH="false"
+- config 1/27 3%
+```
+忘了要不要重启.</p>
+
+<p>我是没有设置开机启动USBnet.而是通过<code>;un</code>来手动启动.一些指令:<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Search_Bar_Shortcuts">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Search_Bar_Shortcuts</a></p>
+
+<p>再登陆,这时就不需要USB电缆了.连上Wi-Fi.Kindle的IP是192.168.0.101(我家的路由D-link的),IP就根据实际情况好了.
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;ssh root@192.168.0.101
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="o">[</span>root@kindle etc<span class="o">]</span><span class="c"># ifconfig</span>
+</span><span class='line'>lo        Link encap:Local Loopback&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;      inet addr:127.0.0.1  Mask:255.0.0.0
+</span><span class='line'>      UP LOOPBACK RUNNING  MTU:16436  Metric:1
+</span><span class='line'>      RX packets:476 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>      TX packets:476 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>      collisions:0 txqueuelen:0
+</span><span class='line'>      RX bytes:112343 <span class="o">(</span>109.7 KiB<span class="o">)</span>  TX bytes:112343 <span class="o">(</span>109.7 KiB<span class="o">)</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;usb0      Link encap:Ethernet  HWaddr EE:19:00:00:00:00&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;      inet addr:192.168.15.244  Bcast:192.168.15.255  Mask:255.255.255.0
+</span><span class='line'>      UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>      RX packets:2878 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>      TX packets:1291 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>      collisions:0 txqueuelen:1000
+</span><span class='line'>      RX bytes:151737 <span class="o">(</span>148.1 KiB<span class="o">)</span>  TX bytes:227383 <span class="o">(</span>222.0 KiB<span class="o">)</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;wlan0     Link encap:Ethernet  HWaddr F0:4F:7C:F8:0A:75&lt;/p&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;pre&gt;&lt;code&gt;      inet addr:192.168.0.101  Bcast:192.168.0.255  Mask:255.255.255.0
+</span><span class='line'>      UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+</span><span class='line'>      RX packets:2021 errors:0 dropped:0 overruns:0 frame:0
+</span><span class='line'>      TX packets:1434 errors:0 dropped:0 overruns:0 carrier:0
+</span><span class='line'>      collisions:0 txqueuelen:1000
+</span><span class='line'>      RX bytes:535079 <span class="o">(</span>522.5 KiB<span class="o">)</span>  TX bytes:280214 <span class="o">(</span>273.6 KiB<span class="o">)</span>
+</span><span class='line'>&lt;/code&gt;&lt;/pre&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;p&gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>取消诊断模式时出现错误?参考:<a href="http://www.mobileread.com/forums/showthread.php?p=2041719">http://www.mobileread.com/forums/showthread.php?p=2041719</a></p>
+
+<p>启动USBnet ;un</p>
+
+<h2>定制字体</h2>
+
+<p>参考1:<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Custom_Fonts">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Custom_Fonts</a></p>
+
+<p>参考2:<a href="http://www.mobileread.com/forums/showthread.php?t=168765">http://www.mobileread.com/forums/showthread.php?t=168765</a> 5.3.1版本</p>
+
+<p>各种字体,文泉驿等宽正黑效果图:</p>
+
+<p><img src="/downloads/img/各种字体.png" width="300">
+<img src="/downloads/img/文泉驿等宽正黑.png" width="300"></p>
+]]></content>
+  </entry>
+  
+</feed>
