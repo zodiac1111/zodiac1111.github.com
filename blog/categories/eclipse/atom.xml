@@ -4,7 +4,7 @@
   <title><![CDATA[Category: eclipse | 喜乐]]></title>
   <link href="http://zodiac1111.github.com/blog/categories/eclipse/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.com/"/>
-  <updated>2013-04-29T14:34:33+08:00</updated>
+  <updated>2013-05-01T15:37:28+08:00</updated>
   <id>http://zodiac1111.github.com/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -223,29 +223,35 @@ Build id: M20120914-1800
 
 <p>一年多前淘宝买的开发板(ATmega128a)[参考5],原理图[参考6],扔那里也没怎么玩,最近来了兴致拿起来折腾折腾 :P .</p>
 
-<h1>正文:搭建开发环境:在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.</h1>
+<p>正文:</p>
 
-<p>[参考1]</p>
+<h1>搭建开发环境</h1>
+
+<p>在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.[参考1]</p>
 
 <h2>安装AVR-Eclipse</h2>
 
-<p>在Eclipse中单击帮助(Help)->安装新软件(Install New Sofrware),之后将打开一个对话框.在对话框的顶部 Work with 文本框中粘贴 AVR-Eclipse 更新服务器的地址 (<a href="http://avr-eclipse.sourceforge.net/updatesite/">http://avr-eclipse.sourceforge.net/updatesite/</a>).如图:
-[图:安装插件]
-<img src="/downloads/img/avr-eclipse-plug-in.png"></p>
+<p>在Eclipse中单击帮助(Help)->安装新软件(Install New Sofrware),之后将打开一个对话框.在对话框的顶部 Work with 文本框中粘贴 AVR-Eclipse 更新服务器的地址 (<a href="http://avr-eclipse.sourceforge.net/updatesite/">http://avr-eclipse.sourceforge.net/updatesite/</a>).</p>
 
-<p>安装好之后,点击窗口(Window)->首选项(Preferences)展开左边的AVR一栏.
-[图:配置窗口]
-<img src="/downloads/img/avr-eclipse-config.png"></p>
+<p><em>更新</em>:如果访问sourceforge.net有困难(你懂得),可以访问这个网址:<a href="http://www.mirrorservice.org/sites/download.sourceforge.net/pub/sourceforge/a/av/avr-eclipse/avr-eclipse%20stable%20release/2.4.0/">http://www.mirrorservice.org/sites/download.sourceforge.net/pub/sourceforge/a/av/avr-eclipse/avr-eclipse%20stable%20release/2.4.0/</a></p>
 
-<p>侧边栏 编程器配置(Programmer COnfigurations)中点击添加(Add).
-左侧选择"USBasp,http://www.fishchl.de/usbasp"(<strong>注意</strong>:需要根据实际下载器硬件选择).</p>
+<p>下载zip包,然后在下图点击<strong>添加</strong>按钮,在位置中浏览到下载下来的包.</p>
 
-<p>[图:下载器/编程器配置]
-<img src="/downloads/img/avr-eclipse-config-hw.png"></p>
+<p><img src="/downloads/img/avr-eclipse-plug-in.png"></p>
 
-<p>同时,在项目-属性中也可以设置.
-[图:项目属性中的设置(目标硬件设置等)]
-<img src="/downloads/img/avr-eclipse-proj-hwset.png"></p>
+<p>安装好之后,点击窗口(Window)->首选项(Preferences)展开左边的AVR一栏.</p>
+
+<p><img src="/downloads/img/avr-eclipse-config.png"></p>
+
+<p>侧边栏,编程器配置(Programmer COnfigurations)中点击添加(Add).</p>
+
+<p>左侧选择"USBasp,http://www.fishchl.de/usbasp"(<strong>注意</strong>:需要根据实际下载器硬件选择).</p>
+
+<p><img src="/downloads/img/avr-eclipse-config-hw.png"></p>
+
+<p>同时,在项目-属性中也可以设置.</p>
+
+<p><img src="/downloads/img/avr-eclipse-proj-hwset.png"></p>
 
 <h2>使用</h2>
 
@@ -253,9 +259,9 @@ Build id: M20120914-1800
 
 <p>下一步,点击高级设置(Advanced settings),选择之前配置文件. 就可以开始在Linux下进行单片机开发了.</p>
 
-<p>编译完成后,点击avr菜单->上载项目到目标设备即可
-[图:上载到设备(开发板)]
-<img src="/downloads/img/avr-eclipse-download.png"></p>
+<p>编译完成后,点击avr菜单->上载项目到目标设备即可</p>
+
+<p><img src="/downloads/img/avr-eclipse-download.png"></p>
 
 <p>环境详情参阅[参考1]</p>
 
@@ -308,7 +314,7 @@ avrdude: jtagmkI_close(): unsupported baudrate -1
 </ol>
 
 
-<p>本文地址:<a href="http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/">http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/</a></p>
+<p>本文地址:<a href="http://zodiac1111.github.io/blog/2012/11/17/avr-mega128a-linux-env-set/">http://zodiac1111.github.io/blog/2012/11/17/avr-mega128a-linux-env-set/</a></p>
 ]]></content>
   </entry>
   
