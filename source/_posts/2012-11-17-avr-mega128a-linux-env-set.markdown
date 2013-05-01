@@ -71,25 +71,42 @@ lsusb识别是usb转串,应该就是这样吧 = = .
 	
 一年多前淘宝买的开发板(ATmega128a)[参考5],原理图[参考6],扔那里也没怎么玩,最近来了兴致拿起来折腾折腾 :P .
 
-#正文:搭建开发环境:在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.
-[参考1]
+正文:
+
+#搭建开发环境
+
+在Linux在使用AVR-Eclipse中，AVR-GCC和AVRDUDE进行Atmel的AVR单片机开发.[参考1]
+
 ##安装AVR-Eclipse
-在Eclipse中单击帮助(Help)->安装新软件(Install New Sofrware),之后将打开一个对话框.在对话框的顶部 Work with 文本框中粘贴 AVR-Eclipse 更新服务器的地址 (<http://avr-eclipse.sourceforge.net/updatesite/>).如图:
-[图:安装插件]
+在Eclipse中单击帮助(Help)->安装新软件(Install New Sofrware),之后将打开一个对话框.在对话框的顶部 Work with 文本框中粘贴 AVR-Eclipse 更新服务器的地址 (<http://avr-eclipse.sourceforge.net/updatesite/>).
+
+*更新*:如果访问sourceforge.net有困难(你懂得),可以访问这个网址:<http://www.mirrorservice.org/sites/download.sourceforge.net/pub/sourceforge/a/av/avr-eclipse/avr-eclipse%20stable%20release/2.4.0/>
+
+下载zip包,然后在下图点击**添加**按钮,在位置中浏览到下载下来的包.
+
+
+[图:安装插件]:
+
 {% img /downloads/img/avr-eclipse-plug-in.png %}
 
 安装好之后,点击窗口(Window)->首选项(Preferences)展开左边的AVR一栏.
-[图:配置窗口]
+
+[图:配置窗口]:
+
 {% img /downloads/img/avr-eclipse-config.png %}
 
-侧边栏 编程器配置(Programmer COnfigurations)中点击添加(Add).
+侧边栏,编程器配置(Programmer COnfigurations)中点击添加(Add).
+
 左侧选择"USBasp,http://www.fishchl.de/usbasp"(**注意**:需要根据实际下载器硬件选择).
 
-[图:下载器/编程器配置]
+[图:下载器/编程器配置]:
+
 {% img /downloads/img/avr-eclipse-config-hw.png %}
 
 同时,在项目-属性中也可以设置.
-[图:项目属性中的设置(目标硬件设置等)]
+
+[图:项目属性中的设置(目标硬件设置等)]:
+
 {% img /downloads/img/avr-eclipse-proj-hwset.png %}
 
 ##使用
@@ -98,7 +115,9 @@ lsusb识别是usb转串,应该就是这样吧 = = .
 下一步,点击高级设置(Advanced settings),选择之前配置文件. 就可以开始在Linux下进行单片机开发了.
 
 编译完成后,点击avr菜单->上载项目到目标设备即可 
-[图:上载到设备(开发板)]
+
+[图:上载到设备(开发板)]:
+
 {% img /downloads/img/avr-eclipse-download.png %}
 
 环境详情参阅[参考1]
@@ -145,4 +164,4 @@ lsusb识别是usb转串,应该就是这样吧 = = .
 7. 自制USBasp下载器(CN):<http://www.amobbs.com/thread-723786-1-1.html>
 8. AVR-jtag usb仿真器(也可以用来下载):<http://item.taobao.com/item.htm?spm=0.0.0.46.W1V8IW&id=2332186600>
 
-本文地址:<http://zodiac1111.github.com/blog/2012/11/17/avr-mega128a-linux-env-set/>
+本文地址:<http://zodiac1111.github.io/blog/2012/11/17/avr-mega128a-linux-env-set/>
