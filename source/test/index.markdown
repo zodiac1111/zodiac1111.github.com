@@ -75,3 +75,7 @@ Brisket quis velit bresaola. Pork loin pork chop beef duis. Short loin fugiat of
 {% img left https://www.google.com/images/srpr/logo3w.png Place Kitten #2 %}
 {% img right https://www.google.com/images/srpr/logo3w.png 150 250 Place Kitten #3 %}
 {% img right https://www.google.com/images/srpr/logo3w.png 150 250 'Place Kitten #4' 'An image of a very cute kitten' %}
+
+# wiki测试
+
+http://1.gbzdsq.com:4567
