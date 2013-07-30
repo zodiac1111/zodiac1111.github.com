@@ -1,0 +1,472 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>gollum笔记 - 喜乐</title>
+  <meta name="author" content="zodiac1111">
+
+  
+  <meta name="description" content="简介 gollum是一个wiki系统。github使用的就是gollum展示wiki页面。可以用于个人知识管理(PKM)。本篇展现如何在Fedora系统上安装gollum。 特点: git操作/仓库
+markdown(wiki)模块
+ruby(wiki_cn，wiki))语言
+web编辑( &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zodiac1111.github.io/blog/gollum-note/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="喜乐" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34836207-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">I'm</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">喜乐</a></h1>
+  
+    <h2>我的网络记事簿</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zodiac1111.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/test">Test</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://1.gbzdsq.com:4567">Wiki</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Gollum笔记</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-30T17:10:00+08:00" pubdate data-updated="true">2013-07-30 17:10</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>简介</h1>
+
+<p><a href="https://github.com/gollum/gollum">gollum</a>是一个wiki系统。github使用的就是gollum展示wiki页面。可以用于个人知识管理(<a href="http://en.wikipedia.org/wiki/Personal_knowledge_management">PKM</a>)。本篇展现如何在Fedora系统上安装gollum。</p>
+
+<p>特点:</p>
+
+<ul>
+<li><a href="http://git-scm.com/">git</a>操作/仓库</li>
+<li>markdown(<a href="http://en.wikipedia.org/wiki/Markdown">wiki</a>)模块</li>
+<li>ruby(<a href="http://zh.wikipedia.org/zh/Ruby">wiki_cn</a>，<a href="http://en.wikipedia.org/wiki/Ruby_(programming_language">wiki</a>))语言</li>
+<li>web编辑(自动commit)/本地编辑器编辑(手动commit后生效)</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h1>安装</h1>
+
+<p>需要 <a href="http://en.wikipedia.org/wiki/Ruby_programming_language"><code>ruby</code></a> <a href="http://en.wikipedia.org/wiki/RubyGems"><code>rubygems</code></a>:</p>
+
+<pre><code>yum install ruby rubygems
+</code></pre>
+
+<p>到这里<code>rubygems</code>ruby的包管理软件安装完成.可以使用<code>gem</code>安装各种软件.</p>
+
+<pre><code>gem install gollum
+</code></pre>
+
+<h1>可能遇到的问题</h1>
+
+<p>如果遇到以下问题</p>
+
+<h2>1 需要 gcc(编译)</h2>
+
+<pre><code>yum install gcc
+</code></pre>
+
+<h2>2 其他一些头文件</h2>
+
+<h3>现象</h3>
+
+<pre><code>1. checking for libxml/parser.h... no
+2. checking for libxslt/xslt.h... no
+</code></pre>
+
+<h3>解决方法</h3>
+
+<p>由于不同的包管理软件不能互通,<code>gem</code>需要的一些头文件可以使用<code>yum</code>安装 <br/>
+<code>*.h</code>文件,一般包含在<code>dev</code>/<code>devel</code>包中. 在Fedora 18中使用<code>yum</code>安装指定的*-devel包即可.</p>
+
+<pre><code>yum install libxml2-devel
+yum install libxslt-devel
+</code></pre>
+
+<p>总之一些<code>*.h</code>文件的错误可以先试试看安装对应的软件包的dev软件包.</p>
+
+<p>例如:</p>
+
+<pre><code>ERROR:  Error installing gollum:
+ERROR: Failed to build gem native extension.
+
+/usr/bin/ruby extconf.rb
+mkmf.rb can't find header files for ruby at /usr/lib/ruby/ruby.h
+</code></pre>
+
+<p>解决:</p>
+
+<pre><code>yum install ruby-devel
+</code></pre>
+
+<h2>3 rdoc编码</h2>
+
+<pre><code>ERROR:  While generating documentation for gollum-lib-1.0.3
+... MESSAGE:   Unhandled special: Special: type=17, text="&lt;!-- --- title: New Title --&gt;"
+... RDOC args: --ri --op /usr/lib/ruby/gems/1.8/doc/gollum-lib-1.0.3/ri --charset=UTF-8 --quiet lib README.md LICENSE --title gollum-lib-1.0.3         Documentation
+(continuing with the rest of the installation)
+Installing ri documentation for rack-1.5.2...
+Installing ri documentation for tilt-1.4.1...
+Installing ri documentation for rack-protection-1.5.0...
+Installing ri documentation for sinatra-1.4.3...
+
+unrecognized option `--encoding=UTF-8'
+
+For help on options, try 'rdoc --help'
+</code></pre>
+
+<p>试图手动安装:</p>
+
+<pre><code>[root@test1 ~]# gem install rdoc
+Building native extensions.  This could take a while...
+Depending on your version of ruby, you may need to install ruby rdoc/ri data:
+
+&lt;= 1.8.6 : unsupported
+ = 1.8.7 : gem install rdoc-data; rdoc-data --install
+ = 1.9.1 : gem install rdoc-data; rdoc-data --install
+&gt;= 1.9.2 : nothing to do! Yay!
+Successfully installed json-1.8.0
+Successfully installed rdoc-4.0.1
+</code></pre>
+
+<p>发现由于的CentOS官方的rubygem版本过低,不支持.所以使用gems 1.8.7 on centos 6,过程参见 [<a href="http://wiki.opscode.com/display/chef/Installing+Ruby+and+dependencies+on+CentOS+and+Others">这里</a>],或者从源码编译 [<a href="http://www.shiftedbytes.com/2011/04/install-ruby-192-passenger-on-centos-55.html">这里</a>]和 [<a href="https://github.com/imeyer/ruby-1.9.2-rpm">这里</a>]</p>
+
+<p>之后升级<code>rubygems</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum update rubygems</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>gem --version</code>可以查看版本.</p>
+
+<h2>目录不支持UTF-8字符</h2>
+
+<p>现象:在侧边栏(Sidebar)的目录(TOC)中不支持UTF-8字符,参见[<a href="https://github.com/gollum/gollum/issues/547">issues #547</a>].</p>
+
+<p>目前似乎没办法解决.依评论看可能与系统有关,本人本地计算机(Fedora 18)可以正常显示,但是VPS(CentOS 6)则显示乱码.</p>
+
+<p>Update:在<code>gollum 2.5.0</code>和<code>ruby 1.9.3</code>之下,这个问题已经没有再发生.项目更新非常快,请关注github页面.</p>
+
+<h2>markdown文件后缀</h2>
+
+<p>由<code>gollum</code>默认生成的<code>markdown</code>文件默认的文件后缀是<code>.md</code>。而<code>.markdown</code>后缀也是可以被识别的。</p>
+
+<p>但是，在web界面编辑<code>.markdown</code>后缀的文件后，git系统似乎只是将其&#8221;隐藏&#8221;了。在<code>git commit</code>之后表现出在web界面所有编辑都无效了。</p>
+
+<p>暂时不知道其中原理,当前解决方案是将<code>markdown</code>文件后缀都统一改成<code>.md</code>。这样<code>gollum</code>编辑和git提交不再出现差异。</p>
+
+<h1>使用</h1>
+
+<h2>运行服务</h2>
+
+<p>在wiki的目录下运行</p>
+
+<pre><code>gollum
+</code></pre>
+
+<p>在浏览器中输入<code>127.0.0.1:4567</code>(默认)即可浏览/编辑。</p>
+
+<p>如果出错很可能是wiki目录本身不是一个git仓库,最简单的方式是<code>git init</code>初始化一个仓库。</p>
+
+<p>提示：
+* <code>--port</code> 选项可以指定端口</p>
+
+<h2>编辑</h2>
+
+<ul>
+<li>web页面新建、编辑、保存</li>
+<li>直接编辑文件，<code>git commit</code></li>
+</ul>
+
+
+<h2>保存/备份</h2>
+
+<ul>
+<li>本地文件</li>
+<li>git远程仓库(<a href="https://github.com/">github</a>，<a href="https://bitbucket.org/">bitbucket</a>等)</li>
+<li><a href="https://www.dropbox.com/">dropbox</a>等网盘</li>
+</ul>
+
+
+<h2>发布</h2>
+
+<ul>
+<li>服务器同样搭建gollum环境 (几乎与本地相同)</li>
+<li>apache ruby模块 (貌似很复杂)</li>
+<li><a href="https://github.com/dreverri/gollum-site">gollum-site</a> 生成静态文件,发布。 (有些bug未解决,不理想) <a href="gollum-site">笔记</a></li>
+<li>发布到github某个项目的wiki页面 (省了服务器)</li>
+</ul>
+
+
+<h3>内容更新</h3>
+
+<ul>
+<li>直接通过web编辑/保存</li>
+<li>web服务器从git仓库<code>git pull</code>抽取</li>
+<li>手动/自动上传到webs，比如同步工具</li>
+</ul>
+
+
+<h1>参考</h1>
+
+<ol>
+<li>发布到github的wiki页面: <a href="http://ju.outofmemory.cn/entry/28388">http://ju.outofmemory.cn/entry/28388</a></li>
+<li>gollum的git页面: <a href="https://github.com/gollum/gollum">https://github.com/gollum/gollum</a></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-30T17:10:00+08:00" pubdate data-updated="true">2013-07-30 17:10</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/set-fedora-hostname/" title="Previous Post: 为feodra18设置主机名">&laquo; 为feodra18设置主机名</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/gollum-note/">Gollum笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/set-fedora-hostname/">为feodra18设置主机名</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/update-to-fedora-18/">升级到fedora18</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/atmega8-hd44780-lcd1602/">Atmega8使用1602字符液晶(hd44780)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/doxygen-chinese-html-wrapline-bug/">修正doxygen中文显示html不换行bug</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zodiac1111',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - zodiac1111 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zodiac1111blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.io/blog/gollum-note/';
+        var disqus_url = 'http://zodiac1111.github.io/blog/gollum-note/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

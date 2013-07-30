@@ -4,7 +4,7 @@
   <title><![CDATA[喜乐]]></title>
   <link href="http://zodiac1111.github.io/atom.xml" rel="self"/>
   <link href="http://zodiac1111.github.io/"/>
-  <updated>2013-07-30T17:09:25+08:00</updated>
+  <updated>2013-07-30T17:30:59+08:00</updated>
   <id>http://zodiac1111.github.io/</id>
   <author>
     <name><![CDATA[zodiac1111]]></name>
@@ -12,6 +12,200 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[gollum笔记]]></title>
+    <link href="http://zodiac1111.github.io/blog/gollum-note/"/>
+    <updated>2013-07-30T17:10:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/gollum-note</id>
+    <content type="html"><![CDATA[<h1>简介</h1>
+
+<p><a href="https://github.com/gollum/gollum">gollum</a>是一个wiki系统。github使用的就是gollum展示wiki页面。可以用于个人知识管理(<a href="http://en.wikipedia.org/wiki/Personal_knowledge_management">PKM</a>)。本篇展现如何在Fedora系统上安装gollum。</p>
+
+<p>特点:</p>
+
+<ul>
+<li><a href="http://git-scm.com/">git</a>操作/仓库</li>
+<li>markdown(<a href="http://en.wikipedia.org/wiki/Markdown">wiki</a>)模块</li>
+<li>ruby(<a href="http://zh.wikipedia.org/zh/Ruby">wiki_cn</a>，<a href="http://en.wikipedia.org/wiki/Ruby_(programming_language">wiki</a>))语言</li>
+<li>web编辑(自动commit)/本地编辑器编辑(手动commit后生效)</li>
+</ul>
+
+
+<!-- more -->
+
+
+<h1>安装</h1>
+
+<p>需要 <a href="http://en.wikipedia.org/wiki/Ruby_programming_language"><code>ruby</code></a> <a href="http://en.wikipedia.org/wiki/RubyGems"><code>rubygems</code></a>:</p>
+
+<pre><code>yum install ruby rubygems
+</code></pre>
+
+<p>到这里<code>rubygems</code>ruby的包管理软件安装完成.可以使用<code>gem</code>安装各种软件.</p>
+
+<pre><code>gem install gollum
+</code></pre>
+
+<h1>可能遇到的问题</h1>
+
+<p>如果遇到以下问题</p>
+
+<h2>1 需要 gcc(编译)</h2>
+
+<pre><code>yum install gcc
+</code></pre>
+
+<h2>2 其他一些头文件</h2>
+
+<h3>现象</h3>
+
+<pre><code>1. checking for libxml/parser.h... no
+2. checking for libxslt/xslt.h... no
+</code></pre>
+
+<h3>解决方法</h3>
+
+<p>由于不同的包管理软件不能互通,<code>gem</code>需要的一些头文件可以使用<code>yum</code>安装 <br/>
+<code>*.h</code>文件,一般包含在<code>dev</code>/<code>devel</code>包中. 在Fedora 18中使用<code>yum</code>安装指定的*-devel包即可.</p>
+
+<pre><code>yum install libxml2-devel
+yum install libxslt-devel
+</code></pre>
+
+<p>总之一些<code>*.h</code>文件的错误可以先试试看安装对应的软件包的dev软件包.</p>
+
+<p>例如:</p>
+
+<pre><code>ERROR:  Error installing gollum:
+ERROR: Failed to build gem native extension.
+
+/usr/bin/ruby extconf.rb
+mkmf.rb can't find header files for ruby at /usr/lib/ruby/ruby.h
+</code></pre>
+
+<p>解决:</p>
+
+<pre><code>yum install ruby-devel
+</code></pre>
+
+<h2>3 rdoc编码</h2>
+
+<pre><code>ERROR:  While generating documentation for gollum-lib-1.0.3
+... MESSAGE:   Unhandled special: Special: type=17, text="&lt;!-- --- title: New Title --&gt;"
+... RDOC args: --ri --op /usr/lib/ruby/gems/1.8/doc/gollum-lib-1.0.3/ri --charset=UTF-8 --quiet lib README.md LICENSE --title gollum-lib-1.0.3         Documentation
+(continuing with the rest of the installation)
+Installing ri documentation for rack-1.5.2...
+Installing ri documentation for tilt-1.4.1...
+Installing ri documentation for rack-protection-1.5.0...
+Installing ri documentation for sinatra-1.4.3...
+
+unrecognized option `--encoding=UTF-8'
+
+For help on options, try 'rdoc --help'
+</code></pre>
+
+<p>试图手动安装:</p>
+
+<pre><code>[root@test1 ~]# gem install rdoc
+Building native extensions.  This could take a while...
+Depending on your version of ruby, you may need to install ruby rdoc/ri data:
+
+&lt;= 1.8.6 : unsupported
+ = 1.8.7 : gem install rdoc-data; rdoc-data --install
+ = 1.9.1 : gem install rdoc-data; rdoc-data --install
+&gt;= 1.9.2 : nothing to do! Yay!
+Successfully installed json-1.8.0
+Successfully installed rdoc-4.0.1
+</code></pre>
+
+<p>发现由于的CentOS官方的rubygem版本过低,不支持.所以使用gems 1.8.7 on centos 6,过程参见 [<a href="http://wiki.opscode.com/display/chef/Installing+Ruby+and+dependencies+on+CentOS+and+Others">这里</a>],或者从源码编译 [<a href="http://www.shiftedbytes.com/2011/04/install-ruby-192-passenger-on-centos-55.html">这里</a>]和 [<a href="https://github.com/imeyer/ruby-1.9.2-rpm">这里</a>]</p>
+
+<p>之后升级<code>rubygems</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>yum update rubygems</span></code></pre></td></tr></table></div></figure>
+
+
+<p><code>gem --version</code>可以查看版本.</p>
+
+<h2>目录不支持UTF-8字符</h2>
+
+<p>现象:在侧边栏(Sidebar)的目录(TOC)中不支持UTF-8字符,参见[<a href="https://github.com/gollum/gollum/issues/547">issues #547</a>].</p>
+
+<p>目前似乎没办法解决.依评论看可能与系统有关,本人本地计算机(Fedora 18)可以正常显示,但是VPS(CentOS 6)则显示乱码.</p>
+
+<p>Update:在<code>gollum 2.5.0</code>和<code>ruby 1.9.3</code>之下,这个问题已经没有再发生.项目更新非常快,请关注github页面.</p>
+
+<h2>markdown文件后缀</h2>
+
+<p>由<code>gollum</code>默认生成的<code>markdown</code>文件默认的文件后缀是<code>.md</code>。而<code>.markdown</code>后缀也是可以被识别的。</p>
+
+<p>但是，在web界面编辑<code>.markdown</code>后缀的文件后，git系统似乎只是将其&#8221;隐藏&#8221;了。在<code>git commit</code>之后表现出在web界面所有编辑都无效了。</p>
+
+<p>暂时不知道其中原理,当前解决方案是将<code>markdown</code>文件后缀都统一改成<code>.md</code>。这样<code>gollum</code>编辑和git提交不再出现差异。</p>
+
+<h1>使用</h1>
+
+<h2>运行服务</h2>
+
+<p>在wiki的目录下运行</p>
+
+<pre><code>gollum
+</code></pre>
+
+<p>在浏览器中输入<code>127.0.0.1:4567</code>(默认)即可浏览/编辑。</p>
+
+<p>如果出错很可能是wiki目录本身不是一个git仓库,最简单的方式是<code>git init</code>初始化一个仓库。</p>
+
+<p>提示：
+* <code>--port</code> 选项可以指定端口</p>
+
+<h2>编辑</h2>
+
+<ul>
+<li>web页面新建、编辑、保存</li>
+<li>直接编辑文件，<code>git commit</code></li>
+</ul>
+
+
+<h2>保存/备份</h2>
+
+<ul>
+<li>本地文件</li>
+<li>git远程仓库(<a href="https://github.com/">github</a>，<a href="https://bitbucket.org/">bitbucket</a>等)</li>
+<li><a href="https://www.dropbox.com/">dropbox</a>等网盘</li>
+</ul>
+
+
+<h2>发布</h2>
+
+<ul>
+<li>服务器同样搭建gollum环境 (几乎与本地相同)</li>
+<li>apache ruby模块 (貌似很复杂)</li>
+<li><a href="https://github.com/dreverri/gollum-site">gollum-site</a> 生成静态文件,发布。 (有些bug未解决,不理想) <a href="gollum-site">笔记</a></li>
+<li>发布到github某个项目的wiki页面 (省了服务器)</li>
+</ul>
+
+
+<h3>内容更新</h3>
+
+<ul>
+<li>直接通过web编辑/保存</li>
+<li>web服务器从git仓库<code>git pull</code>抽取</li>
+<li>手动/自动上传到webs，比如同步工具</li>
+</ul>
+
+
+<h1>参考</h1>
+
+<ol>
+<li>发布到github的wiki页面: <a href="http://ju.outofmemory.cn/entry/28388">http://ju.outofmemory.cn/entry/28388</a></li>
+<li>gollum的git页面: <a href="https://github.com/gollum/gollum">https://github.com/gollum/gollum</a></li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[为feodra18设置主机名]]></title>
@@ -2655,172 +2849,6 @@ mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
 
 <ol>
 <li><a href="https://github.com/tmm1/pygments.rb/issues/10">github.com/tmm1/pygments.rb/issues</a></li>
-</ol>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[简单的 modbus/tcp 实现]]></title>
-    <link href="http://zodiac1111.github.io/blog/a-simple-modbus-tcp-instance/"/>
-    <updated>2012-09-15T00:15:00+08:00</updated>
-    <id>http://zodiac1111.github.io/blog/a-simple-modbus-tcp-instance</id>
-    <content type="html"><![CDATA[<h1>测试工具: modpoll(主站) diagslave(从站)</h1>
-
-<h2>简介</h2>
-
-<p>支持平台:</p>
-
-<ol>
-<li>Windows</li>
-<li>Linux (x86 32-bit) &lt;-本文实验平台</li>
-<li>Solaris (SPARC)</li>
-<li>QNX Neutrino 6 (x86)</li>
-</ol>
-
-
-<p>本文使用这两个软件进行Linux 32位平台下的Modbus/TCP程序调试.</p>
-
-<h3>1. 模拟主站(Linux):</h3>
-
-<pre><code>./modpoll -m tcp -a 2 -t4:hex -r 10 -c 3  127.0.0.1 -1 -p 10001
-</code></pre>
-
-<p>各个选项意义如下:</p>
-
-<ol>
-<li>-m &lt;模式名>    : -m tcp即MODBUS/TCP protocol模式</li>
-<li>-a &lt;从站编号>  : Slave address (1-255, 默认 1 )</li>
-<li>-t 4:hex      : 16-bit output (holding) register data type with hex display;另有其他多种参见<strong>参考</strong></li>
-<li>-r #          : Start reference (1-65536, 100 is default)</li>
-<li>-c #          : Number of values to poll (1-100, 1 is default)</li>
-<li>127.0.0.1     : IP地址(tcp模式)</li>
-<li>-1            : (数字1)发送一次,没有这个选项则连续发送</li>
-<li>-p &lt;端口号>    : tcp模式下指定端口号,默认 502</li>
-</ol>
-
-
-<h3>2. 模拟从站(Linux):</h3>
-
-<pre><code>./diagslave -m tcp -p 10001
-</code></pre>
-
-<p>选项意义:</p>
-
-<ol>
-<li>-m tcp :tcp模式</li>
-<li>-p 10001 : 监听端口</li>
-</ol>
-
-
-<!-- more -->
-
-
-<h2>例子</h2>
-
-<p>打开连个终端分别运行:</p>
-
-<pre><code>#从站
-./diagslave -m tcp -p 10001
-</code></pre>
-
-<p>和</p>
-
-<pre><code>#主站
-./modpoll -m tcp -a 2 -t4:hex -r 10 -c 3  127.0.0.1 -1 -p 10001
-</code></pre>
-
-<p>则,在从站可以看到如下显示:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>diagslave 2.12 - FieldTalk(tm) Modbus(R) Diagnostic Slave Simulator
-</span><span class='line'>Copyright (c) 2002-2012 proconX Pty Ltd
-</span><span class='line'>Visit http://www.modbusdriver.com for Modbus libraries and tools.
-</span><span class='line'>
-</span><span class='line'>Protocol configuration: MODBUS/TCP
-</span><span class='line'>Slave configuration: address = -1, master activity t/o = 3.00
-</span><span class='line'>TCP configuration: port = 10001, connection t/o = 60.00
-</span><span class='line'>
-</span><span class='line'>Server started up successfully.
-</span><span class='line'>Listening to network (Ctrl-C to stop)
-</span><span class='line'>
-</span><span class='line'>validateMasterIpAddr: accepting connection from 127.0.0.1 ->显示从127.0.0.1链接到从站
-</span><span class='line'>Slave   2: readHoldingRegisters from 10, 3 references  ->显示读取功能 和 从10读取3个寄存器
-</span><span class='line'>...................</span></code></pre></td></tr></table></div></figure>
-
-
-<p>同时主站如下显示:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>modpoll 3.1 - FieldTalk(tm) Modbus(R) Master Simulator
-</span><span class='line'>Copyright (c) 2002-2011 proconX Pty Ltd
-</span><span class='line'>Visit http://www.modbusdriver.com for Modbus libraries and tools.
-</span><span class='line'>
-</span><span class='line'>Protocol configuration: MODBUS/TCP ->模式
-</span><span class='line'>Slave configuration...: address = 2, start reference = 10, count = 3 ->从站地址,起始寄存器,寄存器数量
-</span><span class='line'>Communication.........: 127.0.0.1, port 10001, t/o 1.00 s, poll rate 1000 ms ->ip 端口
-</span><span class='line'>Data type.............: 16-bit register (hex), output (holding) register table ->数据类型
-</span><span class='line'>
-</span><span class='line'>-- Polling slave... 
-</span><span class='line'>[10]: 0x0000 ->数据 (仅仅能用用来测试通路,没有实际意义)
-</span><span class='line'>[11]: 0x0000
-</span><span class='line'>[12]: 0x0000</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>参考:</h2>
-
-<ol>
-<li>模拟主站(master)软件以及官方说明(modpoll)<a href="http://www.modbusdriver.com/modpoll.html">http://www.modbusdriver.com/modpoll.html</a></li>
-<li>模拟从站软件以及官方说明:(diagslave)<a href="http://www.modbusdriver.com/diagslave.html">http://www.modbusdriver.com/diagslave.html</a></li>
-</ol>
-
-
-<h1>libmodbus 开源modbus库</h1>
-
-<h2>简介</h2>
-
-<p>使用c语言编写的modbus库</p>
-
-<ol>
-<li>官网:<a href="http://libmodbus.org/">http://libmodbus.org/</a>(墙?)</li>
-<li>代码托管:git <a href="https://github.com/stephane/libmodbus">https://github.com/stephane/libmodbus</a></li>
-</ol>
-
-
-<h1>参考资料:</h1>
-
-<ol>
-<li><a href="http://www.simplymodbus.ca/TCP.htm">http://www.simplymodbus.ca/TCP.htm</a></li>
-<li>实现指导手册<a href="http://www.electroind.com/pdf/Modbus_messaging_on_TCPIP_implementation_guide_V11.pdf">Modbus_messaging_on_TCPIP_implementation_guide</a></li>
-<li>协议<a href="http://www.modbus.org/docs/Modbus_Application_Protocol_V1_1b.pdf">Modbus_Application_Protocol_V1_1b.pdf</a>(官网,mbap)</li>
-<li>实现指导手册<a href="http://www.modbus.org/docs/Modbus_Messaging_Implementation_Guide_V1_0b.pdf">Modbus_Messaging_Implementation_Guide_V1_0b.pdf</a>(官网,实现指导)</li>
-<li>说明书<a href="http://www.modbus.org/specs.php">www.modbus.org/specs.php</a>(说明书)</li>
-<li>从Modbus到透明就绪 华镕 编著 第8章 (中文)</li>
 </ol>
 
 ]]></content>
