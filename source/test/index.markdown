@@ -8,10 +8,9 @@ footer: false
 ---
 这是一个插件测试页面,我在这里测试各种网上看到的插件和语法.这个页面的源代码可以在[源代码页面](https://github.com/zodiac1111/zodiac1111.github.com/blob/source/source/test/index.markdown)直接找到 :)
 
-以下就是测试咯
+以下就是测试咯[^footnote]
 ---
-#no baidu
-{% img http://img3.douban.com/lpic/o83797.jpg %}
+
 # github widget 测试 
 
 1
@@ -76,6 +75,11 @@ Brisket quis velit bresaola. Pork loin pork chop beef duis. Short loin fugiat of
 {% img right https://www.google.com/images/srpr/logo3w.png 150 250 Place Kitten #3 %}
 {% img right https://www.google.com/images/srpr/logo3w.png 150 250 'Place Kitten #4' 'An image of a very cute kitten' %}
 
+#no baidu
+{% img http://img3.douban.com/lpic/o83797.jpg %}
+
 # wiki测试
 
 http://1.gbzdsq.com:4567
+
+[^footnote] 尾注
