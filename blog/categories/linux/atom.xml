@@ -1,0 +1,587 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: linux | 喜乐]]></title>
+  <link href="http://zodiac1111.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.io/"/>
+  <updated>2013-07-30T16:57:04+08:00</updated>
+  <id>http://zodiac1111.github.io/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[为feodra18设置主机名]]></title>
+    <link href="http://zodiac1111.github.io/blog/set-fedora-hostname/"/>
+    <updated>2013-04-14T15:53:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/set-fedora-hostname</id>
+    <content type="html"><![CDATA[<p>参考:<a href="http://zurlinux.com/?p=1396">http://zurlinux.com/?p=1396</a> .</p>
+
+<p>在<code>Fedora 18</code>中主机名已经保存在<code>/etc/hostname</code>文件中,而不是保存在<code>/etc/sysconfig/network</code>文件的<code>HOSTNAME=XXX</code>一行中.</p>
+
+<p>There are now three distinguished hostnames in use with Fedora 18.</p>
+
+<ul>
+<li>A high-level pretty free-form hostname</li>
+<li>The static hostname, i.e. the kernel hostname</li>
+<li>Possibly a transient temporary hostname</li>
+</ul>
+
+
+<p><code>hostnamectl</code>命令/程序可以用户设定hostname.</p>
+
+<p><code>hostnamectl --help</code>查看具体用法.</p>
+
+<p><code>hostnamectl status</code>查看当前设置.</p>
+
+<p>更多请参考来源.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[升级到fedora18]]></title>
+    <link href="http://zodiac1111.github.io/blog/update-to-fedora-18/"/>
+    <updated>2013-01-17T18:55:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/update-to-fedora-18</id>
+    <content type="html"><![CDATA[<p>从fedora17升级到fedora18</p>
+
+<h1>参考</h1>
+
+<ul>
+<li>官网:<a href="https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum">https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum</a></li>
+</ul>
+
+
+<h1>大致步骤</h1>
+
+<ol>
+<li><b>备份(数据无价)</b></li>
+<li>阅读已知bug和发行说明,确保自己升级到的版本对自己无害,且有升级的必要</li>
+<li>清理目前的系统</li>
+<li>升级</li>
+<li>安装grub引导程序
+
+<h2>升级</h2>
+
+<p>到文本界面(我没有切换到文本界面,直接在gnome3下升级的,阿门)</p>
+
+<p>  ctrl + alt + F2</p></li>
+</ol>
+
+
+<p>升级yum</p>
+
+<pre><code>yum update yum
+</code></pre>
+
+<p>清除cache</p>
+
+<pre><code>yum clean all
+</code></pre>
+
+<p>升级所有包(先删除一些自己不用的包可以加快这一步)</p>
+
+<pre><code>yum --releasever=18 distro-sync
+</code></pre>
+
+<p>验证升级</p>
+
+<pre><code>yum repolist 
+</code></pre>
+
+<p>安装所有的包都是新的版本</p>
+
+<pre><code>yum groupupdate 'Minimal Install'
+</code></pre>
+
+<p>安装/列举一些自己必要的组</p>
+
+<pre><code>yum grouplist
+</code></pre>
+
+<h2>安装grub</h2>
+
+<pre><code>/sbin/grub2-install &lt;引导设备&gt;
+</code></pre>
+
+<p>如,我是将fedora17安装在本机唯一一块硬盘上,使用了这样硬盘的所有空间.磁盘仅2搞分区,boot分区和lvm逻辑卷分区.
+我的grub是安装在boot分区上的.我使用如下命令:</p>
+
+<pre><code>/sbin/grub2-install --recheck /dev/sda
+</code></pre>
+
+<h1>其他</h1>
+
+<ul>
+<li>从 alpha, beta, preview, 或其他 Rawhide 版本升级的,参见:<a href="https://fedoraproject.org/wiki/Upgrading_from_pre-release_to_final">https://fedoraproject.org/wiki/Upgrading_from_pre-release_to_final</a></li>
+<li>升级到开发者版本:<code>yum --releasever=rawhide distro-sync --nogpgcheck</code>.</li>
+<li>升级过程中不要中途停止,那样你的系统可能会处于版本混合状态(17和18混合).那样可能会十分麻烦甚至是不可解的.</li>
+</ul>
+
+
+<h1>其他小问题</h1>
+
+<h3>Chrome浏览器</h3>
+
+<p>升级到fedora18后,启动Chrome/Chromium发生以下错误:</p>
+
+<pre><code>chrome-linux/chrome: error while loading shared libraries: libudev.so.0: cannot open shared object file: No such file or directory
+</code></pre>
+
+<p>到/lib目录下,运行<code>ls -l|grep libudev</code>会发现:</p>
+
+<pre><code>lrwxrwxrwx   1 root root       16 1月  16 22:55 libudev.so.1 -&gt; libudev.so.1.1.6
+-rwxr-xr-x   1 root root    70708 1月   4 06:52 libudev.so.1.1.6
+</code></pre>
+
+<p>所以只要给<code>libudev.so.0</code>做个软连接到<code>libudev.so.1.1.6</code>即可:</p>
+
+<pre><code>ln -s libudev.so.1.1.6 libudev.so.0
+</code></pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[编译avr-insight]]></title>
+    <link href="http://zodiac1111.github.io/blog/debug-avr-with-insight-avr-gdb-gui/"/>
+    <updated>2012-11-24T18:16:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/debug-avr-with-insight-avr-gdb-gui</id>
+    <content type="html"><![CDATA[<p><a href="/blog/2012/11/19/avr-jtag-debug-with-eclipse-on-linux/">上次</a>进行到可以调试avr程序,但是不能以汇编语言单步执行/调试程序.而且eclipse的调试界面也不是很喜欢,还是用insight比较习惯.但是insight不能直接调用avr-gdb,这点ddd就比较方便,可以指定各种命令行的调试器.所以还是决定编译avr-insight来调试程序.</p>
+
+<h1>完成效果:</h1>
+
+<p>调试环境:
+<img src="/downloads/img/调试环境.png"></p>
+
+<p>基本的代码,汇编代码,寄存器,堆栈等功能都可以使用了. :)</p>
+
+<!-- more -->
+
+
+<p>远程调试设置:
+<img src="/downloads/img/远程调试设置.png"></p>
+
+<h1>编译avr-insight</h1>
+
+<p>构建avr-gcc: <a href="http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC">http://wiki.vandenbussche.nl/index.php?title=Building_AVR_GCC</a></p>
+
+<p>insight下载的地址: <a href="http://mirrors.kernel.org/sources.redhat.com/insight/releases/">http://mirrors.kernel.org/sources.redhat.com/insight/releases/</a><br/>
+下载<code>insight-6.8-1a.tar.bz2</code></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ ./configure &mdash;target=avr &mdash;program-prefix=&ldquo;avr-&rdquo;
+</span><span class='line'>$ make
+</span><span class='line'>as root&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;h1>make install&lt;/h1>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>出现的问题</h2>
+
+<h3>警告升级为错误1</h3>
+
+<p>在<code>make</code>阶段发生如下错误:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>libtool: compile:  gcc -DHAVE_CONFIG_H -I. -I.././bfd -I. -I. -I.././bfd -I.././bfd/../include -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Werror -g -O2 -c elf32-avr.c -o elf32-avr.o
+</span><span class='line'>elf32-avr.c: In function &lsquo;elf32_avr_relocate_section&rsquo;:
+</span><span class='line'>elf32-avr.c:1204:34: error: variable &lsquo;warned&rsquo; set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1204:16: error: variable &lsquo;unresolved_reloc&rsquo; set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1183:11: error: variable &lsquo;r_type&rsquo; set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function &lsquo;elf32_avr_relax_delete_bytes&rsquo;:
+</span><span class='line'>elf32-avr.c:1414:15: error: variable &lsquo;shrinked_insn_address&rsquo; set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c:1382:22: error: variable &lsquo;irelalign&rsquo; set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function &lsquo;elf32_avr_relax_section&rsquo;:
+</span><span class='line'>elf32-avr.c:1596:29: error: variable &lsquo;last_reloc&rsquo; set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>elf32-avr.c: In function &lsquo;avr_mark_stub_not_to_be_necessary&rsquo;:
+</span><span class='line'>elf32-avr.c:2459:37: error: variable &lsquo;htab&rsquo; set but not used [-Werror=unused-but-set-variable]
+</span><span class='line'>cc1: all warnings being treated as errors
+</span><span class='line'>make[4]: &lt;strong>&lt;em> [elf32-avr.lo] 错误 1
+</span><span class='line'>make[4]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[3]: &lt;/em>&lt;/strong> [all-recursive] 错误 1
+</span><span class='line'>make[3]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[2]: &lt;strong>&lt;em> [all] 错误 2
+</span><span class='line'>make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/bfd”
+</span><span class='line'>make[1]: &lt;/em>&lt;/strong> [all-bfd] 错误 2
+</span><span class='line'>make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+</span><span class='line'>make: *** [all] 错误 2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>将文件insight-6.8-1/bfd/Makefile,修改为:</p>
+
+<p><code>201: WARN_CFLAGS = -W -Wall -Wstrict-prototypes -Wmissing-prototypes #-Werror</code></p>
+
+<p>注销掉<code>-Werror</code></p>
+
+<h3>警告升级为错误2</h3>
+
+<p>在<code>make</code>阶段发生如下错误:
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gcc -c -g -O2   -I. -I.././gdb -I.././gdb/config -DLOCALEDIR=&ldquo;\&rdquo;/usr/local/share/locale\&ldquo;&rdquo; -DHAVE_CONFIG_H -I.././gdb/../include/opcode -I.././gdb/../readline/.. -I../bfd -I.././gdb/../bfd -I.././gdb/../include -I../libdecnumber -I.././gdb/../libdecnumber   -DMI_OUT=1 -DGDBTK -DTUI=1  -Wall -Wdeclaration-after-statement -Wpointer-arith -Wformat-nonliteral -Wno-pointer-sign -Wno-unused -Wno-switch -Wno-char-subscripts -Werror cp-name-parser.c
+</span><span class='line'>cp-name-parser.y: 在函数‘cp_comp_to_string’中:
+</span><span class='line'>cp-name-parser.y:1980:20: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+</span><span class='line'>cp-name-parser.y:1985:25: 错误：在‘enum demangle_component_type’和‘enum &lt;匿名>’间比较 [-Werror=enum-compare]
+</span><span class='line'>cc1: all warnings being treated as errors
+</span><span class='line'>make[2]: &lt;strong>&lt;em> [cp-name-parser.o] 错误 1
+</span><span class='line'>make[2]: 离开目录“/home/zodiac1111/test/insight-6.8-1/gdb”
+</span><span class='line'>make[1]: &lt;/em>&lt;/strong> [all-gdb] 错误 2
+</span><span class='line'>make[1]: 离开目录“/home/zodiac1111/test/insight-6.8-1”
+</span><span class='line'>make: *** [all] 错误 2</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>文件insight-6.8-1/gdb/Makefile修改为:</p>
+
+<p><code>145:WERROR_CFLAGS = #-Werror</code></p>
+
+<p>注销掉<code>-Werror</code></p>
+
+<h2>使用 insight-6.8a.tar.bz2  可能的问题</h2>
+
+<p>开始的时候没注意,下载了6.8a版本,后来编译完运行时发现了这个问题.<br/>
+来源: <a href="http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223">http://forums.fedoraforum.org/showthread.php?p=1349223#post1349223</a></p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Tk_Init failed: Can&rsquo;t find a usable tk.tcl in the following directories:
+</span><span class='line'>/usr/local/share/tk8.4 /usr/local/lib/tk8.4 /usr/lib/tk8.4 /usr/local/library /usr/library /usr/tk8.4.1/library /tk8.4.1/library&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>/usr/local/share/tk8.4/tk.tcl: no event type or button # or keysym
+</span><span class='line'>no event type or button # or keysym
+</span><span class='line'>while executing
+</span><span class='line'>&ldquo;bind Listbox &lt;MouseWheel> {
+</span><span class='line'>%W yview scroll [expr {&ndash; (%D / 120) * 4}] units
+</span><span class='line'>}&rdquo;
+</span><span class='line'>(file &ldquo;/usr/local/share/tk8.4/listbox.tcl&rdquo; line 182)
+</span><span class='line'>invoked from within
+</span><span class='line'>&ldquo;source /usr/local/share/tk8.4/listbox.tcl&rdquo;
+</span><span class='line'>(in namespace eval &ldquo;::&rdquo; script line 1)
+</span><span class='line'>invoked from within
+</span><span class='line'>&ldquo;namespace eval ::[list source [file join $::tk_library $file.tcl]]&rdquo;
+</span><span class='line'>(procedure &ldquo;SourceLibFile&rdquo; line 2)
+</span><span class='line'>invoked from within
+</span><span class='line'>&ldquo;SourceLibFile listbox&rdquo;
+</span><span class='line'>(in namespace eval &ldquo;::tk&rdquo; script line 4)
+</span><span class='line'>invoked from within
+</span><span class='line'>&ldquo;namespace eval ::tk {
+</span><span class='line'>SourceLibFile button
+</span><span class='line'>SourceLibFile entry
+</span><span class='line'>SourceLibFile listbox
+</span><span class='line'>SourceLibFile menu
+</span><span class='line'>SourceLibFile panedwindow
+</span><span class='line'>SourceLibFile &hellip;&rdquo;
+</span><span class='line'>invoked from within
+</span><span class='line'>&ldquo;if {$::tk_library ne &rdquo;&ldquo;} {
+</span><span class='line'>if {[string equal $tcl_platform(platform) "macintosh&rdquo;]} {
+</span><span class='line'>proc ::tk::SourceLibFile {file} {
+</span><span class='line'>if {[catch {
+</span><span class='line'>namesp&hellip;&ldquo;
+</span><span class='line'>(file &rdquo;/usr/local/share/tk8.4/tk.tcl" line 393)
+</span><span class='line'>invoked from within
+</span><span class='line'>&ldquo;source /usr/local/share/tk8.4/tk.tcl&rdquo;
+</span><span class='line'>(&ldquo;uplevel&rdquo; body line 1)
+</span><span class='line'>invoked from within
+</span><span class='line'>&ldquo;uplevel #0[list source $file]&rdquo;
+</span><span class='line'>This probably means that tk wasn&rsquo;t installed properly.</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>按照来源里说的,6.8-1已经修复了这个bug.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[配置gcc编译警告选项]]></title>
+    <link href="http://zodiac1111.github.io/blog/config-gcc-warning/"/>
+    <updated>2012-11-22T19:17:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/config-gcc-warning</id>
+    <content type="html"><![CDATA[<h1>在各个层次关闭或开启编译警告选项</h1>
+
+<p>从上到下覆盖</p>
+
+<p> 推荐的警告选项:<code>-Wall -Wextra</code></p>
+
+<h2>1. 符号级:指定某个变量警告</h2>
+
+<p>主要使用<code>__attribute__</code>这个扩展,指定某个函数/变量等的属性(参考1,2,3).当然<code>__attribute__</code>还能指定其他很多中属性,例如结构体变量的对齐方式,指定声明的函数的属性等,但这里仅关注在警告方面的变量的属性.</p>
+
+<pre><code>int a __attribute__ ((unused));
+</code></pre>
+
+<p>指定该变量为"未使用的".即使这个变量没有被使用,编译时也会忽略则个警告输出.</p>
+
+<h2>2. 源代码级:在文件中诊断</h2>
+
+<p>能在编译期间规定一段代码的警告属性,如某个文件中后半部分不要求输出某些类型的警告使用编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">6.57 Pragmas</a>)中的诊断编译指示(<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">6.57.10 Diagnostic Pragmas</a>)</p>
+
+<!-- more -->
+
+
+<p>语法:</p>
+
+<pre><code>#pragma GCC diagnostic &lt;类型&gt; &lt;选项&gt;
+</code></pre>
+
+<p>其中类型包括:</p>
+
+<ul>
+<li><code>error</code> :诊断为错误.</li>
+<li><code>warning</code>:争端为警告.</li>
+<li><code>ignored</code>:忽略警告.</li>
+</ul>
+
+
+<p>选项则是命令行选项中的类似<code>-Wformat</code>的选项.</p>
+
+<p>例如:</p>
+
+<p>诊断-忽略:(关闭警告)</p>
+
+<pre><code>#pragma  GCC diagnostic ignored  "-Wformat"
+</code></pre>
+
+<p>诊断-警告:(开启警告)</p>
+
+<pre><code>#pragma  GCC diagnostic warning  "-Wformat"
+</code></pre>
+
+<p>诊断-错误:(开启警告-升级为错误)</p>
+
+<pre><code>#pragma  GCC diagnostic error  "-Wformat"
+</code></pre>
+
+<p>用法:<br/>
+在文件开头处关闭警告,在文件结尾出再开启警告,这样可以忽略该文件中的指定警告.</p>
+
+<h2>3 文件或工程级:命令行编译参数指定</h2>
+
+<p>警告:</p>
+
+<pre><code>gcc main.c -Wall
+</code></pre>
+
+<p>忽略:</p>
+
+<pre><code>gcc mian.c -Wall -Wno-unused-parameter  #开启all警告,但是忽略 -unused-parameter警告
+</code></pre>
+
+<p>选项格式: <code>-W[no-]&lt;警告选项&gt;</code><br/>
+如 : <code>-Wno-unused-parameter    #no- 表示诊断时忽略这个警告</code></p>
+
+<h1>参考:</h1>
+
+<ol>
+<li>通过<code>__attribute__</code>指定变量的属性(如<code>unused</code>,<code>packed</code>):<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#i386%20Variable%20Attributes">http://gcc.gnu.org/onlinedocs/gcc/Variable-Attributes.html#i386%20Variable%20Attributes</a></li>
+<li>通过<code>__attribute__</code>指定函数的属性(如<code>always_inline</code>):<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes">http://gcc.gnu.org/onlinedocs/gcc/Function-Attributes.html#Function-Attributes</a></li>
+<li><code>__attribute__</code>的语法:<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax">http://gcc.gnu.org/onlinedocs/gcc/Attribute-Syntax.html#Attribute-Syntax</a></li>
+<li>编译指示(#pragam):<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas">http://gcc.gnu.org/onlinedocs/gcc/Pragmas.html#Pragmas</a></li>
+<li>编译诊断指示(Diagnostic Pragmas):<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas">http://gcc.gnu.org/onlinedocs/gcc/Diagnostic-Pragmas.html#Diagnostic-Pragmas</a></li>
+<li>编译警告选项:<br/>
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html">http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[在Linux系统下通过JTAG调试atmega128a]]></title>
+    <link href="http://zodiac1111.github.io/blog/avr-jtag-debug-with-eclipse-on-linux/"/>
+    <updated>2012-11-19T20:00:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/avr-jtag-debug-with-eclipse-on-linux</id>
+    <content type="html"><![CDATA[<p><a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.</p>
+
+<h1>前言</h1>
+
+<p>首先说说我对编译开发调试环境的大概认识,如下图:</p>
+
+<p><img src="/downloads/img/结构示意图.png"></p>
+
+<p>PC(编译下载)大约就是<a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>所涉及的部分.</p>
+
+<p>而PC(调试服务器)和PC(调试)就是本文涉及的内容.</p>
+
+<p>稍微解释下我的理解:</p>
+
+<ol>
+<li>调试器:使用JTAG调试器,淘宝上几十块钱买的.看样子是兼容AVR JTAG ICE(mk1)的山寨版,能用.</li>
+<li>avarice:这里avr-gdb远程调试通过TCP服务,显然板子是不能提供这个服务的,那么avarice大致功能就是将串口(USB)(连着JTAG)转化成为TCP协议,这样通过这个TCP协议可以远程调试</li>
+<li>avr-gdb:调试器,可以是使用target remote 指定远程调试</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h1>效果</h1>
+
+<p>如图:</p>
+
+<p><img src="/downloads/img/avr-debug.png"></p>
+
+<h1>配置</h1>
+
+<h2>调试器(eclipse)</h2>
+
+<p>主要参考 参考[1]和参考[2],对于Linux和win几乎没什么区别.</p>
+
+<p>对于调试配置,找着参考[1]的设置:</p>
+
+<p><img src="/downloads/img/调试配置1.png"></p>
+
+<ol>
+<li>确保使用GDB Hardware Debugging,也有说(参考[2])C/C++ Application也行,反正我没弄成</li>
+<li>执行 调试器命令.就是在命令行中输入 avr-gdb能启动调试器就可以.</li>
+<li>调试目标 等同于命令行中进入avr-gdb后 敲的 <code>target remote localhost:4242</code></li>
+<li>确保是 “Standard GDB Hardware Debugging 启动程序”</li>
+</ol>
+
+
+<p>以上是调试器的设置.光设置完调试器并不能调试,还要配置好调试服务器,这样调试器才能连接上调试服务器进行调试.这时就需要上面说的 avarice 了.</p>
+
+<h2>调试服务器</h2>
+
+<p>avarice在终端运行,并且只有他运行着才能在eclipse上正确进行调试;</p>
+
+<p>指令:</p>
+
+<pre><code>avarice -P atmega128 -j /dev/ttyUSB0 :4242
+</code></pre>
+
+<p>参数意义是</p>
+
+<ol>
+<li>-P &lt;型号> :指定型号 ,atmega128a使用 atmega128</li>
+<li>-j &lt;JTAG端口> : 指定使用JTAG的端口,我使用的是 /dev/ttyUSB0 <strong>注意设备文件的权限</strong></li>
+<li>:4242 指定开放本机TCP4242端口,之后其他程序(调试器)就可以连接到这个端口进行调试了.<strong>注意和前面参数空格空开</strong></li>
+</ol>
+
+
+<p>然后看到类似下面的提示:</p>
+
+<pre><code>AVaRICE version 2.12, Jan 12 2012 23:36:05
+
+Defaulting JTAG bitrate to 250 kHz.
+
+JTAG config starting.
+Hardware Version: 0xc3
+Software Version: 0x80
+Reported JTAG device ID: 0x9702
+Configured for device ID: 0x9702 atmega128 -- Matched with atmega128
+JTAG config complete.
+Preparing the target device for On Chip Debugging.
+Waiting for connection on port 4242.
+</code></pre>
+
+<p>JTAG已经能正确识别,单片机型号也读出来了,这时光标闪烁提示等待别的程序连接到4242端口.</p>
+
+<p>这时如果使用avr-gdb命令行指定<code>target remote localhost:4242</code>或者IDE中运行调试,则可以看到如下如是有程序从本机(127.0.0.1)的56443端口连接上来了.</p>
+
+<pre><code>....
+Preparing the target device for On Chip Debugging.
+Waiting for connection on port 4242.
+Connection opened by host 127.0.0.1, port 56443.
+</code></pre>
+
+<p>这时就可以调试了.</p>
+
+<h2>其他</h2>
+
+<p>小技巧:在eclipse调试配置的Startup启动选项卡中Runtime Options选择在"mian函数设置断点"和"Resume"则可以开始调试时直接让程序停在主函数,不然可能需要按"继续"开继续运行,或者开始执行初始化代码.
+<img src="/downloads/img/调试配置main.png"></p>
+
+<h1>遗留问题</h1>
+
+<ol>
+<li>反汇编还不能正确运行,无法一步一步执行(查看)汇编代码</li>
+</ol>
+
+
+<h1>参考:</h1>
+
+<ol>
+<li>使用eclipse调试avr(EN) <a href="http://tobias.schroepf.de/doku/doku.php?id=garage:atmel_avr_debugging_with_eclipse">http://tobias.schroepf.de/doku/doku.php?id=garage:atmel_avr_debugging_with_eclipse</a></li>
+<li>avr-eclipse 调试wiki(EN) <a href="http://avr-eclipse.sourceforge.net/wiki/index.php/Debugging">http://avr-eclipse.sourceforge.net/wiki/index.php/Debugging</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

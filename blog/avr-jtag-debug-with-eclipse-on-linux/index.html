@@ -1,0 +1,406 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>在Linux系统下通过JTAG调试atmega128a - 喜乐</title>
+  <meta name="author" content="zodiac1111">
+
+  
+  <meta name="description" content="前篇搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试. 前言 首先说说我对编译开发调试环境的大概认识,如下图: PC(编译下载)大约就是前篇所涉及的部分. 而PC(调试服务器)和PC(调试)就是本文涉及的内容. 稍微解释下我的理解: 调试器:使用JTAG调试器, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zodiac1111.github.io/blog/avr-jtag-debug-with-eclipse-on-linux/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="喜乐" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34836207-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">I'm</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">喜乐</a></h1>
+  
+    <h2>我的网络记事簿</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zodiac1111.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/test">Test</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://1.gbzdsq.com:4567">Wiki</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">在Linux系统下通过JTAG调试atmega128a</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-19T20:00:00+08:00" pubdate data-updated="true">2012-11-19 20:00</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>搭建了平台,基本完成了下载的功能,于是乎乘热打铁开始折腾jtag的在线调试.</p>
+
+<h1>前言</h1>
+
+<p>首先说说我对编译开发调试环境的大概认识,如下图:</p>
+
+<p><img src="/downloads/img/结构示意图.png"></p>
+
+<p>PC(编译下载)大约就是<a href="/blog/2012/11/17/avr-mega128a-linux-env-set/">前篇</a>所涉及的部分.</p>
+
+<p>而PC(调试服务器)和PC(调试)就是本文涉及的内容.</p>
+
+<p>稍微解释下我的理解:</p>
+
+<ol>
+<li>调试器:使用JTAG调试器,淘宝上几十块钱买的.看样子是兼容AVR JTAG ICE(mk1)的山寨版,能用.</li>
+<li>avarice:这里avr-gdb远程调试通过TCP服务,显然板子是不能提供这个服务的,那么avarice大致功能就是将串口(USB)(连着JTAG)转化成为TCP协议,这样通过这个TCP协议可以远程调试</li>
+<li>avr-gdb:调试器,可以是使用target remote 指定远程调试</li>
+</ol>
+
+
+<!-- more -->
+
+
+<h1>效果</h1>
+
+<p>如图:</p>
+
+<p><img src="/downloads/img/avr-debug.png"></p>
+
+<h1>配置</h1>
+
+<h2>调试器(eclipse)</h2>
+
+<p>主要参考 参考[1]和参考[2],对于Linux和win几乎没什么区别.</p>
+
+<p>对于调试配置,找着参考[1]的设置:</p>
+
+<p><img src="/downloads/img/调试配置1.png"></p>
+
+<ol>
+<li>确保使用GDB Hardware Debugging,也有说(参考[2])C/C++ Application也行,反正我没弄成</li>
+<li>执行 调试器命令.就是在命令行中输入 avr-gdb能启动调试器就可以.</li>
+<li>调试目标 等同于命令行中进入avr-gdb后 敲的 <code>target remote localhost:4242</code></li>
+<li>确保是 “Standard GDB Hardware Debugging 启动程序”</li>
+</ol>
+
+
+<p>以上是调试器的设置.光设置完调试器并不能调试,还要配置好调试服务器,这样调试器才能连接上调试服务器进行调试.这时就需要上面说的 avarice 了.</p>
+
+<h2>调试服务器</h2>
+
+<p>avarice在终端运行,并且只有他运行着才能在eclipse上正确进行调试;</p>
+
+<p>指令:</p>
+
+<pre><code>avarice -P atmega128 -j /dev/ttyUSB0 :4242
+</code></pre>
+
+<p>参数意义是</p>
+
+<ol>
+<li>-P &lt;型号> :指定型号 ,atmega128a使用 atmega128</li>
+<li>-j &lt;JTAG端口> : 指定使用JTAG的端口,我使用的是 /dev/ttyUSB0 <strong>注意设备文件的权限</strong></li>
+<li>:4242 指定开放本机TCP4242端口,之后其他程序(调试器)就可以连接到这个端口进行调试了.<strong>注意和前面参数空格空开</strong></li>
+</ol>
+
+
+<p>然后看到类似下面的提示:</p>
+
+<pre><code>AVaRICE version 2.12, Jan 12 2012 23:36:05
+
+Defaulting JTAG bitrate to 250 kHz.
+
+JTAG config starting.
+Hardware Version: 0xc3
+Software Version: 0x80
+Reported JTAG device ID: 0x9702
+Configured for device ID: 0x9702 atmega128 -- Matched with atmega128
+JTAG config complete.
+Preparing the target device for On Chip Debugging.
+Waiting for connection on port 4242.
+</code></pre>
+
+<p>JTAG已经能正确识别,单片机型号也读出来了,这时光标闪烁提示等待别的程序连接到4242端口.</p>
+
+<p>这时如果使用avr-gdb命令行指定<code>target remote localhost:4242</code>或者IDE中运行调试,则可以看到如下如是有程序从本机(127.0.0.1)的56443端口连接上来了.</p>
+
+<pre><code>....
+Preparing the target device for On Chip Debugging.
+Waiting for connection on port 4242.
+Connection opened by host 127.0.0.1, port 56443.
+</code></pre>
+
+<p>这时就可以调试了.</p>
+
+<h2>其他</h2>
+
+<p>小技巧:在eclipse调试配置的Startup启动选项卡中Runtime Options选择在&#8221;mian函数设置断点&#8221;和&#8221;Resume&#8221;则可以开始调试时直接让程序停在主函数,不然可能需要按&#8221;继续&#8221;开继续运行,或者开始执行初始化代码.
+<img src="/downloads/img/调试配置main.png"></p>
+
+<h1>遗留问题</h1>
+
+<ol>
+<li>反汇编还不能正确运行,无法一步一步执行(查看)汇编代码</li>
+</ol>
+
+
+<h1>参考:</h1>
+
+<ol>
+<li>使用eclipse调试avr(EN) <a href="http://tobias.schroepf.de/doku/doku.php?id=garage:atmel_avr_debugging_with_eclipse">http://tobias.schroepf.de/doku/doku.php?id=garage:atmel_avr_debugging_with_eclipse</a></li>
+<li>avr-eclipse 调试wiki(EN) <a href="http://avr-eclipse.sourceforge.net/wiki/index.php/Debugging">http://avr-eclipse.sourceforge.net/wiki/index.php/Debugging</a></li>
+</ol>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-11-19T20:00:00+08:00" pubdate data-updated="true">2012-11-19 20:00</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/avr/'>avr</a>, <a class='category' href='/blog/categories/eclipse/'>eclipse</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/avr-mega128a-linux-env-set/" title="Previous Post: Linux下avr单片机开发环境">&laquo; Linux下avr单片机开发环境</a>
+      
+      
+        <a class="basic-alignment right articlenav" href="/blog/config-gcc-warning/" title="Next Post: 配置gcc编译警告选项">配置gcc编译警告选项 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/set-fedora-hostname/">为feodra18设置主机名</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/update-to-fedora-18/">升级到fedora18</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/atmega8-hd44780-lcd1602/">Atmega8使用1602字符液晶(hd44780)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/doxygen-chinese-html-wrapline-bug/">修正doxygen中文显示html不换行bug</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zodiac1111',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - zodiac1111 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zodiac1111blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.io/blog/avr-jtag-debug-with-eclipse-on-linux/';
+        var disqus_url = 'http://zodiac1111.github.io/blog/avr-jtag-debug-with-eclipse-on-linux/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

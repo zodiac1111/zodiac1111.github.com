@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rake | 喜乐]]></title>
+  <link href="http://zodiac1111.github.io/blog/categories/rake/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.io/"/>
+  <updated>2013-07-30T16:57:04+08:00</updated>
+  <id>http://zodiac1111.github.io/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[rake 自动补全 task]]></title>
+    <link href="http://zodiac1111.github.io/blog/rake-completion-in-bash/"/>
+    <updated>2012-09-19T21:07:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/rake-completion-in-bash</id>
+    <content type="html"><![CDATA[<p>在使用octopress写文章时有些命令记不太全,如<code> new_post["title"]</code>,<code>rake generate</code>,<code>rake preview</code>,<code>rake deploy</code>,<code>rake gen_deploy</code>.</p>
+
+<p>那么想到既然bash中make可以自动补全目标(target),那么rake应该也可以有这样的功能吧.<br/>
+于是在git找到了 rake-completion 这个项目:</p>
+
+<script src="/javascripts/libs/jquery.min.js"></script>
+
+
+<div class="github-widget" data-repo="ai/rake-completion"></div>
+
+
+<p>网址:<a href="https://github.com/ai/rake-completion">https://github.com/ai/rake-completion</a></p>
+
+<h2>安装</h2>
+
+<p>安装也很简单,如<code>README</code>文件中<code>other unix-like</code>一节指示:</p>
+
+<p>复制<code>rake</code>文件到<code>/etc/bash_completion.d/</code>目录下(需要root权限):
+<div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;pre>&lt;code>su -c 'cp ./rake /etc/bash_completion.d/'
+</span><span class='line'>&lt;/code>&lt;/pre>
+</span><span class='line'>
+</span><span class='line'>&lt;p></span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<h2>使用</h2>
+
+<p>需要补全的时候按<code>Tab</code>键就好啦~,效果如下:</p>
+
+<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[user1@localhost octopress]$ rake &lt;Tab>
+</span><span class='line'>clean                     isolate[filename]         set_root_dir[dir]
+</span><span class='line'>copydot[source,dest]      list                      setup_github_pages[repo]
+</span><span class='line'>deploy                    new_page[filename]        update_source[theme]
+</span><span class='line'>gen_deploy                new_post[title]           update_style[theme]
+</span><span class='line'>generate                  preview                   watch
+</span><span class='line'>install[theme]            push
+</span><span class='line'>integrate                 rsync</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+]]></content>
+  </entry>
+  
+</feed>

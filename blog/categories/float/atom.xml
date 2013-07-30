@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: float | 喜乐]]></title>
+  <link href="http://zodiac1111.github.io/blog/categories/float/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.io/"/>
+  <updated>2013-07-30T16:57:04+08:00</updated>
+  <id>http://zodiac1111.github.io/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[在线分析转换标准 float 型数据]]></title>
+    <link href="http://zodiac1111.github.io/blog/online-ieee-754-analysis-binary-decimal-converter/"/>
+    <updated>2012-09-20T19:54:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/online-ieee-754-analysis-binary-decimal-converter</id>
+    <content type="html"><![CDATA[<p>计算机中float型数据以IEEE-754标准存储,例如<code>1234.5678</code>存储为<code>0x449A522B</code>(32位).</p>
+
+<p>使用二进制表示即:</p>
+
+<pre><code>01000100 10011010 01010010 00101011
+</code></pre>
+
+<p>根据IEEE754 Single precision 32-bit标准的定义:</p>
+
+<p><img src="/downloads/img/IEEE-754-float.png">
+通用公式: <code>实际数值 = sign * 2^exponent * mantissa</code></p>
+
+<p>一些特殊的值,如正无穷等,参见维基百科.</p>
+
+<p>更多的分析和在线转换参见参考资料.</p>
+
+<h2>参考资料</h2>
+
+<ol>
+<li>维基百科:<a href="https://zh.wikipedia.org/zh/IEEE_754">https://zh.wikipedia.org/zh/IEEE_754</a></li>
+<li>在线分析:<a href="http://babbage.cs.qc.cuny.edu/IEEE-754/">http://babbage.cs.qc.cuny.edu/IEEE-754/</a></li>
+<li>在线转换:<a href="http://www.binaryconvert.com/">http://www.binaryconvert.com/</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

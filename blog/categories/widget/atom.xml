@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: widget | 喜乐]]></title>
+  <link href="http://zodiac1111.github.io/blog/categories/widget/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.io/"/>
+  <updated>2013-07-30T16:57:04+08:00</updated>
+  <id>http://zodiac1111.github.io/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[使用 githubRepoWidget 展示 github 项目]]></title>
+    <link href="http://zodiac1111.github.io/blog/otcopress-githubrepowidget/"/>
+    <updated>2012-09-20T22:55:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/otcopress-githubrepowidget</id>
+    <content type="html"><![CDATA[<script src="/javascripts/libs/jquery.min.js"></script>
+
+
+<script type="text/javascript" src="/javascripts/libs/jquery.githubRepoWidget.min.js"></script>
+
+
+<p>使用githubRepoWidget在otcopress上展示项目的方法.</p>
+
+<h1>先看效果:</h1>
+
+<p>例子1 Linux kernel:</p>
+
+<div class="github-widget" data-repo="torvalds/linux"></div>
+
+
+<p>例子2 githubRepoWidget:</p>
+
+<div class="github-widget" data-repo="JoelSutherland/GitHub-jQuery-Repo-Widget"></div>
+
+
+<!-- more -->
+
+
+<h1>介绍:</h1>
+
+<p>项目地址在github上: <a href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget">https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget</a></p>
+
+<h3>配置:</h3>
+
+<p>复制下载的<code>jquery.githubRepoWidget.min.js</code>到本地博客目录<code>octopress/source/javascripts/libs</code>下</p>
+
+<h3>启用:</h3>
+
+<p>方式1:局部
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;/javascripts/libs/jquery.githubRepoWidget.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">div</span> <span class="kr">class</span><span class="o">=</span><span class="s2">&quot;github-widget&quot;</span> <span class="nx">data</span><span class="o">-</span><span class="nx">repo</span><span class="o">=</span><span class="s2">&quot;JoelSutherland/GitHub-jQuery-Repo-Widget&quot;</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<ul>
+<li>优点:仅在使用widget的页面才加载jquery.min.js等文件.减少不必要的耦合.</li>
+<li>缺点:引用时需要添加较多(三行)的代码.</li>
+</ul>
+
+
+<p>方式2:全局</p>
+
+<p>在<code>octopress/source/_includes/custom/head.html</code>或其他全局页面文件增加:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;/javascripts/libs/jquery.githubRepoWidget.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+
+<p>在需要展示项目时,这样添加:
+<div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="o">&lt;</span><span class="err">/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">div</span> <span class="kr">class</span><span class="o">=</span><span class="s2">&quot;github-widget&quot;</span> <span class="nx">data</span><span class="o">-</span><span class="nx">repo</span><span class="o">=</span><span class="s2">&quot;JoelSutherland/GitHub-jQuery-Repo-Widget&quot;</span><span class="o">&gt;&lt;</span><span class="err">/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+<code>data-repo</code>项填写项目名称即可,如上例的<code>JoelSutherland/GitHub-jQuery-Repo-Widget</code>.</p>
+
+<ul>
+<li>优点:引用方便,仅需一行代码.</li>
+<li>缺点:在不需要显示widget的页面也会加载jquery.min.js等文件,浪费网络资源.<br/>
+修改otcopress项目的文件,可能会存在问题.
+
+<h3>其他:</h3>
+
+<p>暂无.</p></li>
+</ul>
+
+
+<h1>资料:</h1>
+
+<ol>
+<li>项目github:<a href="https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget">https://github.com/JoelSutherland/GitHub-jQuery-Repo-Widget</a></li>
+<li>OSCHINA 增加软件与 Github 的集成:<a href="http://www.oschina.net/news/30679/oschina-projects-integration-with-github">http://www.oschina.net/news/30679/oschina-projects-integration-with-github</a></li>
+</ol>
+
+]]></content>
+  </entry>
+  
+</feed>

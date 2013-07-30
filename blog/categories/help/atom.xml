@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: help | 喜乐]]></title>
+  <link href="http://zodiac1111.github.io/blog/categories/help/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.io/"/>
+  <updated>2013-07-30T16:57:04+08:00</updated>
+  <id>http://zodiac1111.github.io/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Linux/Fedora 17 安装man手册]]></title>
+    <link href="http://zodiac1111.github.io/blog/linux-fedora-17-install-man/"/>
+    <updated>2012-09-17T21:18:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/linux-fedora-17-install-man</id>
+    <content type="html"><![CDATA[<pre><code>yum install man-pages
+</code></pre>
+]]></content>
+  </entry>
+  
+</feed>

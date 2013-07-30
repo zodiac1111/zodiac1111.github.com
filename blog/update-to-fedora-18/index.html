@@ -5,11 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>喜乐</title>
+  <title>升级到fedora18 - 喜乐</title>
   <meta name="author" content="zodiac1111">
 
   
-  <meta name="description" content="参考:http://zurlinux.com/?p=1396 . 在Fedora 18中主机名已经保存在/etc/hostname文件中,而不是保存在/etc/sysconfig/network文件的HOSTNAME=XXX一行中. There are now three &hellip;">
+  <meta name="description" content="从fedora17升级到fedora18 参考 官网:https://fedoraproject.org/wiki/Upgrading_Fedora_using_yum 大致步骤 备份(数据无价)
+阅读已知bug和发行说明,确保自己升级到的版本对自己无害,且有升级的必要
+清理目前的系统
+升级 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://zodiac1111.github.io/">
+  <link rel="canonical" href="http://zodiac1111.github.io/blog/update-to-fedora-18/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -85,192 +88,13 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/set-fedora-hostname/">为feodra18设置主机名</a></h1>
       
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-14T15:53:00+08:00" pubdate data-updated="true">2013-04-14 15:53</time>
-        
-         | <a href="/blog/set-fedora-hostname/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>参考:<a href="http://zurlinux.com/?p=1396">http://zurlinux.com/?p=1396</a> .</p>
-
-<p>在<code>Fedora 18</code>中主机名已经保存在<code>/etc/hostname</code>文件中,而不是保存在<code>/etc/sysconfig/network</code>文件的<code>HOSTNAME=XXX</code>一行中.</p>
-
-<p>There are now three distinguished hostnames in use with Fedora 18.</p>
-
-<ul>
-<li>A high-level pretty free-form hostname</li>
-<li>The static hostname, i.e. the kernel hostname</li>
-<li>Possibly a transient temporary hostname</li>
-</ul>
-
-
-<p><code>hostnamectl</code>命令/程序可以用户设定hostname.</p>
-
-<p><code>hostnamectl --help</code>查看具体用法.</p>
-
-<p><code>hostnamectl status</code>查看当前设置.</p>
-
-<p>更多请参考来源.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-12T10:36:00+08:00" pubdate data-updated="true">2013-02-12 10:36</time>
-        
-         | <a href="/blog/rss2kindle-use-calibre/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h1>抓取RSS fatch news</h1>
-
-<h2>安装calibre</h2>
-
-<p><a href="http://calibre-ebook.com/">calibre</a>是一款强大的软件,可以下载/转换/编辑/管理kindle上的电子书.</p>
-
-<h2>编辑.recipeRSS源</h2>
-
-<h2>抓取RSS(转换格式)</h2>
-
-<p>都在命令行在操作,方便部署到远程主机.
-<a href="http://manual.calibre-ebook.com/cli/ebook-convert.html">文档</a></p>
-
-<pre><code>ebook-convert  &lt;RSS源文件&gt;.recipe   &lt;转换后文件名&gt;.pobi  --test --username &lt;谷歌账号&gt;@gmail.com --password "&lt;谷歌密码&gt;" &gt;&gt; converrt.log
-</code></pre>
-
-<h1>编辑修改(可选)</h1>
-
-<h1>推送到Kindle</h1>
-
-<p><a href="http://manual.calibre-ebook.com/cli/calibre-smtp.html">calibre-smtp使用文档</a></p>
-
-<pre><code>calibre-smtp --attachment news.mobi --relay smtp.gmail.com --port 587 --username &lt;谷歌账号&gt;@gmail.com --password "&lt;谷歌密码&gt;" --encryption-method TLS &lt;账号&gt;@gmail.com &lt;kindle推送地址&gt;@kindle.com "&lt;邮件正文&gt;" -v -s "&lt;邮件主题&gt;" &gt;&gt; stmp.log
-</code></pre>
-
-<h1>定时推送</h1>
-
-<pre><code>crontab -e
-0 0 * * * 
-</code></pre>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a></h1>
-      
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-02-05T14:52:00+08:00" pubdate data-updated="true">2013-02-05 14:52</time>
-        
-         | <a href="/blog/jailbreak-kindle-paperwhite/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>kindle是linux系统,arm处理器.关于系统架构可以参考<a href="http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Architecture">http://wiki.mobileread.com/wiki/Kindle_Touch_Hacking#Architecture</a></p>
-
-<p>这次主要目的是将Kindle Paperwhite越狱,在PC(Fedora18 Linux)上.
-实现通用的ssh访问.其实PW入手才不到24小时.果然我就是喜欢拆呵 :)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/jailbreak-kindle-paperwhite/">Read more &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/update-to-fedora-18/">升级到fedora18</a></h1>
+        <h1 class="entry-title">升级到fedora18</h1>
       
     
     
@@ -289,14 +113,14 @@
 
 <time datetime="2013-01-17T18:55:00+08:00" pubdate data-updated="true">2013-01-17 18:55</time>
         
-         | <a href="/blog/update-to-fedora-18/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>从fedora17升级到fedora18</p>
+<div class="entry-content"><p>从fedora17升级到fedora18</p>
 
 <h1>参考</h1>
 
@@ -392,24 +216,16 @@
 <pre><code>ln -s libudev.so.1.1.6 libudev.so.0
 </code></pre>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <!-- Now we're back to normal posts. Note the links used under href in both headers.-->
-        <h1 class="entry-title"><a href="/blog/atmega8-hd44780-lcd1602/">Atmega8使用1602字符液晶(hd44780)</a></h1>
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
       
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -421,49 +237,44 @@
   
 
 
-<time datetime="2012-12-16T17:18:00+08:00" pubdate data-updated="true">2012-12-16 17:18</time>
-        
-         | <a href="/blog/atmega8-hd44780-lcd1602/#disqus_thread">Comments</a>
-        
-      </p>
+<time datetime="2013-01-17T18:55:00+08:00" pubdate data-updated="true">2013-01-17 18:55</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
+      <div class="sharing">
+  
+  
+  
+</div>
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/atmega8-hd44780-lcd1602/" title="Previous Post: atmega8使用1602字符液晶(hd44780)">&laquo; atmega8使用1602字符液晶(hd44780)</a>
+      
+      
+        <a class="basic-alignment right articlenav" href="/blog/jailbreak-kindle-paperwhite/" title="Next Post: Kindle Paperwhite越狱">Kindle Paperwhite越狱 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
 
-  <div class="entry-content"><h1>一般操作</h1>
-
-<p>HD44780LCD控制器的维基百科<a href="#ref1">[1]</a>,我现在所用的应该也是基于HD44780LCD控制器 <a href="#ref2">[2]</a> 的.</p>
-
-<h1>References</h1>
-
-<ol>
-<li><a id="ref1"></a>维基百科:HD44780LCD控制器 <a href="https://en.wikipedia.org/wiki/Hitachi_HD44780_LCD_controller">https://en.wikipedia.org/wiki/Hitachi_HD44780_LCD_controller</a></li>
-<li><a id="ref2"></a>How to control a HD44780-based Character-LCD: <a href="http://www.ekenrooi.net/lcd/lcd.shtml">http://www.ekenrooi.net/lcd/lcd.shtml</a></li>
-<li><a id="ref3"></a>LCD Technical FAQ INDEX V (September_1996a)<a href="http://www.repairfaq.org/filipg/LINK/F_Tech_LCD.html">http://www.repairfaq.org/filipg/LINK/F_Tech_LCD.html</a></li>
-<li><a id="ref4"></a>Build your own &ldquo;2-Wire LCD Interface&rdquo; using the PIC16C84 microcontroller<a href="http://www.rentron.com/Myke1.htm">http://www.rentron.com/Myke1.htm</a></li>
-<li><a id="ref5"></a>HD44780 LCD User-Defined Graphics(自定义字符): <a href="http://www.quinapalus.com/hd44780udg.html">http://www.quinapalus.com/hd44780udg.html</a></li>
-<li><a id="ref6"></a>自定义字符: <a href="http://www.repairfaq.org/filipg/LINK/F_LCD_HD44780.html#LCDHD_009">http://www.repairfaq.org/filipg/LINK/F_LCD_HD44780.html#LCDHD_009</a></li>
-<li><a id="ref7"></a>Hitachi HD44780U (LCD-II) datasheet: <a href="http://lcd-linux.sourceforge.net/pdfdocs/hd44780.pdf">http://lcd-linux.sourceforge.net/pdfdocs/hd44780.pdf</a></li>
-<li><a id="ref8"></a>Hitachi HD44780U (LCD-II) datasheet: <a href="http://www.sparkfun.com/datasheets/LCD/HD44780.pdf">http://www.sparkfun.com/datasheets/LCD/HD44780.pdf</a>
-<a href="http://homepage.hispeed.ch/peterfleury/avr-lcd44780.html">http://homepage.hispeed.ch/peterfleury/avr-lcd44780.html</a>
-<a href="http://homepage.hispeed.ch/peterfleury/avr-software.html#libs">http://homepage.hispeed.ch/peterfleury/avr-software.html#libs</a></li>
-</ol>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
-  
-  
 
-
-    </article>
-  
-  <div class="pagination">
-    
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -504,7 +315,7 @@
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
@@ -537,6 +348,7 @@
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -551,7 +363,10 @@
       var disqus_shortname = 'zodiac1111blog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.io/blog/update-to-fedora-18/';
+        var disqus_url = 'http://zodiac1111.github.io/blog/update-to-fedora-18/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

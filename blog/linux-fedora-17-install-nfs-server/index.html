@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Linux/Fedora 17下安装配置NFS服务 - 喜乐</title>
+  <meta name="author" content="zodiac1111">
+
+  
+  <meta name="description" content="NFS服务器安装和配置 OS:fedora17.i686 &amp; fedora17.x86_64 &amp; f17beta.i686 &amp; f17beta.x86-64 现在已经改成不用 imapXXXX的了
+改成 守护进程rpc.nfsd
+安装守护进程程序: 搜索:yum &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://zodiac1111.github.io/blog/linux-fedora-17-install-nfs-server/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="喜乐" type="application/atom+xml">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-34836207-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <div id="logo">
+  	<div id="logoLeft">{</div>
+  	<div id="logoText">I'm</div>
+  	<div id="logoRight">}</div>
+  	<div class="clear"></div>
+  </div>
+  <h1><a href="/">喜乐</a></h1>
+  
+    <h2>我的网络记事簿</h2>
+  
+  <div class="clear"></div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:zodiac1111.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/test">Test</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="http://1.gbzdsq.com:4567">Wiki</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      
+        <h1 class="entry-title">Linux/Fedora 17下安装配置NFS服务</h1>
+      
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-17T21:23:00+08:00" pubdate data-updated="true">2012-09-17 21:23</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>NFS服务器安装和配置</h1>
+
+<p>OS:fedora17.i686 &amp; fedora17.x86_64 &amp; f17beta.i686 &amp; f17beta.x86-64 <br/>
+现在已经改成不用 imapXXXX的了
+改成 守护进程rpc.nfsd
+安装守护进程程序:</p>
+
+<ol>
+<li>搜索:<code>yum search nfs</code></li>
+<li>得到:<code>nfs-utils.i686 : NFS utilities and supporting clients and daemons for the kernel NFS server</code><br/>
+ 看描述就是这货了.</li>
+<li>安装:<code>yum install nfs-utils</code></li>
+<li>使用:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rpc.nfsd [数量]        #设置最大线程
+</span><span class='line'>man 8 rpc.nfsd        #查看 帮助</span></code></pre></td></tr></table></div></figure>
+
+
+<!-- more -->
+
+
+<h2>配置可用NFS服务器的目录</h2>
+
+<p>使用您喜欢的文本编辑器编辑<code>/etc/exports</code>文件
+例如:<code>vi /etc/exports</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/mnt         127.0.0.1(ro,sync)
+</span><span class='line'>共享目录          主机名   (权限)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中:</p>
+
+<ul>
+<li>共享目录  服务器共享的目录</li>
+<li>主机名 指示能够访问这个共享目录的主机</li>
+<li>权限    指示主机访问该共享目录的权限
+
+<ol>
+<li> ro=readonly只读 rw=读写</li>
+<li> sync是设置NFS服务器同步写磁盘，不会导致数据的丢失
+
+<h2>关闭防火墙(如果你和我一样不太了解如何配置防火墙的话)</h2></li>
+</ol>
+</li>
+</ul>
+
+
+<h2>启用新的配置</h2>
+
+<p><code>exportfs</code> 指令主要的三个作用：<br/>
+1. <code>exportfs -rv</code>   重新读取共享配置文件，马上生效 <br/>
+2. <code>exportfs -auv</code>  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享<br/>
+3. <code>exportfs -av</code>   显示所有当前机器上的NFS共享目录信息</p>
+
+<h2>测试</h2>
+
+<h3>启用挂载</h3>
+
+<p>启动服务:</p>
+
+<p><code>systemctl restart nfs-server.service</code></p>
+
+<p>In older versions of Fedora (for instance Fedora 14),</p>
+
+<p><code>su -c 'service nfs restart'</code></p>
+
+<p>或?且</p>
+
+<pre><code>rpc.mountd  
+</code></pre>
+
+<p>否则在下一步挂载可能出现:<br/>
+mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
+或者在输入&#8221;mount -t nfs 127.0.0.1:&ldquo;后按Tab键补全<br/>
+:rpc mount export: RPC: Unable to receive; errno = Connection refused</p>
+
+<h3>挂载</h3>
+
+<p></del>貌似只能挂载 /home 这样的一级目录 像/home/tom 这样的目录就不行??</del><br/>
+像/home/tom/doc/nfsroot 这样的目录必须保证这条路径<strong>所有文件夹</strong>都是有相应的权限的.<br/>
+<code>chmod -R</code>或许会用得着 <br/>
+即/home 得有(读写)权限 /home/tom 也一样 /home/tom/doc 也一样. 仅仅nfsroot文件夹有读写权限是不行的. <br/>
+在挂在时还是会提示没有访问权限&hellip;..</p>
+
+<pre><code>mount -t nfs 127.0.0.1:/home    /mnt
+挂载 -t 类型 把远端/home    (挂在)   到/mnt
+#将127.0.0.1:/home 挂载到本机的/mnt目录下
+</code></pre>
+
+<h3>卸载</h3>
+
+<pre><code>unomt /mnt
+</code></pre>
+
+<h1>参考</h1>
+
+<p>=====<br/>
+1. <a href="http://fedoraproject.org/wiki/Administration_Guide_Draft/NFS">Fedora官方帮助文档</a><br/>
+2. 查看错误日志<code>cat /var/log/messages | grep mount</code> 来自<a href="http://liuzhigong.blog.163.com/blog/static/17827237520115305226932/">这里</a><br/>
+3. 图形化的配置工具 <code>yum install system-config-nfs.noarch</code></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">zodiac1111</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-09-17T21:23:00+08:00" pubdate data-updated="true">2012-09-17 21:23</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/linux/'>Linux</a>, <a class='category' href='/blog/categories/nfs/'>nfs</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left articlenav" href="/blog/linux-fedora-17-install-man/" title="Previous Post: Linux/Fedora 17 安装man手册">&laquo; Linux/Fedora 17 安装man手册</a>
+      
+      
+        <a class="basic-alignment right articlenav" href="/blog/rake-completion-in-bash/" title="Next Post: rake 自动补全 task">rake 自动补全 task &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/set-fedora-hostname/">为feodra18设置主机名</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/rss2kindle-use-calibre/">利用calibre推送RSS源到Kindle</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/jailbreak-kindle-paperwhite/">Kindle Paperwhite越狱</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/update-to-fedora-18/">升级到fedora18</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/atmega8-hd44780-lcd1602/">Atmega8使用1602字符液晶(hd44780)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/doxygen-chinese-html-wrapline-bug/">修正doxygen中文显示html不换行bug</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/debug-avr-with-insight-avr-gdb-gui/">编译avr-insight</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/zodiac1111">@zodiac1111</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'zodiac1111',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - zodiac1111 -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zodiac1111blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://zodiac1111.github.io/blog/linux-fedora-17-install-nfs-server/';
+        var disqus_url = 'http://zodiac1111.github.io/blog/linux-fedora-17-install-nfs-server/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: nfs | 喜乐]]></title>
+  <link href="http://zodiac1111.github.io/blog/categories/nfs/atom.xml" rel="self"/>
+  <link href="http://zodiac1111.github.io/"/>
+  <updated>2013-07-30T16:57:04+08:00</updated>
+  <id>http://zodiac1111.github.io/</id>
+  <author>
+    <name><![CDATA[zodiac1111]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Linux/Fedora 17下安装配置NFS服务]]></title>
+    <link href="http://zodiac1111.github.io/blog/linux-fedora-17-install-nfs-server/"/>
+    <updated>2012-09-17T21:23:00+08:00</updated>
+    <id>http://zodiac1111.github.io/blog/linux-fedora-17-install-nfs-server</id>
+    <content type="html"><![CDATA[<h1>NFS服务器安装和配置</h1>
+
+<p>OS:fedora17.i686 &amp; fedora17.x86_64 &amp; f17beta.i686 &amp; f17beta.x86-64 <br/>
+现在已经改成不用 imapXXXX的了
+改成 守护进程rpc.nfsd
+安装守护进程程序:</p>
+
+<ol>
+<li>搜索:<code>yum search nfs</code></li>
+<li>得到:<code>nfs-utils.i686 : NFS utilities and supporting clients and daemons for the kernel NFS server</code><br/>
+ 看描述就是这货了.</li>
+<li>安装:<code>yum install nfs-utils</code></li>
+<li>使用:
+<code>
+ rpc.nfsd [数量]       #设置最大线程
+ man 8 rpc.nfsd      #查看 帮助
+</code></li>
+</ol>
+
+
+<!-- more -->
+
+
+<h2>配置可用NFS服务器的目录</h2>
+
+<p>使用您喜欢的文本编辑器编辑<code>/etc/exports</code>文件
+例如:<code>vi /etc/exports</code>
+```</p>
+
+<pre><code>/mnt            127.0.0.1(ro,sync)
+共享目录            主机名   (权限)
+</code></pre>
+
+<p>```
+其中:</p>
+
+<ul>
+<li>共享目录  服务器共享的目录</li>
+<li>主机名 指示能够访问这个共享目录的主机</li>
+<li>权限    指示主机访问该共享目录的权限
+
+<ol>
+<li> ro=readonly只读 rw=读写</li>
+<li> sync是设置NFS服务器同步写磁盘，不会导致数据的丢失
+
+<h2>关闭防火墙(如果你和我一样不太了解如何配置防火墙的话)</h2></li>
+</ol>
+</li>
+</ul>
+
+
+<h2>启用新的配置</h2>
+
+<p><code>exportfs</code> 指令主要的三个作用：<br/>
+1. <code>exportfs -rv</code>   重新读取共享配置文件，马上生效 <br/>
+2. <code>exportfs -auv</code>  马上停止所有本机上的NFS共享，并不改变 /etc/exports 文件的内容，只是当前停止共享<br/>
+3. <code>exportfs -av</code>   显示所有当前机器上的NFS共享目录信息</p>
+
+<h2>测试</h2>
+
+<h3>启用挂载</h3>
+
+<p>启动服务:</p>
+
+<p><code>systemctl restart nfs-server.service</code></p>
+
+<p>In older versions of Fedora (for instance Fedora 14),</p>
+
+<p><code>su -c 'service nfs restart'</code></p>
+
+<p>或?且</p>
+
+<pre><code>rpc.mountd  
+</code></pre>
+
+<p>否则在下一步挂载可能出现:<br/>
+mount.nfs: access denied by server while mounting 127.0.0.1:/home<br/>
+或者在输入"mount -t nfs 127.0.0.1:&ldquo;后按Tab键补全<br/>
+:rpc mount export: RPC: Unable to receive; errno = Connection refused</p>
+
+<h3>挂载</h3>
+
+<p></del>貌似只能挂载 /home 这样的一级目录 像/home/tom 这样的目录就不行??</del><br/>
+像/home/tom/doc/nfsroot 这样的目录必须保证这条路径<strong>所有文件夹</strong>都是有相应的权限的.<br/>
+<code>chmod -R</code>或许会用得着 <br/>
+即/home 得有(读写)权限 /home/tom 也一样 /home/tom/doc 也一样. 仅仅nfsroot文件夹有读写权限是不行的. <br/>
+在挂在时还是会提示没有访问权限&hellip;..</p>
+
+<pre><code>mount -t nfs 127.0.0.1:/home    /mnt
+挂载 -t 类型 把远端/home    (挂在)   到/mnt
+#将127.0.0.1:/home 挂载到本机的/mnt目录下
+</code></pre>
+
+<h3>卸载</h3>
+
+<pre><code>unomt /mnt
+</code></pre>
+
+<h1>参考</h1>
+
+<p>=====<br/>
+1. <a href="http://fedoraproject.org/wiki/Administration_Guide_Draft/NFS">Fedora官方帮助文档</a><br/>
+2. 查看错误日志<code>cat /var/log/messages | grep mount</code> 来自<a href="http://liuzhigong.blog.163.com/blog/static/17827237520115305226932/">这里</a><br/>
+3. 图形化的配置工具 <code>yum install system-config-nfs.noarch</code></p>
+]]></content>
+  </entry>
+  
+</feed>
